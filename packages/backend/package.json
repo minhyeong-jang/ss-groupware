@@ -37,7 +37,7 @@
     "url": "git+https://github.com/minhyeong-jang/slack-bot-groupware.git"
   },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node build/index.js",
     "build": "tsc -p .",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" -r dotenv/config src/index.ts"
   },
