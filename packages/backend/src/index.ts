@@ -7,7 +7,7 @@ import { postCheckin } from "./apis";
 moment.tz.setDefault("Asia/Seoul");
 
 const app = express();
-const port = 4000;
+const port = 5001;
 
 app.use(cors());
 app.use(express.urlencoded());

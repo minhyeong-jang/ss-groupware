@@ -3,10 +3,10 @@
   "name": "next",
   "filter_env": [],
   "namespace": "default",
-  "args": [
-    "start"
-  ],
-  "env": {},
+  "args": ["start"],
+  "env": {
+    "PORT": 5000
+  },
   "instances": 0,
   "merge_logs": true,
   "vizion": true,
