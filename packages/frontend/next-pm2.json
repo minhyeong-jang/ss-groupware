@@ -1,6 +1,6 @@
 {
   "script": "yarn",
-  "name": "next",
+  "name": "FE - SS - MUSINSA",
   "filter_env": [],
   "namespace": "default",
   "args": ["start"],

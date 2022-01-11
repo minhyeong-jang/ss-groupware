@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "API", // 애플리케이션 이름
+      name: "BE - SS - MUSINSA", // 애플리케이션 이름
       script: "build/index.js", // PM2를 실행시켜줄 스크립트 파일의 경로
       args: "one two", //
       instances: 1, // 설치될 앱 인스턴스가 갯수
