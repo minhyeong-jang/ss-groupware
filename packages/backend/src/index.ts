@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.get("/checkin", async (req, res) => {
+app.post("/checkin", async (req, res) => {
   await postCheckin(res, req.body, "1");
 });
 app.post("/checkout", async (req, res) => {

@@ -12,14 +12,20 @@ export const postCheckin = async (
   { id, pw }: PostCheckinParams,
   type: "1" | "4"
 ) => {
+  const browser = await puppeteer.launch(launchSetting);
+
   try {
-    const browser = await puppeteer.launch(launchSetting);
     const page = await browser.newPage();
     await page.goto("https://gw.musinsa.com/gw/uat/uia/egovLoginUsr.do", {
       waitUntil: "networkidle2",
     });
-    await page.evaluate(
+    const { code, message } = await page.evaluate(
       ({ id, pw, type }) => {
+        console.log("test1");
+        var response = {
+          code: 200,
+          message: "",
+        };
         var loginParams = {
           isScLogin: "Y",
           scUserId: id,
@@ -36,11 +42,18 @@ export const postCheckin = async (
           data: loginParams,
           success: function (data) {
             if (!data.resultCode) {
-              res.send("로그인 계정을 다시 확인해주세요.");
-              return;
+              if (data.indexOf("더존 그룹웨어에 오신것을 환영합니다.") !== -1) {
+                response = {
+                  code: 400,
+                  message: "로그인 계정을 다시 확인해주세요.",
+                };
+                console.log(response);
+                return;
+              }
             }
 
             var tblParam = { gbnCode: type };
+            console.log(tblParam);
             $.ajax({
               url: "https://gw.musinsa.com/gw/insertComeLeaveEventApi.do",
               type: "post",
@@ -48,26 +61,30 @@ export const postCheckin = async (
               async: false,
               success: function (data) {
                 if (data.resultCode == "SUCCESS") {
-                  res.send(data.resultMessage);
+                  response = {
+                    message: data.resultMessage,
+                    code: 200,
+                  };
+                  return;
+                } else {
+                  response = {
+                    code: 400,
+                    message: "서버 에러가 발생하였습니다.",
+                  };
+                  return;
                 }
               },
             });
           },
         });
+        return response;
       },
       { id, pw, type }
     );
-    res.send(true);
-    return;
+    code === 200 ? res.send({ message }) : res.status(code).json({ message });
   } catch (err) {
-    // if (!res.headersSent) {
-    //   if ((err as any)?.errno === 1062) {
-    //     res.status(400).json({ message: "이미 구독중인 이메일입니다." });
-    //   }
-    //   return;
-    // }
-    console.log(err);
-    res.status(400).json({ message: "서버 에러가 발생하였습니다." });
+    res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
   } finally {
+    await browser.close();
   }
 };
