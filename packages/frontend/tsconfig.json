@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "sourceMap": true,
+    "inlineSources": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "sourceRoot": "/",
+    "baseUrl": "src",
+    "typeRoots": ["./node_modules/@types", "./src/types/global.d.ts"],
+    "paths": {
+      "~env": ["src/env"],
+      "~core": ["src/core"],
+      "~core/*": ["src/core/*"],
+      "~modules/*": ["src/modules/*"],
+      "~pages": ["src/pages"],
+      "~pages/*": ["src/pages/*"],
+      "~styles": ["src/styles"],
+      "~styles/*": ["src/styles/*"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "incremental": true
+  },
+  "include": ["next-env.d.ts", "src"],
+  "exclude": ["node_modules"]
+}

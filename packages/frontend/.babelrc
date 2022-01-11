@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "next/babel",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "ie": 11
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime"],
+    [
+      "styled-components",
+      { "fileName": true, "ssr": false, "displayName": true, "pure": true }
+    ]
+  ]
+}
