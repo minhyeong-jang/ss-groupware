@@ -11,7 +11,7 @@ export const IndexContainer: FC = () => {
 
   const onButtonClick = async (type: string) => {
     if (!id) {
-      message.info("아이디를 입력해주세요.", 200000);
+      message.info("아이디를 입력해주세요.");
       return;
     }
     if (!pw) {
