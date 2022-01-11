@@ -1,17 +1,6 @@
 export const breakpoint = [375, 414, 768, 960, 1280];
-export const fontSize = {
-  s10: "0.625rem",
-  s11: "0.6875rem",
-  s12: "0.75rem",
-  s13: "0.8125rem",
-  s14: "0.875rem",
-  s16: "1rem",
-  s18: "1.125rem",
-  s20: "1.25rem",
-  s21: "1.313rem",
-  s22: "1.375rem",
-  s24: "1.5rem",
-  s28: "1.75rem",
+export const color = {
+  gray100: "#131518",
 };
 export const mediaQuery = {
   /* eslint-disable sort-keys-fix/sort-keys-fix */
@@ -53,7 +42,7 @@ export const graphic = {};
 export const theme = {
   breakpoint,
   mediaQuery,
-  fontSize,
+  color,
   graphic,
 };
 
