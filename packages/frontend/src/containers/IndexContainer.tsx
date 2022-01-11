@@ -1,30 +1,35 @@
+import { message, Spin } from "antd";
 import { useOfficeCheck } from "hooks";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
 
 export const IndexContainer: FC = () => {
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const { onCheckin, onCheckout } = useOfficeCheck();
 
-  const onButtonClick = (type: string) => {
+  const onButtonClick = async (type: string) => {
     if (!id) {
-      alert("아이디를 입력해주세요.");
+      message.info("아이디를 입력해주세요.", 200000);
       return;
     }
     if (!pw) {
-      alert("패스워드를 입력해주세요.");
+      message.error("패스워드를 입력해주세요.");
       return;
     }
+    setLoading(true);
 
     switch (type) {
       case "in":
-        onCheckin({ id, pw });
-        return;
+        await onCheckin({ id, pw });
+        break;
       case "out":
-        onCheckout({ id, pw });
-        return;
+        await onCheckout({ id, pw });
+        break;
     }
+
+    setLoading(false);
   };
 
   return (
@@ -50,6 +55,11 @@ export const IndexContainer: FC = () => {
         </StyledButtonWrap>
         <StyledNextStep>* 추후 자동 기안 결재 연동 예정</StyledNextStep>
       </StyledFormWrap>
+      {loading && (
+        <StyledLoadingWrap>
+          <Spin />
+        </StyledLoadingWrap>
+      )}
     </StyledContainer>
   );
 };
@@ -122,4 +132,16 @@ const StyledNextStep = styled.div`
   color: #999;
   text-align: center;
   font-size: 12px;
+`;
+const StyledLoadingWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(5px);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

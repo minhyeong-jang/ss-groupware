@@ -498,4 +498,8 @@ Remove the margin in all browsers.
     background-color: transparent;
     border: 0px;
   }
+
+  .ant-message .anticon {
+    vertical-align: text-top;
+  }
 `;

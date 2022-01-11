@@ -1,3 +1,4 @@
+import { message } from "antd";
 import {
   postCheckin,
   PostCheckinParams,
@@ -12,10 +13,10 @@ export const useOfficeCheck = () => {
     async (params: PostCheckinParams) => {
       try {
         const res = await postCheckin(params);
-        alert(res.data.message);
+        message.info(res.data.message);
         return res.data.message;
       } catch (e) {
-        alert((e as ErrorModel).response?.data?.message);
+        message.error((e as ErrorModel).response?.data?.message);
       }
     },
     [postCheckin]
@@ -24,10 +25,10 @@ export const useOfficeCheck = () => {
     async (params: PostCheckoutParams) => {
       try {
         const res = await postCheckout(params);
-        alert(res.data.message);
+        message.info(res.data.message);
         return res.data.message;
       } catch (e) {
-        alert((e as ErrorModel).response?.data?.message);
+        message.error((e as ErrorModel).response?.data?.message);
       }
     },
     [postCheckout]

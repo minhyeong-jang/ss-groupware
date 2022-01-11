@@ -3,6 +3,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "styles";
+import "antd/dist/antd.css";
 
 const App = ({ Component }: AppProps) => {
   return (
