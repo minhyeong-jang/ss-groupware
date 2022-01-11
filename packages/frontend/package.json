@@ -10,7 +10,7 @@
     "build:dev": "env-cmd -f configs/development.env next build",
     "build:production": "env-cmd -f configs/production.env next build",
     "start:dev": "env-cmd -f configs/development.env next start",
-    "start:production": "env-cmd -f configs/production.env next start"
+    "start:production": "env-cmd -f configs/production.env next start -p 5000"
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
