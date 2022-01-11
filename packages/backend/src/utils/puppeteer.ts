@@ -7,5 +7,5 @@ export const launchSetting = {
   ignoreDefaultArgs: false, // 배열이 주어진 경우 지정된 기본 인수를 필터링한다.(중요 : true사용금지)
   timeout: 50000, // 브라우저 인스턴스가 시작될 때까지 대기하는 시간(밀리 초)
   defaultViewport: { width: 1000, height: 1000 }, // 실행될 브라우저의 화면 크기를 지정한다.
-  args: ["about:blank"],
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
 };
