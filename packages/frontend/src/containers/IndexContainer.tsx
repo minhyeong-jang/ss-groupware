@@ -1,6 +1,6 @@
 import { message, Spin } from "antd";
 import { useOfficeCheck } from "hooks";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export const IndexContainer: FC = () => {
@@ -18,6 +18,8 @@ export const IndexContainer: FC = () => {
       message.error("패스워드를 입력해주세요.");
       return;
     }
+    localStorage.setItem("gw_musinsa_id", id);
+
     setLoading(true);
 
     switch (type) {
@@ -31,6 +33,11 @@ export const IndexContainer: FC = () => {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    const id = localStorage.getItem("gw_musinsa_id");
+    id && setId(id);
+  }, [setId]);
 
   return (
     <StyledContainer>
