@@ -3,7 +3,7 @@ import * as express from "express";
 import * as cors from "cors";
 import "moment-timezone";
 import * as moment from "moment";
-import { postCheckin } from "./apis";
+import { postBizCardList, postCheckin } from "./apis";
 moment.tz.setDefault("Asia/Seoul");
 
 const app = express();
@@ -18,6 +18,9 @@ app.post("/checkin", async (req, res) => {
 });
 app.post("/checkout", async (req, res) => {
   await postCheckin(res, req.body, "4");
+});
+app.post("/bizcard", async (req, res) => {
+  await postBizCardList(res, req.body);
 });
 
 app.listen(port, () => {

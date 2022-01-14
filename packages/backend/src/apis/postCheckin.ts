@@ -16,12 +16,15 @@ export const postCheckin = async (
 
   try {
     const page = await browser.newPage();
+
+    await page.goto("https://gw.musinsa.com/gw/uat/uia/actionLogout.do", {
+      waitUntil: "networkidle2",
+    });
     await page.goto("https://gw.musinsa.com/gw/uat/uia/egovLoginUsr.do", {
       waitUntil: "networkidle2",
     });
     const { code, message } = await page.evaluate(
       ({ id, pw, type }) => {
-        console.log("test1");
         var response = {
           code: 200,
           message: "",
@@ -47,13 +50,11 @@ export const postCheckin = async (
                   code: 400,
                   message: "로그인 계정을 다시 확인해주세요.",
                 };
-                console.log(response);
                 return;
               }
             }
 
             var tblParam = { gbnCode: type };
-            console.log(tblParam);
             $.ajax({
               url: "https://gw.musinsa.com/gw/insertComeLeaveEventApi.do",
               type: "post",
