@@ -1,6 +1,7 @@
 import { Tag as AntdTag } from "antd";
 import React from "react";
 import styled from "styled-components";
+import { CustomTagProps } from "rc-select/lib/BaseSelect";
 
 export const tagColors = [
   "pink",
@@ -21,13 +22,8 @@ export const tagColors = [
   "warning",
 ];
 
-interface Props {
+interface Props extends CustomTagProps {
   tagColor: string | null;
-  label: string | number;
-  value: string | number;
-  disabled: boolean;
-  onClose: (event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  closable: boolean;
 }
 
 export const SelectTag = ({ tagColor, value, closable, onClose }: Props) => {
