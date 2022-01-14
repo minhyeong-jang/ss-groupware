@@ -12,8 +12,8 @@ interface PostBizCardListResponse {
 interface BizCardSchema {
   mercName: string;
   mccName: string;
+  authDate: string;
   authTime: string;
-  type: string;
   requestAmount: number;
   note: string;
 }
@@ -97,7 +97,7 @@ export const postBizCardList = async (
                 userSendYN: "N",
                 ifDId: "0",
                 expendSeq: "84847",
-                sorting: "ASC",
+                sorting: "DESC",
                 isSearchWithCancel: "N",
                 compSeq: "",
                 empCompSeq: "",

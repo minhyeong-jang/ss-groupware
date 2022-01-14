@@ -15,7 +15,6 @@ export interface GetBizCardItemSchema {
   mccName: string;
   authDate: string;
   authTime: string;
-  type: string;
   requestAmount: number;
   note: string;
 }

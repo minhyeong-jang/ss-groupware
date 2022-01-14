@@ -1,9 +1,8 @@
 import { GetBizCardItemSchema } from "apis";
-import { format } from "date-fns";
 
 export interface BizCardModel {
   name: string;
-  time: string;
+  time: Date;
   requestAmount: number;
   type: BizCardType;
   note: string;
@@ -19,14 +18,11 @@ export const toBizCardUiModel = (
 ): BizCardModel[] => {
   return data.map((item) => ({
     name: `[${item.mercName}] - ${item.mccName}`,
-    time: format(
-      new Date(
-        `${item.authDate.replace(
-          /([\d]{4})([\d]{2})([\d]{2})/,
-          "$1-$2-$3"
-        )} ${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
-      ),
-      "yyyy/MM/dd HH:mm:ss"
+    time: new Date(
+      `${item.authDate.replace(
+        /([\d]{4})([\d]{2})([\d]{2})/,
+        "$1-$2-$3"
+      )} ${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
     ),
     requestAmount: item.requestAmount,
     type: convertTimeToBizCardType(item.mccName, item.authTime),

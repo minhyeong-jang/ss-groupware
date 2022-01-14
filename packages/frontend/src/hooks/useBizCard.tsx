@@ -1,12 +1,19 @@
 import { message } from "antd";
-import { getBizCardList, GetBizCardListParams, postCheckin } from "apis";
+import {
+  getBizCardList,
+  getBizCardListData,
+  GetBizCardListParams,
+  postCheckin,
+} from "apis";
 import { BizCardModel, toBizCardUiModel } from "models";
 import { useCallback, useState } from "react";
 import { ErrorModel } from "schema";
 
 export const useBizCard = () => {
   const [userName, setUserName] = useState("");
-  const [bizCardList, setBizCardList] = useState<BizCardModel[]>([]);
+  const [bizCardList, setBizCardList] = useState<BizCardModel[]>(
+    toBizCardUiModel(getBizCardListData.bizCardList)
+  );
   const [loading, setLoading] = useState(false);
 
   const onGetBizCardList = useCallback(
@@ -24,10 +31,29 @@ export const useBizCard = () => {
     },
     [postCheckin]
   );
+  const onTypeChange = useCallback(
+    (type, index) => {
+      const items = [...bizCardList];
+      items[index].type = type;
+      items[index].note = "";
+      setBizCardList(items);
+    },
+    [bizCardList, setBizCardList]
+  );
+  const onNoteChange = useCallback(
+    (note, index) => {
+      const items = [...bizCardList];
+      items[index].note = note;
+      setBizCardList(items);
+    },
+    [bizCardList, setBizCardList]
+  );
   return {
     userName,
     bizCardList,
     loading,
+    onTypeChange,
+    onNoteChange,
     onGetBizCardList,
   };
 };
