@@ -1,26 +1,29 @@
-import { message, Spin } from "antd";
+import { message } from "antd";
+import { Loading } from "components/@shared";
 import { useOfficeCheck } from "hooks";
 import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
+import { BizCardContainer } from "./BizCardContainer";
 
 export const IndexContainer: FC = () => {
-  const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const { onCheckin, onCheckout } = useOfficeCheck();
+  const { loading, onCheckin, onCheckout } = useOfficeCheck();
 
-  const onButtonClick = async (type: string) => {
+  const checkUserInfo = () => {
     if (!id) {
       message.info("아이디를 입력해주세요.");
-      return;
+      return false;
     }
     if (!pw) {
       message.error("패스워드를 입력해주세요.");
-      return;
+      return false;
     }
     localStorage.setItem("gw_musinsa_id", id);
-
-    setLoading(true);
+    return true;
+  };
+  const onButtonClick = async (type: string) => {
+    if (!checkUserInfo()) return;
 
     switch (type) {
       case "in":
@@ -30,8 +33,6 @@ export const IndexContainer: FC = () => {
         await onCheckout({ id, pw });
         break;
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -60,13 +61,9 @@ export const IndexContainer: FC = () => {
           <StyledButton onClick={() => onButtonClick("in")}>출근</StyledButton>
           <StyledButton onClick={() => onButtonClick("out")}>퇴근</StyledButton>
         </StyledButtonWrap>
-        <StyledNextStep>* 추후 자동 기안 결재 연동 예정</StyledNextStep>
+        <BizCardContainer id={id} pw={pw} onCheckUserInfo={checkUserInfo} />
       </StyledFormWrap>
-      {loading && (
-        <StyledLoadingWrap>
-          <Spin />
-        </StyledLoadingWrap>
-      )}
+      {loading && <Loading />}
     </StyledContainer>
   );
 };
@@ -123,9 +120,11 @@ const StyledButtonWrap = styled.div`
   display: grid;
   grid-gap: 5px;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 5px;
 `;
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ $color?: string }>`
   border-radius: 4px;
+  width: 100%;
   border: 1px solid white;
   background: ${({ theme }) => theme.color.gray100};
   color: white;
@@ -134,21 +133,14 @@ const StyledButton = styled.button`
   font-size: 14px;
   border: 1px solid #dedede;
 `;
-const StyledNextStep = styled.div`
-  margin-top: 15px;
-  color: #999;
-  text-align: center;
-  font-size: 12px;
-`;
-const StyledLoadingWrap = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  backdrop-filter: blur(5px);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const StyledAuthButton = styled.button`
+  border-radius: 4px;
+  width: 100%;
+  border: 1px solid white;
+  background: ${({ theme }) => theme.color.blue};
+  color: white;
+  padding: 10px;
+  outline: none;
+  font-size: 14px;
+  border: 1px solid #;
 `;

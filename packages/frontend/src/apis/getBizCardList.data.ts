@@ -1,0 +1,61 @@
+import { GetBizCardListResponse } from "./getBizCardList";
+
+export const getBizCardListData: GetBizCardListResponse = {
+  userName: "장민형",
+  bizCardList: [
+    {
+      mercName: "주식회사우아한형제들",
+      mccName: "PG쇼핑몰",
+      authDate: "20220105",
+      authTime: "090831",
+      type: "야근식대",
+      requestAmount: 44000,
+      note: "",
+    },
+    {
+      mercName: "우아한형제들",
+      mccName: "PG쇼핑몰",
+      authDate: "20220106",
+      authTime: "095808",
+      type: "야근식대",
+      requestAmount: 43800,
+      note: "",
+    },
+    {
+      mercName: "주식회사우아한형제들",
+      mccName: "PG쇼핑몰",
+      authDate: "20220106",
+      authTime: "100055",
+      type: "야근식대",
+      requestAmount: 51000,
+      note: "",
+    },
+    {
+      mercName: "주식회사우아한형제들",
+      mccName: "PG쇼핑몰",
+      type: "점심식대",
+      authDate: "20220110",
+      authTime: "092229",
+      requestAmount: 59500,
+      note: "",
+    },
+    {
+      mercName: "카카오페이_택시",
+      mccName: "택시",
+      type: "야근교통비",
+      authDate: "20220110",
+      authTime: "155515",
+      requestAmount: 33600,
+      note: "",
+    },
+    {
+      mercName: "카카오페이_택시",
+      mccName: "택시",
+      type: "야근교통비",
+      authDate: "20220111",
+      authTime: "152117",
+      requestAmount: 15500,
+      note: "",
+    },
+  ],
+};

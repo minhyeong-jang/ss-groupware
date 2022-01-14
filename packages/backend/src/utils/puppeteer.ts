@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
 export const launchSetting = {
-  headless: false, // 헤드리스모드의 사용여부를 묻는다
+  headless: true, // 헤드리스모드의 사용여부를 묻는다
   devtools: false, // 브라우저의 개발자 모드의 오픈 여부를 묻는다
   executablePath: puppeteer.executablePath(), // 실행할 chromium 기반의 브라우저의 실행 경로를 지정한다.
   ignoreDefaultArgs: false, // 배열이 주어진 경우 지정된 기본 인수를 필터링한다.(중요 : true사용금지)

@@ -1,6 +1,7 @@
 export const breakpoint = [375, 414, 768, 960, 1280];
 export const color = {
   gray100: "#131518",
+  blue: "#1890ff",
 };
 export const mediaQuery = {
   /* eslint-disable sort-keys-fix/sort-keys-fix */
