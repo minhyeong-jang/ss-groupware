@@ -4,6 +4,7 @@ export const getBizCardListData: GetBizCardListResponse = {
   userName: "장민형",
   bizCardList: [
     {
+      syncId: 126239,
       mercName: "주식회사우아한형제들",
       mccName: "PG쇼핑몰",
       authDate: "20220105",
@@ -17,6 +18,7 @@ export const getBizCardListData: GetBizCardListResponse = {
       authDate: "20220106",
       authTime: "185808",
       requestAmount: 43800,
+      syncId: 126694,
       note: "장민형, 정대원, 지아름, 김상범, 장준영 야근식대 (2022.01.06)",
     },
     {
@@ -25,6 +27,7 @@ export const getBizCardListData: GetBizCardListResponse = {
       authDate: "20220106",
       authTime: "190055",
       requestAmount: 51000,
+      syncId: 126693,
       note: "장민형, 정대원, 지아름, 김상범, 장준영 야근식대 (2022.01.06)",
     },
     {
@@ -33,6 +36,7 @@ export const getBizCardListData: GetBizCardListResponse = {
       authDate: "20220110",
       authTime: "182229",
       requestAmount: 59500,
+      syncId: 127609,
       note: "장민형, 김혜림, 지아름 야근식대 (2022.01.10)",
     },
     {
@@ -41,6 +45,7 @@ export const getBizCardListData: GetBizCardListResponse = {
       authDate: "20220110",
       authTime: "005515",
       requestAmount: 33600,
+      syncId: 128244,
       note: "",
     },
     {
@@ -50,6 +55,7 @@ export const getBizCardListData: GetBizCardListResponse = {
       authTime: "002117",
       requestAmount: 15500,
       note: "",
+      syncId: 128594,
     },
   ],
 };

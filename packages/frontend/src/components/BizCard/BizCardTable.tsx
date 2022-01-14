@@ -8,12 +8,14 @@ import { format } from "date-fns";
 interface Props {
   data: BizCardModel[];
   loading: boolean;
+  onSelection(key: React.Key[]): void;
   onTypeChange(type: BizCardType, index: number): void;
   onNoteChange(note: string, index: number): void;
 }
 export const BizCardTable: FC<Props> = ({
   data,
   loading,
+  onSelection,
   onTypeChange,
   onNoteChange,
 }) => {
@@ -192,6 +194,13 @@ export const BizCardTable: FC<Props> = ({
     },
   ];
 
+  // rowSelection object indicates the need for row selection
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: BizCardModel[]) => {
+      onSelection(selectedRowKeys);
+    },
+  };
+
   return (
     <StyledContainer>
       <Table
@@ -201,6 +210,10 @@ export const BizCardTable: FC<Props> = ({
         dataSource={data}
         pagination={false}
         loading={loading}
+        rowSelection={{
+          // type: selectionType,
+          ...rowSelection,
+        }}
         rowKey={(_, index) => `${index}`}
       />
     </StyledContainer>

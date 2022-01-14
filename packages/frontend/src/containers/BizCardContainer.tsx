@@ -1,9 +1,8 @@
 import { message, Modal } from "antd";
-import { getBizCardListData } from "apis";
 import { Loading } from "components/@shared";
 import { BizCardTable } from "components/BizCard";
 import { useBizCard } from "hooks";
-import { BizCardModel, BizCardType, toBizCardUiModel } from "models";
+import { BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -13,16 +12,41 @@ interface Props {
   onCheckUserInfo(): boolean;
 }
 export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
-  const { bizCardList, loading, onTypeChange, onGetBizCardList, onNoteChange } =
-    useBizCard();
-  const [visible, setVisible] = useState(true);
+  const {
+    bizCardList,
+    loading,
+    onTypeChange,
+    onUpdateMemo,
+    onGetBizCardList,
+    onNoteChange,
+  } = useBizCard();
+  const [selection, setSelection] = useState<React.Key[]>([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (visible && !bizCardList?.length) {
-      // onGetBizCardList({ id, pw });
+      onGetBizCardList({ id, pw });
     }
   }, [visible, id, pw, bizCardList]);
 
+  const onSubmit = async () => {
+    if (!selection.length) {
+      message.error("업데이트가 필요한 내역을 선택해주세요.");
+      return;
+    }
+    const items = selection.map((key) => ({
+      note: bizCardList[key as number].note,
+      syncId: `${bizCardList[key as number].syncId}`,
+      type:
+        bizCardList[key as number].type === BizCardType.DRIVE
+          ? "DRIVE"
+          : "FOOD",
+    }));
+    await onUpdateMemo({ id, pw, items });
+    setSelection([]);
+  };
+
+  console.log(bizCardList);
   return (
     <>
       <StyledButton onClick={() => onCheckUserInfo() && setVisible(true)}>
@@ -34,12 +58,13 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
         visible={visible}
         okText='적용'
         cancelText='닫기'
-        onOk={() => message.error("준비 중 입니다.")}
+        onOk={() => onSubmit()}
         onCancel={() => setVisible(false)}
       >
         <BizCardTable
           loading={loading}
           data={bizCardList}
+          onSelection={setSelection}
           onTypeChange={onTypeChange}
           onNoteChange={onNoteChange}
         />

@@ -3,6 +3,8 @@ import {
   getBizCardList,
   getBizCardListData,
   GetBizCardListParams,
+  postBizCard,
+  PostBizCardParams,
   postCheckin,
 } from "apis";
 import { BizCardModel, toBizCardUiModel } from "models";
@@ -12,7 +14,8 @@ import { ErrorModel } from "schema";
 export const useBizCard = () => {
   const [userName, setUserName] = useState("");
   const [bizCardList, setBizCardList] = useState<BizCardModel[]>(
-    toBizCardUiModel(getBizCardListData.bizCardList)
+    // toBizCardUiModel(getBizCardListData.bizCardList)
+    []
   );
   const [loading, setLoading] = useState(false);
 
@@ -30,6 +33,20 @@ export const useBizCard = () => {
       }
     },
     [postCheckin]
+  );
+  const onUpdateMemo = useCallback(
+    async (params: PostBizCardParams) => {
+      setLoading(true);
+      try {
+        await postBizCard(params);
+        message.success("등록이 완료 되었습니다.");
+      } catch (e) {
+        message.error((e as ErrorModel).response?.data?.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [postBizCard]
   );
   const onTypeChange = useCallback(
     (type, index) => {
@@ -52,6 +69,7 @@ export const useBizCard = () => {
     userName,
     bizCardList,
     loading,
+    onUpdateMemo,
     onTypeChange,
     onNoteChange,
     onGetBizCardList,

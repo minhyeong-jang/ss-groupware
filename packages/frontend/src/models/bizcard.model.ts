@@ -1,6 +1,7 @@
 import { GetBizCardItemSchema } from "apis";
 
 export interface BizCardModel {
+  syncId: number;
   name: string;
   time: Date;
   requestAmount: number;
@@ -17,6 +18,7 @@ export const toBizCardUiModel = (
   data: GetBizCardItemSchema[]
 ): BizCardModel[] => {
   return data.map((item) => ({
+    syncId: item.syncId,
     name: `[${item.mercName}] - ${item.mccName}`,
     time: new Date(
       `${item.authDate.replace(
