@@ -1,16 +1,26 @@
 import { Response } from "express";
 import { launchSetting } from "../utils/puppeteer";
+import { FOOD_PARAMS, DRIVE_PARAMS } from "../constants";
 const puppeteer = require("puppeteer");
 
-interface PostCheckinParams {
+interface PostBizCardListResponse {
+  code: number;
+  message?: string;
+  error?: unknown;
+}
+interface PostBizCardSubmitParams {
   id: string;
   pw: string;
+  items: { syncId: string; note: string }[];
 }
 
 export const postBizCardSubmit = async (
   res: Response,
-  { id, pw }: PostCheckinParams
+  { id, pw, items }: PostBizCardSubmitParams
 ) => {
+  if (!items.length) {
+    res.status(400).json({ message: "필수값을 선택해주세요." });
+  }
   const browser = await puppeteer.launch(launchSetting);
 
   try {
@@ -22,9 +32,15 @@ export const postBizCardSubmit = async (
     await page.goto("https://gw.musinsa.com/gw/uat/uia/egovLoginUsr.do", {
       waitUntil: "networkidle2",
     });
+
+    await page.waitFor(6000);
     const pageRes = await page.evaluate(
-      async ({ id, pw }) => {
+      ({ id, pw, items, FOOD_PARAMS, DRIVE_PARAMS }) => {
         try {
+          let response: PostBizCardListResponse = {
+            code: 200,
+            message: "",
+          };
           const loginParams = {
             isScLogin: "Y",
             scUserId: id,
@@ -34,157 +50,91 @@ export const postBizCardSubmit = async (
             id_sub2: "",
             password: (window as any).securityEncrypt(pw),
           };
-          const { userName } = await new Promise((resolve, reject) =>
-            $.ajax({
-              url: "https://gw.musinsa.com/gw/uat/uia/actionLogin.do",
-              type: "post",
-              async: false,
-              data: loginParams,
-              error: (error) => {
-                reject({
+          $.ajax({
+            url: "https://gw.musinsa.com/gw/uat/uia/actionLogin.do",
+            type: "post",
+            async: false,
+            data: loginParams,
+            error: (error) => {
+              response = {
+                code: 400,
+                message: "서버 오류가 발생하였습니다.",
+                error,
+              };
+            },
+            success: (data) => {
+              if (
+                !data.resultCode &&
+                data.indexOf("더존 그룹웨어에 오신것을 환영합니다.") !== -1
+              ) {
+                response = {
                   code: 400,
-                  message: "서버 오류가 발생하였습니다.",
-                  error,
-                });
-              },
-              success: (data) => {
-                if (!data.resultCode) {
-                  if (
-                    data.indexOf("더존 그룹웨어에 오신것을 환영합니다.") !== -1
-                  ) {
-                    reject({
-                      code: 400,
-                      message: "로그인 계정을 다시 확인해주세요.",
+                  message: "로그인 계정을 다시 확인해주세요.",
+                };
+                return;
+              }
+              const params = { formSeq: "24" };
+              $.ajax({
+                type: "post",
+                url: "https://gw.musinsa.com/exp/ex/expend/master/ExUserInitExpend.do",
+                async: false,
+                data: params,
+                success: (data) => {
+                  items.map((item) => {
+                    const targetParams =
+                      item.type === "FOOD" ? FOOD_PARAMS : DRIVE_PARAMS;
+                    const params = {
+                      ...targetParams,
+                      target: JSON.stringify([
+                        {
+                          key: item.syncId,
+                          syncId: item.syncId,
+                        },
+                      ]),
+                      empInfo: JSON.stringify({
+                        ...targetParams.empInfo,
+                        bizSeq: data.aaData.empInfo.bizSeq,
+                        compSeq: data.aaData.empInfo.compSeq,
+                        empSeq: data.aaData.empInfo.empSeq,
+                        empName: data.aaData.empInfo.empName,
+                        erpEmpSeq: data.aaData.empInfo.erpEmpSeq,
+                        erpCompSeq: data.aaData.empInfo.erpCompSeq,
+                        groupSeq: data.aaData.empInfo.groupSeq,
+
+                        createSeq: data.aaData.empInfo.empSeq,
+                        modifySeq: data.aaData.empInfo.empSeq,
+                        searchStr: data.aaData.empInfo.erpEmpSeq,
+                      }),
+                      note: item.note,
+                    };
+                    console.log(params);
+                    $.ajax({
+                      dataType: "json",
+                      type: "post",
+                      url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardInfoMapUpdate.do",
+                      async: false,
+                      data: params,
+                      success: function (data) {
+                        if (data?.aaData?.code === "SUCCESS") {
+                          response = {
+                            code: 200,
+                            message: "SUCCESS",
+                          };
+                        } else {
+                          response = {
+                            code: 400,
+                            message:
+                              "에러가 발생하였습니다. 개발자에게 문의해주세요.",
+                          };
+                        }
+                      },
                     });
-                  }
-                }
-                resolve({
-                  userName: data.match(
-                    /[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\/\_\s\:\.\"\<\>\=]*<span class="txt_nm">([^\<]*)/
-                  )?.[1],
-                });
-              },
-            })
-          );
-          const listParams = {
-            seq: "0",
-            useYN: "Y",
-            formSeq: "0",
-            createSeq: "0",
-            modifySeq: "0",
-            searchFromDate: "20210101",
-            searchToDate: "20220132",
-            syncId: "0",
-            gongjeNoChk: "N",
-            requestAmount: "0",
-            vatMdAmount: "0",
-            amtMdAmount: "0",
-            serAmount: "0",
-            sendYN: "N",
-            userSendYN: "N",
-            ifDId: "0",
-            expendSeq: "84847",
-            sorting: "ASC",
-            isSearchWithCancel: "N",
-            compSeq: "",
-            empCompSeq: "",
-            cardCode: "",
-            cardNum: "",
-            cardName: "",
-            partnerCode: "",
-            partnerName: "",
-            cardPublicJson: "",
-            cardPublic: "",
-            erpCompSeq: "",
-            bankPartnerCode: "",
-            bankPartnerName: "",
-            callback: "",
-            searchStr: "",
-            searchType: "",
-            searchCardNum: "",
-            authDate: "",
-            authTime: "",
-            authNum: "",
-            georaeCand: "",
-            mercName: "",
-            mercSaupNo: "",
-            mercTel: "",
-            mercZip: "",
-            mercAddr: "",
-            mccStat: "",
-            empSeq: "",
-            dispEmpName: "",
-            deptSeq: "",
-            erpDeptSeq: "",
-            empName: "",
-            erpEmpName: "",
-            summarySeq: "",
-            dispSummaryName: "",
-            summaryName: "",
-            drAcctCode: "",
-            drAcctName: "",
-            authSeq: "",
-            dispAuthName: "",
-            authName: "",
-            projectSeq: "",
-            dispProjectName: "",
-            projectCode: "",
-            projectName: "",
-            budgetSeq: "",
-            dispBudgetName: "",
-            dispBizplanName: "",
-            dispBgacctName: "",
-            budgetName: "",
-            bizplanName: "",
-            bgacctName: "",
-            note: "",
-            ifMId: "",
-            georaeStat: "",
-            abroad: "",
-            docSeq: "",
-            docNo: "",
-            docTitle: "",
-            docSts: "",
-            docUseYN: "",
-            formMode: "",
-            mercRepr: "",
-            whereUsed: "",
-            corporateRegistrationNumber: "",
-          };
-          const { bizCardList } = await new Promise((resolve, reject) =>
-            $.ajax({
-              url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
-              type: "post",
-              async: false,
-              data: listParams,
-              error: (error) => {
-                reject({
-                  code: 400,
-                  message: "서버 오류가 발생하였습니다.",
-                  error,
-                });
-              },
-              success: function (data) {
-                const newData = data.aaData.map((item) => ({
-                  mercName: item.mercName,
-                  mccName: item.mccName,
-                  authTime: new Date(
-                    `${item.authDate.replace(
-                      /([\d]{4})([\d]{2})([\d]{2})/,
-                      "$1-$2-$3"
-                    )} ${item.authTime.replace(
-                      /([\d]{2})([\d]{2})([\d]{2})/,
-                      "$1:$2:$3"
-                    )}`
-                  ),
-                  requestAmount: item.requestAmount,
-                  note: item.note,
-                }));
-                resolve({ bizCardList: newData });
-              },
-            })
-          );
-          return { code: 200, bizCardList, userName };
+                  });
+                },
+              });
+            },
+          });
+          return response;
         } catch (error) {
           return {
             code: error.code,
@@ -192,7 +142,7 @@ export const postBizCardSubmit = async (
           };
         }
       },
-      { id, pw }
+      { id, pw, items, FOOD_PARAMS, DRIVE_PARAMS }
     );
     pageRes.code === 200
       ? res.send(pageRes)
@@ -200,6 +150,6 @@ export const postBizCardSubmit = async (
   } catch (err) {
     res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
   } finally {
-    await browser.close();
+    // await browser.close();
   }
 };

@@ -10,6 +10,7 @@ interface PostBizCardListResponse {
   error?: unknown;
 }
 interface BizCardSchema {
+  syncId: number;
   mercName: string;
   mccName: string;
   authDate: string;
@@ -179,6 +180,7 @@ export const postBizCardList = async (
                 },
                 success: function (data) {
                   const newData = data.aaData.map((item) => ({
+                    syncId: item.syncId,
                     mercName: item.mercName,
                     mccName: item.mccName,
                     authDate: item.authDate,
@@ -211,6 +213,6 @@ export const postBizCardList = async (
   } catch (err) {
     res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
   } finally {
-    // await browser.close();
+    await browser.close();
   }
 };
