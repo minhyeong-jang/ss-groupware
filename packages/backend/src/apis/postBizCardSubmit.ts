@@ -33,7 +33,6 @@ export const postBizCardSubmit = async (
       waitUntil: "networkidle2",
     });
 
-    await page.waitFor(6000);
     const pageRes = await page.evaluate(
       ({ id, pw, items, FOOD_PARAMS, DRIVE_PARAMS }) => {
         try {
@@ -143,12 +142,13 @@ export const postBizCardSubmit = async (
       },
       { id, pw, items, FOOD_PARAMS, DRIVE_PARAMS }
     );
+    await page.waitFor(2000);
     pageRes.code === 200
       ? res.send(pageRes)
       : res.status(pageRes.code).json(pageRes);
   } catch (err) {
     res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
   } finally {
-    // await browser.close();
+    await browser.close();
   }
 };
