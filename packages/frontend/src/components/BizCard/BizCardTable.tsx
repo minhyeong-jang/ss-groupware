@@ -181,13 +181,14 @@ export const BizCardTable: FC<Props> = ({
         }
       },
       title: "참여자",
-      width: 300,
+      width: 290,
     },
     {
       title: "적요",
       align: "center" as const,
       dataIndex: "note",
       key: "note",
+      width: 300,
     },
   ];
 
