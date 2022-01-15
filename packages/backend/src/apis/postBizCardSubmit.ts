@@ -107,7 +107,6 @@ export const postBizCardSubmit = async (
                       }),
                       note: item.note,
                     };
-                    console.log(params);
                     $.ajax({
                       dataType: "json",
                       type: "post",

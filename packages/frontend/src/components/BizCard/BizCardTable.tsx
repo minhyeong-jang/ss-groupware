@@ -196,7 +196,7 @@ export const BizCardTable: FC<Props> = ({
 
   // rowSelection object indicates the need for row selection
   const rowSelection = {
-    onChange: (selectedRowKeys: React.Key[], selectedRows: BizCardModel[]) => {
+    onChange: (selectedRowKeys: React.Key[]) => {
       onSelection(selectedRowKeys);
     },
   };
@@ -214,7 +214,7 @@ export const BizCardTable: FC<Props> = ({
           // type: selectionType,
           ...rowSelection,
         }}
-        rowKey={(_, index) => `${index}`}
+        rowKey={(record) => `${record.syncId}`}
       />
     </StyledContainer>
   );

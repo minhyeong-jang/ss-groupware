@@ -17,22 +17,39 @@ export enum BizCardType {
 export const toBizCardUiModel = (
   data: GetBizCardItemSchema[]
 ): BizCardModel[] => {
-  return data.map((item) => ({
-    syncId: item.syncId,
-    name: `[${item.mercName}] - ${item.mccName}`,
-    time: new Date(
-      `${item.authDate.replace(
-        /([\d]{4})([\d]{2})([\d]{2})/,
-        "$1-$2-$3"
-      )} ${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
-    ),
-    requestAmount: item.requestAmount,
-    type: convertTimeToBizCardType(item.mccName, item.authTime),
-    note: item.note,
-  }));
+  return data
+    .map((item) => ({
+      syncId: item.syncId,
+      name: `[${item.mercName}] - ${item.mccName}`,
+      time: new Date(
+        `${item.authDate.replace(
+          /([\d]{4})([\d]{2})([\d]{2})/,
+          "$1-$2-$3"
+        )} ${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
+      ),
+      requestAmount: item.requestAmount,
+      type: convertTimeToBizCardType(item.mccName, item.authTime, item.note),
+      note: item.note,
+    }))
+    .sort((a, b) => (b.time > a.time ? 1 : b.time < a.time ? -1 : 0));
 };
 
-const convertTimeToBizCardType = (mccName: string, authTime: string) => {
+const convertTimeToBizCardType = (
+  mccName: string,
+  authTime: string,
+  note: string
+) => {
+  if (note) {
+    const targetType = Object.keys(BizCardType)
+      .map((type) => BizCardType[type as keyof typeof BizCardType])
+      .filter((item) => note.indexOf(item) !== -1)[0];
+
+    console.log(targetType);
+    if (targetType) {
+      return targetType;
+    }
+  }
+
   if (mccName.indexOf("택시") !== -1) {
     return BizCardType.DRIVE;
   }

@@ -45,8 +45,6 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
     await onUpdateMemo({ id, pw, items });
     setSelection([]);
   };
-
-  console.log(bizCardList);
   return (
     <>
       <StyledButton onClick={() => onCheckUserInfo() && setVisible(true)}>
