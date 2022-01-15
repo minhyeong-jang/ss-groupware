@@ -14,6 +14,7 @@ interface Props {
 export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
   const {
     bizCardList,
+    status,
     loading,
     onTypeChange,
     onUpdateMemo,
@@ -24,7 +25,7 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (visible && !bizCardList?.length) {
+    if (visible && status === "idle") {
       onGetBizCardList({ id, pw });
     }
   }, [visible, id, pw, bizCardList]);

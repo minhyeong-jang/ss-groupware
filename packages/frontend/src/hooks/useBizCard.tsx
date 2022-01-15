@@ -1,7 +1,6 @@
 import { message } from "antd";
 import {
   getBizCardList,
-  getBizCardListData,
   GetBizCardListParams,
   postBizCard,
   PostBizCardParams,
@@ -13,15 +12,12 @@ import { ErrorModel } from "schema";
 
 export const useBizCard = () => {
   const [userName, setUserName] = useState("");
-  const [bizCardList, setBizCardList] = useState<BizCardModel[]>(
-    // toBizCardUiModel(getBizCardListData.bizCardList)
-    []
-  );
-  const [loading, setLoading] = useState(false);
+  const [bizCardList, setBizCardList] = useState<BizCardModel[]>([]);
+  const [status, setStatus] = useState("idle");
 
   const onGetBizCardList = useCallback(
     async (params: GetBizCardListParams) => {
-      setLoading(true);
+      setStatus("loading");
       try {
         const res = await getBizCardList(params);
         setBizCardList(toBizCardUiModel(res.data.bizCardList));
@@ -29,21 +25,21 @@ export const useBizCard = () => {
       } catch (e) {
         message.error((e as ErrorModel).response?.data?.message);
       } finally {
-        setLoading(false);
+        setStatus("success");
       }
     },
     [postCheckin]
   );
   const onUpdateMemo = useCallback(
     async (params: PostBizCardParams) => {
-      setLoading(true);
+      setStatus("loading");
       try {
         await postBizCard(params);
         message.success("등록이 완료 되었습니다.");
       } catch (e) {
         message.error((e as ErrorModel).response?.data?.message);
       } finally {
-        setLoading(false);
+        setStatus("success");
       }
     },
     [postBizCard]
@@ -68,7 +64,8 @@ export const useBizCard = () => {
   return {
     userName,
     bizCardList,
-    loading,
+    status,
+    loading: status === "loading",
     onUpdateMemo,
     onTypeChange,
     onNoteChange,
