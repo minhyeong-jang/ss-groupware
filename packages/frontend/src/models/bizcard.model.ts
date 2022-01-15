@@ -43,8 +43,6 @@ const convertTimeToBizCardType = (
     const targetType = Object.keys(BizCardType)
       .map((type) => BizCardType[type as keyof typeof BizCardType])
       .filter((item) => note.indexOf(item) !== -1)[0];
-
-    console.log(targetType);
     if (targetType) {
       return targetType;
     }

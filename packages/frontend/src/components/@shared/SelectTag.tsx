@@ -38,6 +38,7 @@ export const SelectTag = ({ tagColor, value, closable, onClose }: Props) => {
 };
 
 const StyledAntdTag = styled(AntdTag)`
+  display: inline-block !important;
   margin-right: 5px;
 
   .ant-tag-close-icon {

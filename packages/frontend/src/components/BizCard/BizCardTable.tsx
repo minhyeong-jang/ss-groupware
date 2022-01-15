@@ -154,6 +154,7 @@ export const BizCardTable: FC<Props> = ({
               .replace(/\s/g, "")
               .match(/(.*)야근|점심/)?.[1];
             const userList = userStr ? userStr.split(",") : [];
+
             return (
               <>
                 <StyledSelect
@@ -187,14 +188,9 @@ export const BizCardTable: FC<Props> = ({
       align: "center" as const,
       dataIndex: "note",
       key: "note",
-      render: (note: string) => (
-        // 야근식대 ({format(record.time, "yyyy.MM.dd")})
-        <>{note}</>
-      ),
     },
   ];
 
-  // rowSelection object indicates the need for row selection
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[]) => {
       onSelection(selectedRowKeys);
@@ -214,7 +210,7 @@ export const BizCardTable: FC<Props> = ({
           // type: selectionType,
           ...rowSelection,
         }}
-        rowKey={(record) => `${record.syncId}`}
+        rowKey={(_, index) => `${index}`}
       />
     </StyledContainer>
   );
