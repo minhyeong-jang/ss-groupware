@@ -9,7 +9,7 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   generateBuildId: async () => "constant-build-id",
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   onDemandEntries: {
     maxInactiveAge: 1000 * 60 * 60,
     pagesBufferLength: 5,

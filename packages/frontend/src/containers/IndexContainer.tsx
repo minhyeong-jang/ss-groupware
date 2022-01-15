@@ -19,7 +19,7 @@ export const IndexContainer: FC = () => {
       message.error("패스워드를 입력해주세요.");
       return false;
     }
-    localStorage.setItem("gw_musinsa_id", id);
+    localStorage.setItem("gw_musinsa_ss", JSON.stringify({ id, pw }));
     return true;
   };
   const onButtonClick = async (type: string) => {
@@ -36,8 +36,12 @@ export const IndexContainer: FC = () => {
   };
 
   useEffect(() => {
-    const id = localStorage.getItem("gw_musinsa_id");
-    id && setId(id);
+    const storage = localStorage.getItem("gw_musinsa_ss");
+    if (storage) {
+      const { id, pw } = JSON.parse(storage);
+      id && setId(id);
+      pw && setPw(pw);
+    }
   }, [setId]);
 
   return (
