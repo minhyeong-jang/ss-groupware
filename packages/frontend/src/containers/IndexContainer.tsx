@@ -32,9 +32,11 @@ export const IndexContainer: FC = () => {
 
     switch (type) {
       case "in":
+        window?.gtag("event", "click_check_in", { id: userInfo.id });
         await onCheckin(userInfo);
         break;
       case "out":
+        window?.gtag("event", "click_check_out", { id: userInfo.id });
         await onCheckout(userInfo);
         break;
     }

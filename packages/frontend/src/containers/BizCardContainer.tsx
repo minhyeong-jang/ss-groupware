@@ -26,6 +26,7 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
 
   useEffect(() => {
     if (visible && status === "idle") {
+      window?.gtag("event", "view_bizcard_list", { id: userInfo.id });
       onGetBizCardList(userInfo);
     }
   }, [visible, userInfo, bizCardList]);
@@ -50,6 +51,10 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
           ? "DRIVE"
           : "FOOD",
     }));
+    window?.gtag("event", "click_bizcard_submit", {
+      id: userInfo.id,
+      count: items.length,
+    });
     await onUpdateMemo({ userInfo: userInfo, items });
     setSelection([]);
   };

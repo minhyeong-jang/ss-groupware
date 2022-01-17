@@ -4,7 +4,6 @@ import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "styles";
 import "antd/dist/antd.css";
-import { oneLine } from "common-tags";
 
 const App = ({ Component }: AppProps) => {
   return (
