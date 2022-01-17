@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { Loading } from "components/@shared";
+import { Header } from "components/UserForm";
 import { useOfficeCheck } from "hooks";
 import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -47,8 +48,7 @@ export const IndexContainer: FC = () => {
   return (
     <StyledContainer>
       <StyledFormWrap>
-        <StyledTitle>StyleShare Groupware</StyledTitle>
-        <StyledDesc>made by 장민형</StyledDesc>
+        <Header />
         <StyledInputWrap>
           <StyledLabel>아이디 : </StyledLabel>
           <StyledInput value={id} onChange={(e) => setId(e.target.value)} />
@@ -66,6 +66,7 @@ export const IndexContainer: FC = () => {
           <StyledButton onClick={() => onButtonClick("out")}>퇴근</StyledButton>
         </StyledButtonWrap>
         <BizCardContainer id={id} pw={pw} onCheckUserInfo={checkUserInfo} />
+        <StyledNotice>* 무신사랩은 지원하지 않습니다.</StyledNotice>
       </StyledFormWrap>
       {loading && <Loading />}
     </StyledContainer>
@@ -83,21 +84,16 @@ const StyledFormWrap = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid ${({ theme }) => theme.color.gray100};
-  padding: 30px;
+  padding: 15px;
   border-radius: 4px;
   background: #fff;
 `;
-const StyledTitle = styled.div`
+const StyledNotice = styled.div`
+  font-size: 13px;
+  color: #f93d3d;
+  margin: 15px auto 0;
   text-align: center;
-  color: ${({ theme }) => theme.color.gray100};
-  font-size: 20px;
   font-weight: bold;
-`;
-const StyledDesc = styled.div`
-  font-size: 12px;
-  color: #aaa;
-  margin: 5px auto 20px;
-  text-align: center;
 `;
 const StyledInputWrap = styled.div`
   position: relative;
@@ -136,15 +132,4 @@ const StyledButton = styled.button<{ $color?: string }>`
   outline: none;
   font-size: 14px;
   border: 1px solid #dedede;
-`;
-const StyledAuthButton = styled.button`
-  border-radius: 4px;
-  width: 100%;
-  border: 1px solid white;
-  background: ${({ theme }) => theme.color.blue};
-  color: white;
-  padding: 10px;
-  outline: none;
-  font-size: 14px;
-  border: 1px solid #;
 `;
