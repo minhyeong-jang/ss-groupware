@@ -92,6 +92,6 @@ export const postBizCardList = async (
   } catch (err) {
     res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
   } finally {
-    // await browser.close();
+    await browser.close();
   }
 };

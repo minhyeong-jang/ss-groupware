@@ -1,26 +1,30 @@
 import { message } from "antd";
 import { Loading } from "components/@shared";
-import { Header } from "components/UserForm";
+import { Header, UserForm } from "components/UserForm";
 import { useOfficeCheck } from "hooks";
 import React, { FC, useEffect, useState } from "react";
+import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 import { BizCardContainer } from "./BizCardContainer";
 
 export const IndexContainer: FC = () => {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [userInfo, setuserInfo] = useState<UserInfoSchema>({
+    id: "",
+    pw: "",
+    type: CompanyType.MUSINSA,
+  });
   const { loading, onCheckin, onCheckout } = useOfficeCheck();
 
   const checkUserInfo = () => {
-    if (!id) {
+    if (!userInfo.id) {
       message.info("아이디를 입력해주세요.");
       return false;
     }
-    if (!pw) {
+    if (!userInfo.pw) {
       message.error("패스워드를 입력해주세요.");
       return false;
     }
-    localStorage.setItem("gw_musinsa_ss", JSON.stringify({ id, pw }));
+    localStorage.setItem("gw_musinsa_ss", JSON.stringify(userInfo));
     return true;
   };
   const onButtonClick = async (type: string) => {
@@ -28,10 +32,10 @@ export const IndexContainer: FC = () => {
 
     switch (type) {
       case "in":
-        await onCheckin({ id, pw });
+        await onCheckin(userInfo);
         break;
       case "out":
-        await onCheckout({ id, pw });
+        await onCheckout(userInfo);
         break;
     }
   };
@@ -39,34 +43,30 @@ export const IndexContainer: FC = () => {
   useEffect(() => {
     const storage = localStorage.getItem("gw_musinsa_ss");
     if (storage) {
-      const { id, pw } = JSON.parse(storage);
-      id && setId(id);
-      pw && setPw(pw);
+      const { id, pw, type } = JSON.parse(storage);
+      setuserInfo({
+        id: id || "",
+        pw: pw || "",
+        type: type || CompanyType.MUSINSA,
+      });
     }
-  }, [setId]);
+  }, []);
 
   return (
     <StyledContainer>
       <StyledFormWrap>
         <Header />
-        <StyledInputWrap>
-          <StyledLabel>아이디 : </StyledLabel>
-          <StyledInput value={id} onChange={(e) => setId(e.target.value)} />
-        </StyledInputWrap>
-        <StyledInputWrap>
-          <StyledLabel>패스워드 : </StyledLabel>
-          <StyledInput
-            type='password'
-            value={pw}
-            onChange={(e) => setPw(e.target.value)}
-          />
-        </StyledInputWrap>
+        <UserForm
+          userInfo={userInfo}
+          onChange={(key: string, value: string) =>
+            setuserInfo((prevState) => ({ ...prevState, [key]: value }))
+          }
+        />
         <StyledButtonWrap>
           <StyledButton onClick={() => onButtonClick("in")}>출근</StyledButton>
           <StyledButton onClick={() => onButtonClick("out")}>퇴근</StyledButton>
         </StyledButtonWrap>
-        <BizCardContainer id={id} pw={pw} onCheckUserInfo={checkUserInfo} />
-        <StyledNotice>* 무신사랩은 지원하지 않습니다.</StyledNotice>
+        <BizCardContainer userInfo={userInfo} onCheckUserInfo={checkUserInfo} />
       </StyledFormWrap>
       {loading && <Loading />}
     </StyledContainer>
@@ -87,40 +87,14 @@ const StyledFormWrap = styled.div`
   border-radius: 4px;
   background: #fff;
   box-shadow: 0 5px 12px rgb(123, 131, 143);
-`;
-const StyledNotice = styled.div`
-  font-size: 13px;
-  color: #f93d3d;
-  margin: 15px auto 0;
-  text-align: center;
-  font-weight: bold;
-`;
-const StyledInputWrap = styled.div`
-  position: relative;
-  color: ${({ theme }) => theme.color.gray100};
-  border: 1px solid #999;
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  font-size: 13px;
-`;
-const StyledLabel = styled.div`
-  position: absolute;
-  left: 15px;
-  width: 55px;
-  color: #999;
-  text-align: right;
-`;
-const StyledInput = styled.input`
-  padding-left: 55px;
-  outline: none;
+  max-width: 425px;
+  width: 90%;
 `;
 const StyledButtonWrap = styled.div`
   display: grid;
   grid-gap: 5px;
   grid-template-columns: 1fr 1fr;
-  margin-bottom: 5px;
+  margin: 0 0 5px;
 `;
 const StyledButton = styled.button<{ $color?: string }>`
   border-radius: 4px;

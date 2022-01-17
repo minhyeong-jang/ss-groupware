@@ -1,11 +1,9 @@
 import axios from "axios";
 import getConfig from "next/config";
+import { UserInfoSchema } from "schema/userinfo.schema";
 const { publicRuntimeConfig } = getConfig();
 
-export interface GetBizCardListParams {
-  id: string;
-  pw: string;
-}
+export interface GetBizCardListParams extends UserInfoSchema {}
 export interface GetBizCardListResponse {
   userName: string;
   bizCardList: GetBizCardItemSchema[];

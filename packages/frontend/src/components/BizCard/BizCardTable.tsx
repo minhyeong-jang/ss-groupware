@@ -208,7 +208,6 @@ export const BizCardTable: FC<Props> = ({
         pagination={false}
         loading={loading}
         rowSelection={{
-          // type: selectionType,
           ...rowSelection,
         }}
         rowKey={(_, index) => `${index}`}

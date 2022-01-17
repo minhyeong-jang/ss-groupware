@@ -1,11 +1,9 @@
 import axios from "axios";
 import getConfig from "next/config";
+import { UserInfoSchema } from "schema";
 const { publicRuntimeConfig } = getConfig();
 
-export interface PostCheckoutParams {
-  id: string;
-  pw: string;
-}
+export interface PostCheckoutParams extends UserInfoSchema {}
 export interface PostCheckoutResponse {
   message: string;
 }

@@ -1,10 +1,10 @@
 import axios from "axios";
 import getConfig from "next/config";
+import { UserInfoSchema } from "schema";
 const { publicRuntimeConfig } = getConfig();
 
 export interface PostBizCardParams {
-  id: string;
-  pw: string;
+  userInfo: UserInfoSchema;
   items: {
     syncId: string;
     note: string;

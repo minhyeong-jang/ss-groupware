@@ -4,14 +4,14 @@ import { BizCardNotice, BizCardTable } from "components/BizCard";
 import { useBizCard } from "hooks";
 import { BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
+import { UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 interface Props {
-  id: string;
-  pw: string;
+  userInfo: UserInfoSchema;
   onCheckUserInfo(): boolean;
 }
-export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
+export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   const {
     bizCardList,
     status,
@@ -26,9 +26,9 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
 
   useEffect(() => {
     if (visible && status === "idle") {
-      onGetBizCardList({ id, pw });
+      onGetBizCardList(userInfo);
     }
-  }, [visible, id, pw, bizCardList]);
+  }, [visible, userInfo, bizCardList]);
 
   const onSubmit = async () => {
     if (!selection.length) {
@@ -43,7 +43,7 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
           ? "DRIVE"
           : "FOOD",
     }));
-    await onUpdateMemo({ id, pw, items });
+    await onUpdateMemo({ userInfo: userInfo, items });
     setSelection([]);
   };
   return (
@@ -82,5 +82,4 @@ const StyledButton = styled.button`
   padding: 10px;
   outline: none;
   font-size: 14px;
-  border: 1px solid #;
 `;
