@@ -39,12 +39,12 @@ export const postBizCardList = async (
           let response: PostBizCardListResponse = {
             code: 200,
           };
+
           const listParams = {
             ...BIZ_CARD_LIST,
             searchFromDate: "20220101",
             searchToDate: "20220132",
           };
-
           $.ajax({
             url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
             type: "post",
@@ -87,7 +87,7 @@ export const postBizCardList = async (
       ? res.send(pageRes)
       : res.status(pageRes.code).json(pageRes);
   } catch (err) {
-    res.status(400).json({ message: "서버 에러가 발생하였습니다.", err });
+    res.status(400).json({ message: "서버 오류가 발생하였습니다.", err });
   } finally {
     await browser.close();
   }

@@ -16,12 +16,12 @@ export const UserForm: FC<Props> = ({ userInfo, onChange }) => {
           size='large'
           options={[
             {
-              label: CompanyType.MUSINSA,
-              value: "MUSINSA",
+              label: "무신사",
+              value: CompanyType.MUSINSA,
             },
             {
-              label: CompanyType.MUSINSALAB,
-              value: "MUSINSALAB",
+              label: "무신사랩",
+              value: CompanyType.MUSINSALAB,
             },
           ]}
           placeholder='회사'

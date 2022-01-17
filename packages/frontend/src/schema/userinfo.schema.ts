@@ -1,6 +1,6 @@
 export enum CompanyType {
-  MUSINSA = "무신사",
-  MUSINSALAB = "무신사랩",
+  MUSINSA = "MUSINSA",
+  MUSINSALAB = "MUSINSALAB",
 }
 
 export interface UserInfoSchema {

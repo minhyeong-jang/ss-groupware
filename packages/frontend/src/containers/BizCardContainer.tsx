@@ -4,7 +4,7 @@ import { BizCardNotice, BizCardTable } from "components/BizCard";
 import { useBizCard } from "hooks";
 import { BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
-import { UserInfoSchema } from "schema";
+import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 interface Props {
@@ -30,6 +30,13 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
     }
   }, [visible, userInfo, bizCardList]);
 
+  const onVisibleModal = () => {
+    if (userInfo.type === CompanyType.MUSINSALAB) {
+      message.error("무신사랩은 지원하지 않습니다.");
+      return;
+    }
+    onCheckUserInfo() && setVisible(true);
+  };
   const onSubmit = async () => {
     if (!selection.length) {
       message.error("업데이트가 필요한 내역을 선택해주세요.");
@@ -48,7 +55,7 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   };
   return (
     <>
-      <StyledButton onClick={() => onCheckUserInfo() && setVisible(true)}>
+      <StyledButton onClick={onVisibleModal}>
         [BETA] 지출결의서(법인카드)
       </StyledButton>
       <Modal

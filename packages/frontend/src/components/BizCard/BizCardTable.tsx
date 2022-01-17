@@ -202,7 +202,7 @@ export const BizCardTable: FC<Props> = ({
     <StyledContainer>
       <Table
         size='small'
-        scroll={{ x: "max-content" }}
+        scroll={{ x: "max-content", y: "400px" }}
         columns={columns}
         dataSource={data}
         pagination={false}
