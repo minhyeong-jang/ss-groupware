@@ -83,10 +83,10 @@ const StyledFormWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid ${({ theme }) => theme.color.gray100};
   padding: 15px;
   border-radius: 4px;
   background: #fff;
+  box-shadow: 0 5px 12px rgb(123, 131, 143);
 `;
 const StyledNotice = styled.div`
   font-size: 13px;
