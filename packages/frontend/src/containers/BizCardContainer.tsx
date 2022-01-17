@@ -1,6 +1,6 @@
 import { message, Modal } from "antd";
 import { Loading } from "components/@shared";
-import { BizCardTable } from "components/BizCard";
+import { BizCardNotice, BizCardTable } from "components/BizCard";
 import { useBizCard } from "hooks";
 import { BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
@@ -52,7 +52,7 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
         [BETA] 지출결의서(법인카드)
       </StyledButton>
       <Modal
-        width={1200}
+        width={1280}
         title='[BETA] 점심식대, 야근식대, 야근교통비 청구'
         visible={visible}
         okText='적용'
@@ -67,6 +67,7 @@ export const BizCardContainer: FC<Props> = ({ onCheckUserInfo, id, pw }) => {
           onTypeChange={onTypeChange}
           onNoteChange={onNoteChange}
         />
+        <BizCardNotice />
       </Modal>
       {loading && <Loading />}
     </>

@@ -32,8 +32,8 @@ export const BizCardTable: FC<Props> = ({
       dataIndex: "time",
       key: "time",
       title: "결제일",
-      render: (time: Date) => format(time, "yyyy/MM/dd HH:mm:ss"),
-      width: 150,
+      render: (time: Date) => format(time, "yy/MM/dd HH:mm"),
+      width: 110,
     },
     {
       align: "center" as const,
@@ -70,7 +70,7 @@ export const BizCardTable: FC<Props> = ({
       ),
       sorter: true,
       title: "결제타입",
-      width: 150,
+      width: 100,
     },
     {
       align: "center" as const,
