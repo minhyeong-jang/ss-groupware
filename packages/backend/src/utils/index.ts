@@ -1,2 +1,2 @@
-export * from "./pageLigin";
+export * from "./pageLogin";
 export * from "./puppeteer";

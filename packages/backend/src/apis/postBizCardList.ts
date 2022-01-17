@@ -3,11 +3,9 @@ import { ResponseModel } from "../types";
 import { pageLogin } from "../utils";
 import { launchSetting } from "../utils/puppeteer";
 import { BIZ_CARD_LIST } from "../constants";
+import { UserInfoModel } from "../types/user";
 const puppeteer = require("puppeteer");
 
-interface PostBizCardListResponse extends ResponseModel {
-  bizCardList?: BizCardSchema[];
-}
 interface BizCardSchema {
   syncId: number;
   mercName: string;
@@ -17,25 +15,24 @@ interface BizCardSchema {
   requestAmount: number;
   note: string;
 }
-interface PostBizCardListParams {
-  id: string;
-  pw: string;
+interface PostBizCardListParams extends UserInfoModel {}
+interface PostBizCardListResponse extends ResponseModel {
+  bizCardList?: BizCardSchema[];
 }
 
 export const postBizCardList = async (
   res: Response,
-  { id, pw }: PostBizCardListParams
+  userInfo: PostBizCardListParams
 ) => {
   const browser = await puppeteer.launch(launchSetting);
 
   try {
     const page = await browser.newPage();
-    const loginRes = await pageLogin(page, { id, pw });
+    const loginRes = await pageLogin(page, userInfo);
     if (loginRes.code !== 200) {
       res.status(loginRes.code).json(loginRes.message);
     }
 
-    await page.waitFor(2000);
     const pageRes = await page.evaluate(
       ({ BIZ_CARD_LIST }) => {
         try {
@@ -47,7 +44,7 @@ export const postBizCardList = async (
             searchFromDate: "20220101",
             searchToDate: "20220132",
           };
-          console.log(listParams);
+
           $.ajax({
             url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
             type: "post",

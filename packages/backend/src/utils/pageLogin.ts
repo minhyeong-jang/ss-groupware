@@ -1,6 +1,7 @@
 import { ResponseModel } from "../types";
+import { CompanyType, UserInfoModel } from "../types/user";
 
-export const pageLogin = async (page, { id, pw }) => {
+export const pageLogin = async (page, userInfo: UserInfoModel) => {
   await page.goto("https://gw.musinsa.com/gw/uat/uia/actionLogout.do", {
     waitUntil: "networkidle2",
   });
@@ -8,8 +9,11 @@ export const pageLogin = async (page, { id, pw }) => {
     waitUntil: "networkidle2",
   });
 
+  // 테스트용 wait
+  // await page.waitFor(3000);
+
   return await page.evaluate(
-    ({ id, pw }) => {
+    ({ userInfo: { id, pw, type }, CompanyType }) => {
       try {
         let response: ResponseModel = {
           code: 200,
@@ -47,12 +51,37 @@ export const pageLogin = async (page, { id, pw }) => {
               };
               return;
             }
-            // const userName = data.match(
-            //   /[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\/\_\s\:\.\"\<\>\=]*<span class="txt_nm">([^\<]*)/
-            // )?.[1];
-            response = {
-              code: 200,
-            };
+            if (type === CompanyType.MUSINSALAB) {
+              $.ajax({
+                url: "https://gw.musinsa.com/gw/systemx/changeUserPositionProc.do",
+                type: "POST",
+                data: { seq: "musinsa|2986|3125" },
+                async: false,
+                success: (data) => {
+                  if (data.indexOf("(주)무신사 랩") === -1) {
+                    response = {
+                      code: 400,
+                      message: "무신사랩 전환 중 오류가 발생했습니다.",
+                    };
+                    return;
+                  }
+                  response = {
+                    code: 200,
+                  };
+                },
+                error: () => {
+                  response = {
+                    code: 400,
+                    message: "무신사랩 전환 중 오류가 발생했습니다.",
+                  };
+                },
+              });
+            } else {
+              response = {
+                code: 200,
+                message: "무신사랩!",
+              };
+            }
           },
         });
         return response;
@@ -63,6 +92,6 @@ export const pageLogin = async (page, { id, pw }) => {
         };
       }
     },
-    { id, pw }
+    { userInfo, CompanyType }
   );
 };
