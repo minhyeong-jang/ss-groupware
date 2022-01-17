@@ -23,6 +23,7 @@ module.exports = {
   },
   experimental: {
     scrollRestoration: true,
+    styledComponents: true,
   },
   trailingSlash: false,
 };
