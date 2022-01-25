@@ -30,7 +30,7 @@ export const postBizCardList = async (
     const page = await browser.newPage();
     const loginRes = await pageLogin(page, userInfo);
     if (loginRes.code !== 200) {
-      res.status(loginRes.code).json(loginRes.message);
+      res.status(loginRes.code).json(loginRes);
     }
 
     const pageRes = await page.evaluate(
