@@ -22,10 +22,10 @@ export const useBizCard = () => {
         const res = await getBizCardList(params);
         setBizCardList(toBizCardUiModel(res.data.bizCardList));
         setUserName(res.data.userName);
-      } catch (e) {
-        message.error((e as ErrorModel).response?.data?.message);
-      } finally {
         setStatus("success");
+      } catch (e) {
+        setStatus("error");
+        message.error((e as ErrorModel).response?.data?.message);
       }
     },
     [postCheckin]

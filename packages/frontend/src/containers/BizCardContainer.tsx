@@ -25,7 +25,7 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (visible && status === "idle") {
+    if (visible && status !== "success") {
       window?.gtag("event", "view_bizcard_list", { id: userInfo.id });
       onGetBizCardList(userInfo);
     }

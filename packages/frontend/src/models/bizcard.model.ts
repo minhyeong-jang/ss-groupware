@@ -25,7 +25,7 @@ export const toBizCardUiModel = (
         `${item.authDate.replace(
           /([\d]{4})([\d]{2})([\d]{2})/,
           "$1-$2-$3"
-        )} ${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
+        )}T${item.authTime.replace(/([\d]{2})([\d]{2})([\d]{2})/, "$1:$2:$3")}`
       ),
       requestAmount: item.requestAmount,
       type: convertTimeToBizCardType(item.mccName, item.authTime, item.note),
