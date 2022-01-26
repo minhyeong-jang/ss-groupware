@@ -10,6 +10,8 @@ export interface GetBizCardListResponse {
 }
 export interface GetBizCardItemSchema {
   syncId: number;
+  authSeq: string;
+  empSeq: string;
   mercName: string;
   mccName: string;
   authDate: string;

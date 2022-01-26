@@ -2,6 +2,8 @@ import { GetBizCardItemSchema } from "apis";
 
 export interface BizCardModel {
   syncId: number;
+  authSeq: string;
+  empSeq: string;
   name: string;
   time: Date;
   requestAmount: number;
@@ -30,6 +32,8 @@ export const toBizCardUiModel = (
       requestAmount: item.requestAmount,
       type: convertTimeToBizCardType(item.mccName, item.authTime, item.note),
       note: item.note,
+      authSeq: item.authSeq,
+      empSeq: item.empSeq,
     }))
     .sort((a, b) => (b.time > a.time ? 1 : b.time < a.time ? -1 : 0));
 };

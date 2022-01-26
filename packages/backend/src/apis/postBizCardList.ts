@@ -60,6 +60,8 @@ export const postBizCardList = async (
             success: (data) => {
               const newData = data.aaData.map((item) => ({
                 syncId: item.syncId,
+                authSeq: item.authSeq,
+                empSeq: item.empSeq,
                 mercName: item.mercName,
                 mccName: item.mccName,
                 authDate: item.authDate,

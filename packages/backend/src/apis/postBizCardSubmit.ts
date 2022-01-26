@@ -53,8 +53,13 @@ export const postBizCardSubmit = async (
                       syncId: item.syncId,
                     },
                   ]),
+                  authInfo: JSON.stringify({
+                    ...targetParams.authInfo,
+                    seq: item.authSeq,
+                  }),
                   empInfo: JSON.stringify({
                     ...targetParams.empInfo,
+                    seq: item.empSeq,
                     bizSeq: data.aaData.empInfo.bizSeq,
                     compSeq: data.aaData.empInfo.compSeq,
                     empSeq: data.aaData.empInfo.empSeq,

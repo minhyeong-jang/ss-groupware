@@ -1,7 +1,7 @@
 export const FOOD_PARAMS = {
   target: [{ key: "", syncId: "" }],
   empInfo: {
-    seq: 0,
+    // seq: "489293",
     // compSeq: "1000",
     compName: "",
     // bizSeq: "1000",
@@ -39,10 +39,10 @@ export const FOOD_PARAMS = {
     summaryName: "복리(일반)-임직원 식대,간식대등",
     drAcctCode: "81101",
     drAcctName: "복리(일반)",
-    seq: "311842",
+    seq: "",
   }),
-  authInfo: JSON.stringify({
-    seq: "312636",
+  authInfo: {
+    // seq: "312636",
     authDiv: "A",
     authCode: "301",
     authName: "법인카드(식대,소모품비 등)",
@@ -64,19 +64,19 @@ export const FOOD_PARAMS = {
     noTaxName: "",
     vaTypeCode: "",
     vaTypeName: "",
-    orderNum: 301,
-    orderBy: 301,
-    useYN: "Y",
-  }),
+    // orderNum: 301,
+    // orderBy: 301,
+    // useYN: "Y",
+  },
   note: "",
-  isDeleteProject: true,
+  isDeleteProject: false,
   projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),
 };
 
 export const DRIVE_PARAMS = {
   target: [{ key: "", syncId: "" }],
   empInfo: {
-    seq: 0,
+    seq: "489293",
     // compSeq: "1000",
     compName: "",
     // bizSeq: "1000",
@@ -127,7 +127,7 @@ export const DRIVE_PARAMS = {
     summaryDiv: "A",
     drAcctCode: "81201",
   }),
-  authInfo: JSON.stringify({
+  authInfo: {
     crAcctName: "미지급금",
     vatAcctCode: "",
     erpAuthName: "신용카드매출전표(법인)",
@@ -153,7 +153,7 @@ export const DRIVE_PARAMS = {
     useYN: "Y",
     authDiv: "A",
     vaTypeName: "",
-  }),
+  },
   note: "",
   isDeleteProject: false,
   projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),

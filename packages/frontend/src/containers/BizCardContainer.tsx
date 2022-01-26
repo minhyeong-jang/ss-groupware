@@ -25,7 +25,7 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (visible && status !== "success") {
+    if (visible && status !== "loading" && status !== "success") {
       window?.gtag("event", "view_bizcard_list", { id: userInfo.id });
       onGetBizCardList(userInfo);
     }
@@ -50,6 +50,8 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
         bizCardList[key as number].type === BizCardType.DRIVE
           ? "DRIVE"
           : "FOOD",
+      authSeq: bizCardList[key as number].authSeq,
+      empSeq: bizCardList[key as number].empSeq,
     }));
     window?.gtag("event", "click_bizcard_submit", {
       id: userInfo.id,

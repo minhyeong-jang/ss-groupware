@@ -9,6 +9,8 @@ export interface PostBizCardParams {
     syncId: string;
     note: string;
     type: string;
+    authSeq: string;
+    empSeq: string;
   }[];
 }
 export interface PostBizCardResponse {
