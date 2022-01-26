@@ -62,7 +62,6 @@ export const postBizCardSubmit = async (
                     erpEmpSeq: data.aaData.empInfo.erpEmpSeq,
                     erpCompSeq: data.aaData.empInfo.erpCompSeq,
                     groupSeq: data.aaData.empInfo.groupSeq,
-
                     createSeq: data.aaData.empInfo.empSeq,
                     modifySeq: data.aaData.empInfo.empSeq,
                     searchStr: data.aaData.empInfo.erpEmpSeq,
