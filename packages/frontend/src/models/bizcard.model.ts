@@ -55,7 +55,11 @@ const convertTimeToBizCardType = (
   if (mccName.indexOf("택시") !== -1) {
     return BizCardType.DRIVE;
   }
+
   const hour = parseInt(authTime.slice(0, 2));
+  if (hour > 0 && hour < 6) {
+    return BizCardType.DRIVE;
+  }
   if (hour < 15) {
     return BizCardType.LUNCH;
   }

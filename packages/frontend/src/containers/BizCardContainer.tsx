@@ -19,14 +19,13 @@ interface Props {
 export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   const {
     bizCardList,
-    status,
     loading,
     onTypeChange,
     onUpdateMemo,
     onGetBizCardList,
     onNoteChange,
   } = useBizCard();
-  const [selectedMonth, setSelectedMonth] = useState(moment());
+  const [selectedMonth, setSelectedMonth] = useState(moment().subtract(5, "d"));
   const [selection, setSelection] = useState<React.Key[]>([]);
   const [visible, setVisible] = useState(false);
 
