@@ -1,6 +1,6 @@
 import { Input, Select, Table } from "antd";
 import { SelectTag, tagColors } from "components/@shared";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import { BizCardModel, BizCardType } from "models";
 import { format } from "date-fns";
@@ -21,6 +21,9 @@ export const BizCardTable: FC<Props> = ({
   onTypeChange,
   onNoteChange,
 }) => {
+  const totalPrice = useMemo(() => {
+    return data.reduce((curr, next) => curr + next.requestAmount, 0);
+  }, [data]);
   const columns = [
     {
       align: "center" as const,
@@ -92,8 +95,7 @@ export const BizCardTable: FC<Props> = ({
                         record.note.match(
                           /→\s([ㄱ-ㅎㅏ-ㅣ가-힣0-9]*)\)/
                         )?.[1] || ""
-                      })
-                      (${format(record.time, "yyyy.MM.dd HH:ii")})`,
+                      }) (${format(record.time, "yyyy.MM.dd HH:ii")})`,
                       index
                     )
                   }
@@ -108,8 +110,10 @@ export const BizCardTable: FC<Props> = ({
                         record.note.match(
                           /\(([ㄱ-ㅎㅏ-ㅣ가-힣0-9]*)\s→/
                         )?.[1] || ""
-                      } → ${e.target.value.replace(/[\(\)]/g, "")})
-                      (${format(record.time, "yyyy.MM.dd HH:ii")})`,
+                      } → ${e.target.value.replace(/[\(\)]/g, "")}) (${format(
+                        record.time,
+                        "yyyy.MM.dd HH:ii"
+                      )})`,
                       index
                     )
                   }
@@ -123,10 +127,16 @@ export const BizCardTable: FC<Props> = ({
                   placeholder='본인명'
                   value={record.note.match(/^([^\s]*)\s?/)?.[1] || ""}
                   onChange={(e) => {
-                    const addCount = record.note.match(/외\s(0-9*)\)/)?.[1];
+                    const addCount = record.note.replace(/[^\d]/g, "");
                     onNoteChange(
-                      `${e.target.value} ${
-                        !!addCount && addCount !== "0" ? `외 ${addCount}인` : ""
+                      `${e.target.value}${
+                        !!addCount && addCount !== "0"
+                          ? ` 외 ${addCount}인`
+                          : `${
+                              !!addCount && addCount !== "0"
+                                ? ` 외 ${addCount}인`
+                                : ""
+                            }`
                       }`,
                       index
                     );
@@ -215,6 +225,9 @@ export const BizCardTable: FC<Props> = ({
         }}
         rowKey={(_, index) => `${index}`}
       />
+      <StyledFooter>
+        총 결제 금액 : <b>{(totalPrice || 0).toLocaleString()}</b>원
+      </StyledFooter>
     </StyledContainer>
   );
 };
@@ -243,4 +256,8 @@ const StyledInput = styled(Input)`
   width: 100px;
   margin: 0 5px;
   font-size: 12px;
+`;
+const StyledFooter = styled.div`
+  margin-top: 15px;
+  text-align: right;
 `;
