@@ -3,7 +3,11 @@ import getConfig from "next/config";
 import { UserInfoSchema } from "schema/userinfo.schema";
 const { publicRuntimeConfig } = getConfig();
 
-export interface GetBizCardListParams extends UserInfoSchema {}
+export interface GetBizCardListParams {
+  userInfo: UserInfoSchema;
+  startDate: string;
+  endDate: string;
+}
 export interface GetBizCardListResponse {
   userName: string;
   bizCardList: GetBizCardItemSchema[];

@@ -36,10 +36,12 @@ export const useBizCard = () => {
       try {
         await postBizCard(params);
         message.success("등록이 완료 되었습니다.");
+        setStatus("success");
+        return true;
       } catch (e) {
         message.error((e as ErrorModel).response?.data?.message);
-      } finally {
-        setStatus("success");
+        setStatus("error");
+        return false;
       }
     },
     [postBizCard]

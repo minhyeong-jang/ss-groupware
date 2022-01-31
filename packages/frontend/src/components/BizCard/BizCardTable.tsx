@@ -8,6 +8,7 @@ import { format } from "date-fns";
 interface Props {
   data: BizCardModel[];
   loading: boolean;
+  selection: React.Key[];
   onSelection(key: React.Key[]): void;
   onTypeChange(type: BizCardType, index: number): void;
   onNoteChange(note: string, index: number): void;
@@ -15,6 +16,7 @@ interface Props {
 export const BizCardTable: FC<Props> = ({
   data,
   loading,
+  selection,
   onSelection,
   onTypeChange,
   onNoteChange,
@@ -193,6 +195,7 @@ export const BizCardTable: FC<Props> = ({
   ];
 
   const rowSelection = {
+    selectedRowKeys: selection,
     onChange: (selectedRowKeys: React.Key[]) => {
       onSelection(selectedRowKeys);
     },

@@ -8,6 +8,9 @@
       "**/backend"
     ]
   },
+  "dependencies": {
+    "moment": "^2.29.1"
+  },
   "devDependencies": {
     "lerna": "^4.0.0"
   }

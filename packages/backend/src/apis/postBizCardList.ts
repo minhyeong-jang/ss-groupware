@@ -15,14 +15,18 @@ interface BizCardSchema {
   requestAmount: number;
   note: string;
 }
-interface PostBizCardListParams extends UserInfoModel {}
+interface PostBizCardListParams {
+  userInfo: UserInfoModel;
+  startDate: string;
+  endDate: string;
+}
 interface PostBizCardListResponse extends ResponseModel {
   bizCardList?: BizCardSchema[];
 }
 
 export const postBizCardList = async (
   res: Response,
-  userInfo: PostBizCardListParams
+  { userInfo, startDate, endDate }: PostBizCardListParams
 ) => {
   const browser = await puppeteer.launch(launchSetting);
 
@@ -34,7 +38,7 @@ export const postBizCardList = async (
     }
 
     const pageRes = await page.evaluate(
-      ({ BIZ_CARD_LIST }) => {
+      ({ BIZ_CARD_LIST, startDate, endDate }) => {
         try {
           let response: PostBizCardListResponse = {
             code: 200,
@@ -42,8 +46,8 @@ export const postBizCardList = async (
 
           const listParams = {
             ...BIZ_CARD_LIST,
-            searchFromDate: "20220101",
-            searchToDate: "20220132",
+            searchFromDate: startDate,
+            searchToDate: endDate,
           };
           $.ajax({
             url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
@@ -83,7 +87,7 @@ export const postBizCardList = async (
           };
         }
       },
-      { BIZ_CARD_LIST }
+      { BIZ_CARD_LIST, startDate, endDate }
     );
     pageRes.code === 200
       ? res.send(pageRes)

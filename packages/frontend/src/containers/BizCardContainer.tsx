@@ -1,11 +1,16 @@
-import { message, Modal } from "antd";
+import { DatePicker, message, Modal } from "antd";
 import { Loading } from "components/@shared";
-import { BizCardNotice, BizCardTable } from "components/BizCard";
+import {
+  BizCardNotice,
+  BizCardSearchDate,
+  BizCardTable,
+} from "components/BizCard";
 import { useBizCard } from "hooks";
 import { BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
 import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
+import moment from "moment";
 
 interface Props {
   userInfo: UserInfoSchema;
@@ -21,16 +26,18 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
     onGetBizCardList,
     onNoteChange,
   } = useBizCard();
+  const [selectedMonth, setSelectedMonth] = useState(moment());
   const [selection, setSelection] = useState<React.Key[]>([]);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    if (visible && status !== "loading" && status !== "success") {
-      window?.gtag("event", "view_bizcard_list", { id: userInfo.id });
-      onGetBizCardList(userInfo);
-    }
-  }, [visible, userInfo, bizCardList]);
-
+  const onSearchList = () => {
+    window?.gtag("event", "view_bizcard_list", { id: userInfo.id });
+    onGetBizCardList({
+      userInfo,
+      startDate: selectedMonth.startOf("month").format("YYYYMMDD"),
+      endDate: selectedMonth.endOf("month").format("YYYYMMDD"),
+    });
+  };
   const onVisibleModal = () => {
     if (userInfo.type === CompanyType.MUSINSALAB) {
       message.error("무신사랩은 지원하지 않습니다.");
@@ -57,15 +64,27 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
       id: userInfo.id,
       count: items.length,
     });
-    await onUpdateMemo({ userInfo: userInfo, items });
-    setSelection([]);
+    const res = await onUpdateMemo({
+      userInfo: userInfo,
+      items,
+    });
+    if (res) {
+      setSelection([]);
+    }
   };
+
+  useEffect(() => {
+    if (visible) {
+      onSearchList();
+    }
+  }, [visible, selectedMonth]);
+
   return (
     <>
       <StyledButton onClick={onVisibleModal}>
         [BETA] 지출결의서(법인카드)
       </StyledButton>
-      <Modal
+      <StyledModal
         width={1280}
         title='[BETA] 점심식대, 야근식대, 야근교통비 청구'
         visible={visible}
@@ -74,15 +93,17 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
         onOk={() => onSubmit()}
         onCancel={() => setVisible(false)}
       >
+        <BizCardSearchDate value={selectedMonth} onChange={setSelectedMonth} />
         <BizCardTable
           loading={loading}
           data={bizCardList}
+          selection={selection}
           onSelection={setSelection}
           onTypeChange={onTypeChange}
           onNoteChange={onNoteChange}
         />
         <BizCardNotice />
-      </Modal>
+      </StyledModal>
       {loading && <Loading />}
     </>
   );
@@ -96,4 +117,9 @@ const StyledButton = styled.button`
   padding: 10px;
   outline: none;
   font-size: 14px;
+`;
+const StyledModal = styled(Modal)`
+  .ant-modal-body {
+    padding: 16px;
+  }
 `;
