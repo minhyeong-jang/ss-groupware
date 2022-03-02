@@ -37,24 +37,30 @@ export const BizCardNotice: FC = () => {
           야근교통비는 <b>출발지, 도착지</b>를 입력해야합니다.
         </li>
       </StyledList>
-      <StyledTitle>지출결의서 결재 상신</StyledTitle>
+      <StyledTitle>
+        <StyledRed>(New)</StyledRed> 지출결의서 가이드라인
+      </StyledTitle>
       <StyledList>
-        <li>1. 그룹웨어 전자결재 {"->"} 지출결의서(법인카드) 이동</li>
         <li>
-          2. 카드사용내역 n월 1일 ~ 말일 내역 검색 후 전체 선택 후 하단 반영버튼
-          클릭
+          1. 그룹웨어 전자결재 <b>{">"}</b> 지출결의서(법인카드) 클릭
         </li>
-        <li>3. 등록된 항목 전체선택 후 우측 상단 결재상신</li>
         <li>
-          4. 결재자 : 본인, 팀장&nbsp;{" / "}&nbsp;합의자 :{" "}
+          2. 카드사용내역 클릭 <b>{">"}</b> N월1일~말일 검색 <b>{">"}</b>{" "}
+          항목개수 전체로 변경 <b>{">"}</b> 사용내역 선택 후 하단 반영 클릭
+        </li>
+        <li>3. 항목 선택 후 우측 상단 결재상신 클릭</li>
+        <li>
+          4. 결재자 : 본인, 팀장&nbsp;<b>{" / "}</b>&nbsp;합의자 :{" "}
           <Popover content={ManagerPopover}>
             <b>
-              <u>지출결의서 합의자</u>
+              <u>담당부서 합의자</u>
             </b>
           </Popover>
-          &nbsp;{" / "}&nbsp;수신참조 : 무신사-재무관리실
+          &nbsp;<b>{" / "}</b>&nbsp;수신참조 : 무신사-재무관리실
         </li>
-        <li>5. 제목 : 2022년 N월 법인카드 사용_홍길동 (일반경비)</li>
+        <li>
+          5. 제목 : <b>2022년 N월 법인카드 사용_홍길동 (일반경비)</b>
+        </li>
         <li>6. 본문에 동의합니다 클릭 후 결재상신</li>
       </StyledList>
     </StyledContainer>
@@ -96,4 +102,7 @@ const StyledList = styled.ul<{ $isPrefix?: boolean }>`
             padding-left: 0;
           `}
   }
+`;
+const StyledRed = styled.span`
+  color: red;
 `;

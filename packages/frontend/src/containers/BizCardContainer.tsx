@@ -75,6 +75,7 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   useEffect(() => {
     if (visible) {
       onSearchList();
+      message.info("지출결의서 가이드라인이 추가되었습니다.", 8);
     }
   }, [visible, selectedMonth]);
 
