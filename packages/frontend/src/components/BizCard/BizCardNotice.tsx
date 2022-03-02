@@ -54,7 +54,8 @@ export const BizCardNotice: FC = () => {
           </Popover>
           &nbsp;{" / "}&nbsp;수신참조 : 무신사-재무관리실
         </li>
-        <li>5. 본문에 동의합니다 클릭 후 결재상신</li>
+        <li>5. 제목 : 2022년 N월 법인카드 사용_홍길동 (일반경비)</li>
+        <li>6. 본문에 동의합니다 클릭 후 결재상신</li>
       </StyledList>
     </StyledContainer>
   );
