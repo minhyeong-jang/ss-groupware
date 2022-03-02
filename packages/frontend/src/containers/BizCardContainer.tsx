@@ -1,4 +1,4 @@
-import { DatePicker, message, Modal } from "antd";
+import { message, Modal } from "antd";
 import { Loading } from "components/@shared";
 import {
   BizCardNotice,
@@ -81,11 +81,11 @@ export const BizCardContainer: FC<Props> = ({ userInfo, onCheckUserInfo }) => {
   return (
     <>
       <StyledButton onClick={onVisibleModal}>
-        [BETA] 지출결의서(법인카드)
+        법인카드 지출내역 작성
       </StyledButton>
       <StyledModal
         width={1280}
-        title='[BETA] 점심식대, 야근식대, 야근교통비 청구'
+        title='지출내역 작성(점심식대, 야근식대, 야근교통비)'
         visible={visible}
         okText='적용'
         cancelText='닫기'

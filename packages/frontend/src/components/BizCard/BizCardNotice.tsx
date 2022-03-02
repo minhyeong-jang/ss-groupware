@@ -1,11 +1,31 @@
+import { Popover } from "antd";
 import React, { FC } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+const ManagerPopover: FC = () => (
+  <StyledList $isPrefix>
+    <li>
+      프로덕트본부: <b>심미연</b>
+    </li>
+    <li>
+      마케팅실: <b>이수빈</b>
+    </li>
+    <li>
+      운영기획팀: <b>김다운</b>
+    </li>
+    <li>
+      영업팀, 비즈니스팀: <b>이형표</b>
+    </li>
+    <li>
+      고객경험팀: <b>황연진</b>
+    </li>
+  </StyledList>
+);
 export const BizCardNotice: FC = () => {
   return (
     <StyledContainer>
       <StyledTitle>유의사항</StyledTitle>
-      <StyledList>
+      <StyledList $isPrefix>
         <li>
           점심식대는 <b>본인 외 인원 수</b>를 입력해야합니다. ( 혼자 식사한 경우
           0을 입력해주세요. )
@@ -17,21 +37,41 @@ export const BizCardNotice: FC = () => {
           야근교통비는 <b>출발지, 도착지</b>를 입력해야합니다.
         </li>
       </StyledList>
+      <StyledTitle>지출결의서 결재 방법</StyledTitle>
+      <StyledList>
+        <li>1. 그룹웨어 전자결재 {"->"} 지출결의서 (법인카드) 이동</li>
+        <li>
+          2. 카드사용내역 n월 1일 ~ 말일 내역 검색 후 전체 선택 후 하단 반영버튼
+          클릭
+        </li>
+        <li>3. 등록된 항목 전체선택 후 우측 상단 결재상신</li>
+        <li>
+          4. 결재자 : 본인, 팀장&nbsp;{" / "}&nbsp;합의자 :{" "}
+          <Popover content={ManagerPopover}>
+            <b>
+              <u>지출결의서 합의자</u>
+            </b>
+          </Popover>
+          &nbsp;{" / "}&nbsp;수신참조 : 무신사-재무관리실
+        </li>
+        <li>5. 본문에 동의합니다 클릭 후 결재상신</li>
+      </StyledList>
     </StyledContainer>
   );
 };
-const StyledContainer = styled.div`
-  margin-top: 30px;
-`;
+const StyledContainer = styled.div``;
 const StyledTitle = styled.div`
   font-weight: bold;
   font-size: 16px;
+  margin: 30px 0 15px;
 `;
-const StyledList = styled.ul`
+const StyledList = styled.ul<{ $isPrefix?: boolean }>`
   color: #999;
   font-size: 14px;
-  margin-top: 15px;
 
+  u {
+    cursor: pointer;
+  }
   li {
     position: relative;
     margin-bottom: 8px;
@@ -41,11 +81,18 @@ const StyledList = styled.ul`
     line-height: 18px;
     word-break: keep-all;
 
-    &::before {
-      position: absolute;
-      left: 0px;
-      font-weight: bold;
-      content: "·";
-    }
+    ${({ $isPrefix }) =>
+      $isPrefix
+        ? css`
+            &::before {
+              position: absolute;
+              left: 0px;
+              font-weight: bold;
+              content: "·";
+            }
+          `
+        : css`
+            padding-left: 0;
+          `}
   }
 `;
