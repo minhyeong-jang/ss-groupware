@@ -37,9 +37,9 @@ export const BizCardNotice: FC = () => {
           야근교통비는 <b>출발지, 도착지</b>를 입력해야합니다.
         </li>
       </StyledList>
-      <StyledTitle>지출결의서 결재 방법</StyledTitle>
+      <StyledTitle>지출결의서 결재 상신</StyledTitle>
       <StyledList>
-        <li>1. 그룹웨어 전자결재 {"->"} 지출결의서 (법인카드) 이동</li>
+        <li>1. 그룹웨어 전자결재 {"->"} 지출결의서(법인카드) 이동</li>
         <li>
           2. 카드사용내역 n월 1일 ~ 말일 내역 검색 후 전체 선택 후 하단 반영버튼
           클릭
