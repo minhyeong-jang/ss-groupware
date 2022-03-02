@@ -57,7 +57,7 @@ const convertTimeToBizCardType = (
   }
 
   const hour = parseInt(authTime.slice(0, 2));
-  if (hour > 0 && hour < 6) {
+  if (hour >= 0 && hour <= 6) {
     return BizCardType.DRIVE;
   }
   if (hour < 15) {
