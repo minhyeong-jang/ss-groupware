@@ -1,9 +1,11 @@
 import { Popover } from "antd";
 import React, { FC } from "react";
 import styled, { css } from "styled-components";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const ManagerPopover: FC = () => (
   <StyledList $isPrefix>
+    <StyledInfo>본인이 속한 부서의 담당자를 합의자로 등록해주세요.</StyledInfo>
     <li>
       프로덕트본부: <b>심미연</b>
     </li>
@@ -53,7 +55,10 @@ export const BizCardNotice: FC = () => {
           4. 결재자 : 본인, 팀장&nbsp;<b>{" / "}</b>&nbsp;합의자 :{" "}
           <Popover content={ManagerPopover}>
             <b>
-              <u>담당부서 합의자</u>
+              <u>
+                담당부서 합의자
+                <QuestionCircleOutlined />
+              </u>
             </b>
           </Popover>
           &nbsp;<b>{" / "}</b>&nbsp;수신참조 : 무신사-재무관리실
@@ -78,6 +83,11 @@ const StyledList = styled.ul<{ $isPrefix?: boolean }>`
 
   u {
     cursor: pointer;
+  }
+  svg {
+    vertical-align: middle;
+    margin: -5px 0 0 3px;
+    font-weight: bold;
   }
   li {
     position: relative;
@@ -105,4 +115,10 @@ const StyledList = styled.ul<{ $isPrefix?: boolean }>`
 `;
 const StyledRed = styled.span`
   color: red;
+`;
+const StyledInfo = styled.div`
+  color: #1197f0;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14px;
 `;
