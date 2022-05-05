@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "styles";
 import "antd/dist/antd.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+export const createQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
+    },
+  });
 
 const App = ({ Component }: AppProps) => {
+  const queryClientRef = useRef(createQueryClient());
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -30,7 +44,9 @@ const App = ({ Component }: AppProps) => {
           }}
         ></script>
       </Head>
-      <Component />
+      <QueryClientProvider client={queryClientRef.current}>
+        <Component />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };
