@@ -67,6 +67,7 @@ export const pageLogin = async (page, userInfo: UserInfoModel) => {
                   }
                   response = {
                     code: 200,
+                    message: "로그인 되었습니다.",
                   };
                 },
                 error: () => {
@@ -79,7 +80,7 @@ export const pageLogin = async (page, userInfo: UserInfoModel) => {
             } else {
               response = {
                 code: 200,
-                message: "무신사랩!",
+                message: "로그인 되었습니다.",
               };
             }
           },

@@ -3,7 +3,14 @@ import * as express from "express";
 import * as cors from "cors";
 import "moment-timezone";
 import * as moment from "moment";
-import { postBizCardList, postBizCardSubmit, postCheckin } from "./apis";
+import {
+  postUserInfo,
+  postBizCardList,
+  postBizCardSubmit,
+  postCheckin,
+  postUserLogin,
+} from "./apis";
+import { userSession } from "./utils";
 moment.tz.setDefault("Asia/Seoul");
 
 const app = express();
@@ -13,6 +20,17 @@ app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
+// app.get("/user", (req, res) => {
+//   userSession(res, req).then((isOK) => {
+//     isOK && postUserInfo(res, req);
+//   });
+// });
+app.get("/session", (req, res) => {
+  userSession(res, req);
+});
+app.post("/login", (req, res) => {
+  postUserLogin(res, req.body);
+});
 app.post("/checkin", async (req, res) => {
   await postCheckin(res, req.body, "1");
 });
