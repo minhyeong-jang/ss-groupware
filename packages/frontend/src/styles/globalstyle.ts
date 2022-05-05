@@ -37,7 +37,7 @@ export const GlobalStyle = createGlobalStyle`
   2. Prevent adjustments of font size after orientation changes in iOS.
   */
 
-  html {
+  html, body {
     line-height: 1.2; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
   }

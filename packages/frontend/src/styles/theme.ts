@@ -1,6 +1,23 @@
 export const breakpoint = [375, 414, 768, 960, 1280];
 export const color = {
+  gray5: "#fcfcfd",
+  gray10: "#f0f1f4",
+  gray10_50: "rgba(240, 241, 244, 0.5)",
+  gray20: "#dadde0",
+  gray30: "#c9cdd2",
+  gray30_50: "rgba(201, 205, 210, 0.5)",
+  gray40: "#b2b8be",
+  gray40_50: "rgba(178, 184, 190, 0.5)",
+  gray50: "#99a1a8",
+  gray60: "#757d86",
+  gray70: "#50585f",
+  gray80: "#3a3e45",
+  gray90: "#21242a",
+  gray90_97: "rgba(33, 36, 42, 0.97)",
   gray100: "#131518",
+  gray100_50: "rgba(19, 21, 24, 0.5)",
+  point: "#4d00eb",
+  white: "#ffffff",
   blue: "#1890ff",
 };
 export const mediaQuery = {
