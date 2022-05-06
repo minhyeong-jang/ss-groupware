@@ -39,13 +39,6 @@ const createApiClient = () => {
   request.interceptors.request.use((config) => {
     return {
       ...config,
-      headers: {
-        ...(config.headers ?? {}),
-        "content-Type": "application/json",
-        Accept: "/",
-        "Cache-Control": "no-cache",
-        cookie: document.cookie,
-      },
       credentials: "same-origin",
       withCredentials: true,
     };
@@ -57,7 +50,6 @@ const createApiClient = () => {
       params?: Params
     ) {
       try {
-        console.log(request);
         const res = await request.get<Response>(url, {
           params,
         });

@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { BizCardContainer } from "./BizCardContainer";
 
 export const IndexContainer: FC = () => {
-  const [userInfo, setuserInfo] = useState<UserInfoSchema>({
+  const [userInfo, setUserInfo] = useState<UserInfoSchema>({
     id: "",
     pw: "",
     type: CompanyType.MUSINSA,
@@ -43,10 +43,12 @@ export const IndexContainer: FC = () => {
   };
 
   useEffect(() => {
+    // TODO : 세션스토리지나 쿠키로 변경
     const storage = localStorage.getItem("gw_musinsa_ss");
+    
     if (storage) {
       const { id, pw, type } = JSON.parse(storage);
-      setuserInfo({
+      setUserInfo({
         id: id || "",
         pw: pw || "",
         type: type || CompanyType.MUSINSA,
@@ -61,7 +63,7 @@ export const IndexContainer: FC = () => {
         <UserForm
           userInfo={userInfo}
           onChange={(key: string, value: string) =>
-            setuserInfo((prevState) => ({ ...prevState, [key]: value }))
+            setUserInfo((prevState) => ({ ...prevState, [key]: value }))
           }
         />
         <StyledButtonWrap>
@@ -78,7 +80,10 @@ const StyledContainer = styled.div`
   position: relative;
   min-height: 100vh;
   padding: 30px;
-  background: #dedede;
+  background-image: linear-gradient(137deg, #0d5afd85 0%, #ff730000 40%),
+    linear-gradient(225deg, #0dfd9c85 0%, #69a1ec00 40%),
+    linear-gradient(45deg, #0be3c985 0%, #ff64ff00 40%),
+    linear-gradient(270deg, #00d3fa, #0be3c9);
 `;
 const StyledFormWrap = styled.div`
   position: absolute;

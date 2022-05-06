@@ -7,12 +7,12 @@ import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 export const LoginContainer: FC = () => {
+  const { isLoading, hasSession, refetch, onLogin } = useUserInfo();
   const [userInfo, setUserInfo] = useState<UserInfoSchema>({
     id: "",
     pw: "",
     type: CompanyType.MUSINSA,
   });
-  const { isLoading, hasSession, refetch, onLogin } = useUserInfo();
 
   const checkUserInfo = async () => {
     if (!userInfo.id) {
@@ -53,7 +53,7 @@ export const LoginContainer: FC = () => {
         <StyledTitle>
           <StyledIcon>😢</StyledIcon> 로그인 후 이용 가능해요
         </StyledTitle>
-        {/* <StyledFormWrap> */}
+
         <UserForm
           userInfo={userInfo}
           onChange={(key: string, value: string) =>
@@ -63,7 +63,6 @@ export const LoginContainer: FC = () => {
         <StyledButton onClick={() => checkUserInfo()}>로그인</StyledButton>
 
         <StyledButton onClick={() => refetch()}>Test</StyledButton>
-        {/* </StyledFormWrap> */}
       </StyledPopupBody>
       {isLoading && <Loading />}
     </StyledPopup>

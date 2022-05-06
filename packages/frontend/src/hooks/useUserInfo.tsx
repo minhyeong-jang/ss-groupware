@@ -1,13 +1,20 @@
 import { message } from "antd";
-import { getUserSession, postUserLogin, PostUserLoginResponse } from "apis";
+import { getUserInfo, getUserSession, postUserLogin } from "apis";
 import { useMutation, useQuery } from "react-query";
 import { ErrorModel } from "schema";
 
 export const useUserInfo = () => {
   const { data: hasSession, refetch } = useQuery(
     "user/session",
-    getUserSession
+    getUserSession,
+    {
+      refetchInterval: 600000,
+    }
   );
+  const { data: userInfo } = useQuery("user/profile", getUserInfo, {
+    enabled: hasSession || false,
+  });
+  console.log(userInfo);
 
   const { mutateAsync: onLogin, isLoading: isLoginLoading } = useMutation(
     postUserLogin,
@@ -20,7 +27,9 @@ export const useUserInfo = () => {
       },
     }
   );
+
   return {
+    userInfo,
     hasSession,
     refetch,
     onLogin,

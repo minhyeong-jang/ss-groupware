@@ -25,11 +25,11 @@ app.use(
 app.use(express.urlencoded());
 app.use(express.json());
 
-// app.get("/user", (req, res) => {
-//   userSession(res, req).then((isOK) => {
-//     isOK && postUserInfo(res, req);
-//   });
-// });
+app.get("/profile", (req, res) => {
+  userSession(res, req).then((isOK) => {
+    isOK && postUserInfo(res, req);
+  });
+});
 app.get("/session", (req, res) => {
   userSession(res, req).then((isOK) => {
     isOK && res.send(true);

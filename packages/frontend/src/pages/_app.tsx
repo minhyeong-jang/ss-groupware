@@ -5,6 +5,10 @@ import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "styles";
 import "antd/dist/antd.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import moment from "moment";
+import "moment/locale/ko";
+
+moment.locale("ko");
 
 export const createQueryClient = () =>
   new QueryClient({
