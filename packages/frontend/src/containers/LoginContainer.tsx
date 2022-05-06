@@ -53,7 +53,6 @@ export const LoginContainer: FC = () => {
         <StyledTitle>
           <StyledIcon>😢</StyledIcon> 로그인 후 이용 가능해요
         </StyledTitle>
-
         <UserForm
           userInfo={userInfo}
           onChange={(key: string, value: string) =>

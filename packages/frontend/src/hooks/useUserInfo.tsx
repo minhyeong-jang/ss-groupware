@@ -17,9 +17,13 @@ export const useUserInfo = () => {
   } = useQuery("user/session", getUserSession, {
     refetchInterval: 600000,
   });
-  const { data: userInfo } = useQuery("user/profile", getUserInfo, {
-    enabled: hasSession || false,
-  });
+  const { data: userInfo, refetch: onProfileRefetch } = useQuery(
+    "user/profile",
+    getUserInfo,
+    {
+      enabled: hasSession || false,
+    }
+  );
 
   const { mutateAsync: onLogin, isLoading: isLoginLoading } = useMutation(
     postUserLogin,
@@ -36,6 +40,7 @@ export const useUserInfo = () => {
     postOfficeCheck,
     {
       onSuccess: (res) => {
+        onProfileRefetch();
         message.success(res.message);
       },
       onError: (error: ErrorDataModel) => {

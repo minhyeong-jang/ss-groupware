@@ -29,10 +29,15 @@ export const DashboardHeader: FC<Props> = ({ profile, workToday, onCheck }) => {
       )}
       {workToday.comeAt && !workToday.leaveAt && (
         <StyledWorkWrap>
-          <StyledNotice>🏠 오늘 하루도 고생했어요!</StyledNotice>
+          <StyledNotice>🏠 오늘 하루 업무를 마무리하고 퇴근해요!</StyledNotice>
           <StyledButton type='primary' onClick={() => onCheck("out")}>
             퇴근하기
           </StyledButton>
+        </StyledWorkWrap>
+      )}
+      {workToday.comeAt && workToday.leaveAt && (
+        <StyledWorkWrap>
+          <StyledNotice>👍 오늘 하루도 고생했어요!</StyledNotice>
         </StyledWorkWrap>
       )}
     </StyledContainer>
