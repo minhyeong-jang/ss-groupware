@@ -16,7 +16,12 @@ moment.tz.setDefault("Asia/Seoul");
 const app = express();
 const port = 5001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://www.ss-groupware.com"],
+    credentials: true,
+  })
+);
 app.use(express.urlencoded());
 app.use(express.json());
 
@@ -26,9 +31,12 @@ app.use(express.json());
 //   });
 // });
 app.get("/session", (req, res) => {
-  userSession(res, req);
+  userSession(res, req).then((isOK) => {
+    isOK && res.send(true);
+  });
 });
 app.post("/login", (req, res) => {
+  // console.log(req.headers["x-forwarded-for"] || req.socket.remoteAddress);
   postUserLogin(res, req.body);
 });
 app.post("/checkin", async (req, res) => {

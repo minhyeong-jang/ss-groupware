@@ -6,7 +6,7 @@ export const userSession = async (res: Response, req: Request) => {
     const cookieHeader = req?.headers.cookie;
     const filterCookie = cookieHeader
       .split("; ")
-      .filter((item) => ["JSESSIONID", "GWSESSIONID"].includes(item));
+      .filter((item) => item.match(/(GWSESSIONID)|(JSESSIONID)/));
 
     if (!filterCookie.length) {
       res.status(403).json({ message: "로그인이 필요합니다." });

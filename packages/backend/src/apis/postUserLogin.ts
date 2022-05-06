@@ -22,7 +22,7 @@ export const postUserLogin = async (
 
     const cookies = await page.cookies();
     cookies.map((cookie) => {
-      res.cookie(cookie.name, JSON.stringify(cookie));
+      res.cookie(cookie.name, cookie.value);
     });
 
     loginRes.code === 200

@@ -1,6 +1,6 @@
-import axios from "axios";
 import getConfig from "next/config";
 import { UserInfoSchema } from "schema";
+import { baseApi } from "./baseApi";
 const { publicRuntimeConfig } = getConfig();
 
 export interface PostUserLoginParams extends UserInfoSchema {}
@@ -8,5 +8,5 @@ export interface PostUserLoginResponse {
   message: string;
 }
 export const postUserLogin = (data: PostUserLoginParams) => {
-  return axios.post(`${publicRuntimeConfig.API_URL}/login`, data);
+  return baseApi.post<PostUserLoginResponse>(`/login`, data);
 };
