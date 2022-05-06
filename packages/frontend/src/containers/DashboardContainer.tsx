@@ -1,13 +1,12 @@
 import {
   BizHistoryCard,
   DashboardCard,
-  TodayWork,
+  TodayWorkCard,
   VacationCard,
   WeeklyWorkCard,
 } from "components/DashboardCard";
 import { DashboardHeader } from "components/DashboardHeader";
 import { useUserInfo } from "hooks";
-import { DashboardCardIcon } from "models";
 import { FC } from "react";
 import styled from "styled-components";
 
@@ -16,11 +15,12 @@ export const DashboardContainer: FC = () => {
 
   return (
     <StyledContainer>
-      <DashboardHeader />
+      <DashboardHeader
+        workToday={userInfo.workToday}
+        profile={userInfo.profile}
+      />
       <StyledCardWrap>
-        <DashboardCard icon={DashboardCardIcon.TIME} title='오늘의 출근'>
-          <TodayWork />
-        </DashboardCard>
+        <TodayWorkCard workToday={userInfo.workToday} />
         <WeeklyWorkCard restDay={userInfo?.restDay || 0} />
         <BizHistoryCard />
         <VacationCard restDay={userInfo?.restDay || 0} />
@@ -30,6 +30,8 @@ export const DashboardContainer: FC = () => {
 };
 const StyledContainer = styled.div`
   padding: 0;
+  max-width: 720px;
+  margin: 0 auto;
 `;
 const StyledCardWrap = styled.div`
   display: grid;
@@ -39,7 +41,7 @@ const StyledCardWrap = styled.div`
   ${({ theme }) => theme.mediaQuery.md} {
     grid-template-columns: repeat(2, 1fr);
   }
-  ${({ theme }) => theme.mediaQuery.lg} {
+  /* ${({ theme }) => theme.mediaQuery.lg} {
     grid-template-columns: repeat(3, 1fr);
-  } ;
+  } ; */
 `;

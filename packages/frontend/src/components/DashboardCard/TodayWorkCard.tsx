@@ -1,12 +1,17 @@
 import { Button, Progress } from "antd";
+import { DashboardCardIcon, UserInfoWorkTodayModel } from "models";
 import { FC } from "react";
 import styled from "styled-components";
 import { ContentLabel, ContentNotice } from "./ContentStyle";
+import { DashboardCard } from "./DashboardCard";
 
-export const TodayWork: FC = () => {
+interface Props {
+  workToday: UserInfoWorkTodayModel;
+}
+export const TodayWorkCard: FC<Props> = ({ workToday }) => {
   // TODO: 출퇴근 버튼 연동
   return (
-    <StyledContainer>
+    <DashboardCard icon={DashboardCardIcon.TIME} title='오늘의 출근'>
       <StyledContentWrap>
         <div>
           <ContentLabel>출근시간</ContentLabel>
@@ -30,7 +35,7 @@ export const TodayWork: FC = () => {
         }}
         percent={70}
       />
-    </StyledContainer>
+    </DashboardCard>
   );
 };
 const StyledContainer = styled.div``;

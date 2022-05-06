@@ -1,5 +1,6 @@
 import { message } from "antd";
 import { getUserInfo, getUserSession, postUserLogin } from "apis";
+import { convertUserInfoModel } from "models/userInfo.model";
 import { useMutation, useQuery } from "react-query";
 import { ErrorModel } from "schema";
 
@@ -29,7 +30,7 @@ export const useUserInfo = () => {
   );
 
   return {
-    userInfo,
+    userInfo: convertUserInfoModel(userInfo),
     hasSession,
     refetch,
     onLogin,
