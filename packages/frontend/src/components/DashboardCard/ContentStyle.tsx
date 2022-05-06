@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const ContentLabel = styled.div`
+export const ContentLabel = styled.label`
+  display: block;
   margin-bottom: 6px;
   font-size: 11px;
   color: ${({ theme }) => theme.color.gray50};

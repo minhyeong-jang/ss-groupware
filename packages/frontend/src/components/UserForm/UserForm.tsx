@@ -11,7 +11,7 @@ export const UserForm: FC<Props> = ({ userInfo, onChange }) => {
   return (
     <StyledContainer>
       <StyledInputWrap>
-        <StyledLabel>사업자</StyledLabel>
+        <StyledLabel>회사명</StyledLabel>
         <StyledSelect
           size='large'
           options={[
@@ -59,7 +59,7 @@ const StyledSelect = styled(Select)`
   width: 100%;
 `;
 const StyledLabel = styled.div`
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
 `;
 const StyledInput = styled(Input)`

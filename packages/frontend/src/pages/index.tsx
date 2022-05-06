@@ -1,10 +1,11 @@
-import { DashboardContainer, IndexContainer } from "containers";
+import { DashboardContainer, IndexContainer, LoginContainer } from "containers";
 import { FC } from "react";
 import styled from "styled-components";
 
 const index: FC = () => {
   return (
     <StyledPageLayout>
+      <LoginContainer />
       <DashboardContainer />
       {/* <IndexContainer /> */}
     </StyledPageLayout>

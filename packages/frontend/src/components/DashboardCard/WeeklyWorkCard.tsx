@@ -3,7 +3,7 @@ import { FC } from "react";
 import { ContentLabel, ContentDesc } from "./ContentStyle";
 import { DashboardCard } from "./DashboardCard";
 
-export const WeeklyWork: FC = () => {
+export const WeeklyWorkCard: FC = () => {
   return (
     <DashboardCard icon={DashboardCardIcon.RUN} title='주간 업무 시간'>
       <ContentLabel>근무시간</ContentLabel>
