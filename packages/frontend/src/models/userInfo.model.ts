@@ -1,4 +1,5 @@
 import { GetUserInfoResponse } from "apis";
+import moment from "moment";
 
 export interface UserInfoModel {
   restDay: number;
@@ -12,6 +13,7 @@ export interface UserInfoProfileModel {
 export interface UserInfoWorkTodayModel {
   comeAt: string;
   leaveAt: string;
+  progressPercent: number;
 }
 
 export const convertUserInfoModel = (
@@ -27,8 +29,26 @@ export const convertUserInfoModel = (
       workToday: {
         comeAt: "",
         leaveAt: "",
+        progressPercent: 0,
       },
     };
   }
-  return data;
+  const startTime = moment(data.workToday.comeAt, "YYYYMMDDHHmmss");
+  const endTime = moment(data.workToday.comeAt, "YYYYMMDDHHmmss").add(
+    9,
+    "hour"
+  );
+
+  return {
+    ...data,
+    workToday: {
+      comeAt: data.workToday.comeAt && startTime.format("HH:mm"),
+      leaveAt:
+        data.workToday.leaveAt &&
+        moment(data.workToday.leaveAt, "YYYYMMDDHHmmss").format("HH:mm"),
+      progressPercent: data.workToday.comeAt
+        ? (moment().diff(startTime) / endTime.diff(startTime)) * 100
+        : 0,
+    },
+  };
 };

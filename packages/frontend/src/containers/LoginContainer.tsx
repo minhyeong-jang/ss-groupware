@@ -7,7 +7,7 @@ import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 export const LoginContainer: FC = () => {
-  const { isLoading, hasSession, refetch, onLogin } = useUserInfo();
+  const { isLoading, isSessionLoading, hasSession, onLogin } = useUserInfo();
   const [userInfo, setUserInfo] = useState<UserInfoSchema>({
     id: "",
     pw: "",
@@ -43,7 +43,7 @@ export const LoginContainer: FC = () => {
     }
   }, []);
 
-  if (hasSession) {
+  if (hasSession || isSessionLoading) {
     return null;
   }
 
@@ -61,8 +61,6 @@ export const LoginContainer: FC = () => {
           }
         />
         <StyledButton onClick={() => checkUserInfo()}>로그인</StyledButton>
-
-        <StyledButton onClick={() => refetch()}>Test</StyledButton>
       </StyledPopupBody>
       {isLoading && <Loading />}
     </StyledPopup>

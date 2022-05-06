@@ -7,7 +7,10 @@ import { DashboardCard } from "./DashboardCard";
 
 export const BizHistoryCard: FC = () => {
   return (
-    <DashboardCard icon={DashboardCardIcon.BIZCARD} title='법인카드'>
+    <DashboardCard
+      icon={DashboardCardIcon.BIZCARD}
+      title='법인카드 ( 준비 중 )'
+    >
       <ContentLabel>카드 사용 금액</ContentLabel>
       <ContentDesc>120,000원</ContentDesc>
       <StyledButton size='small' type='primary'>

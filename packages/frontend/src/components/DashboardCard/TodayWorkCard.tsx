@@ -15,14 +15,14 @@ export const TodayWorkCard: FC<Props> = ({ workToday }) => {
       <StyledContentWrap>
         <div>
           <ContentLabel>출근시간</ContentLabel>
-          <StyledContentDesc>10:00</StyledContentDesc>
+          <StyledContentDesc>{workToday.comeAt || "준비 중"}</StyledContentDesc>
         </div>
         <StyledDivider>-</StyledDivider>
         <div>
           <ContentLabel>퇴근시간</ContentLabel>
-          <StyledButton size='small' type='primary'>
-            퇴근
-          </StyledButton>
+          <StyledContentDesc>
+            {workToday.leaveAt || (workToday.comeAt ? "업무 중" : "")}
+          </StyledContentDesc>
         </div>
       </StyledContentWrap>
       <ContentNotice>오늘 하루 힘내세요!</ContentNotice>
@@ -33,12 +33,11 @@ export const TodayWorkCard: FC<Props> = ({ workToday }) => {
           "0%": "#108ee9",
           "100%": "#87d068",
         }}
-        percent={70}
+        percent={workToday.progressPercent}
       />
     </DashboardCard>
   );
 };
-const StyledContainer = styled.div``;
 const StyledContentWrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -48,7 +47,7 @@ const StyledContentDesc = styled.div`
   color: ${({ theme }) => theme.color.gray100};
 `;
 const StyledDivider = styled.div`
-  margin: auto 12px;
+  margin: 20px 12px 0;
   font-size: 13px;
   color: ${({ theme }) => theme.color.gray50};
 `;
@@ -56,7 +55,4 @@ const StyledProgress = styled(Progress)`
   position: absolute;
   bottom: 32px;
   right: 16px;
-`;
-const StyledButton = styled(Button)`
-  font-size: 12px;
 `;

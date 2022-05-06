@@ -6,4 +6,5 @@ export * from "./getUserSession";
 export * from "./postBizCard";
 export * from "./postCheckin";
 export * from "./postCheckout";
+export * from "./postOfficeCheck";
 export * from "./postUserLogin";

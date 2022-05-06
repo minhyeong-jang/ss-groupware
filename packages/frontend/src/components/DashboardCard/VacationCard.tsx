@@ -8,7 +8,7 @@ interface Props {
 }
 const returnMessage = (restDay: number) => {
   if (restDay > 5) {
-    return "휴가 계획이 있나요?!";
+    return "휴가 계획이 있나요?";
   }
   if (restDay > 0) {
     return "비상🚨! 연말을 위해 아껴야해요.";

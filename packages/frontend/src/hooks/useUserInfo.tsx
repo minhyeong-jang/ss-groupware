@@ -1,21 +1,25 @@
 import { message } from "antd";
-import { getUserInfo, getUserSession, postUserLogin } from "apis";
+import {
+  getUserInfo,
+  getUserSession,
+  postUserLogin,
+  postOfficeCheck,
+  ErrorDataModel,
+} from "apis";
 import { convertUserInfoModel } from "models/userInfo.model";
 import { useMutation, useQuery } from "react-query";
-import { ErrorModel } from "schema";
 
 export const useUserInfo = () => {
-  const { data: hasSession, refetch } = useQuery(
-    "user/session",
-    getUserSession,
-    {
-      refetchInterval: 600000,
-    }
-  );
+  const {
+    data: hasSession,
+    isLoading: isSessionLoading,
+    refetch,
+  } = useQuery("user/session", getUserSession, {
+    refetchInterval: 600000,
+  });
   const { data: userInfo } = useQuery("user/profile", getUserInfo, {
     enabled: hasSession || false,
   });
-  console.log(userInfo);
 
   const { mutateAsync: onLogin, isLoading: isLoginLoading } = useMutation(
     postUserLogin,
@@ -23,8 +27,19 @@ export const useUserInfo = () => {
       onSuccess: (res) => {
         message.success(res.message);
       },
-      onError: (error: ErrorModel) => {
-        message.error(error.response?.data?.message);
+      onError: (error: ErrorDataModel) => {
+        message.error(error.message);
+      },
+    }
+  );
+  const { mutateAsync: onOfficeCheck, isLoading: isCheckLoading } = useMutation(
+    postOfficeCheck,
+    {
+      onSuccess: (res) => {
+        message.success(res.message);
+      },
+      onError: (error: ErrorDataModel) => {
+        message.error(error.message);
       },
     }
   );
@@ -32,8 +47,10 @@ export const useUserInfo = () => {
   return {
     userInfo: convertUserInfoModel(userInfo),
     hasSession,
+    onOfficeCheck,
     refetch,
     onLogin,
-    isLoading: isLoginLoading,
+    isSessionLoading,
+    isLoading: isLoginLoading || isCheckLoading || isSessionLoading,
   };
 };

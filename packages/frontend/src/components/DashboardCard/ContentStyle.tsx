@@ -15,7 +15,7 @@ export const ContentDesc = styled.div`
 export const ContentNotice = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.color.point};
-  margin-top: 12px;
+  margin-top: 16px;
 `;
 
 export const ContentBadge = styled.div``;

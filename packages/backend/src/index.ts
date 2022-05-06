@@ -9,6 +9,7 @@ import {
   postBizCardSubmit,
   postCheckin,
   postUserLogin,
+  postOfficeCheck,
 } from "./apis";
 import { userSession } from "./utils";
 moment.tz.setDefault("Asia/Seoul");
@@ -35,8 +36,13 @@ app.get("/session", (req, res) => {
     isOK && res.send(true);
   });
 });
-app.post("/login", (req, res) => {
+app.post("/office-check", (req, res) => {
   // console.log(req.headers["x-forwarded-for"] || req.socket.remoteAddress);
+  userSession(res, req).then((isOK) => {
+    isOK && postOfficeCheck(res, req, req.body.type);
+  });
+});
+app.post("/login", (req, res) => {
   postUserLogin(res, req.body);
 });
 app.post("/checkin", async (req, res) => {

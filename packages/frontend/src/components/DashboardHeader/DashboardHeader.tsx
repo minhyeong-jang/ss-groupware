@@ -7,8 +7,9 @@ import { Button } from "antd";
 interface Props {
   profile: UserInfoProfileModel;
   workToday: UserInfoWorkTodayModel;
+  onCheck(type: string): void;
 }
-export const DashboardHeader: FC<Props> = ({ profile, workToday }) => {
+export const DashboardHeader: FC<Props> = ({ profile, workToday, onCheck }) => {
   return (
     <StyledContainer>
       <StyledDate>{moment().format("M월 D일 dddd")}</StyledDate>
@@ -18,10 +19,20 @@ export const DashboardHeader: FC<Props> = ({ profile, workToday }) => {
         </b>
         님, 안녕하세요 :)
       </StyledName>
-      {workToday.comeAt && (
+      {!workToday.comeAt && (
         <StyledWorkWrap>
           <StyledNotice>🧑‍💻 오늘 하루 업무를 시작해볼까요?</StyledNotice>
-          <StyledButton type='primary'>업무 시작</StyledButton>
+          <StyledButton type='primary' onClick={() => onCheck("in")}>
+            출근하기
+          </StyledButton>
+        </StyledWorkWrap>
+      )}
+      {workToday.comeAt && !workToday.leaveAt && (
+        <StyledWorkWrap>
+          <StyledNotice>🏠 오늘 하루도 고생했어요!</StyledNotice>
+          <StyledButton type='primary' onClick={() => onCheck("out")}>
+            퇴근하기
+          </StyledButton>
         </StyledWorkWrap>
       )}
     </StyledContainer>
@@ -43,7 +54,7 @@ const StyledName = styled.div`
   margin-top: 8px;
 `;
 const StyledWorkWrap = styled.div`
-  margin-top: 8px;
+  margin-top: 24px;
 `;
 const StyledNotice = styled.div`
   font-size: 14px;
