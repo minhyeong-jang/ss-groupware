@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { Button, message } from "antd";
 import { Loading } from "components/@shared";
 import { UserForm } from "components/UserForm";
 import { useUserInfo } from "hooks";
@@ -59,7 +59,9 @@ export const LoginContainer: FC = () => {
             setUserInfo((prevState) => ({ ...prevState, [key]: value }))
           }
         />
-        <StyledButton onClick={() => checkUserInfo()}>로그인</StyledButton>
+        <StyledButton type='primary' onClick={() => checkUserInfo()}>
+          로그인
+        </StyledButton>
       </StyledPopupBody>
       {isLoading && <Loading />}
     </StyledPopup>
@@ -110,14 +112,11 @@ const StyledIcon = styled.div`
   font-size: 35px;
   margin-bottom: 8px;
 `;
-const StyledButton = styled.button<{ $color?: string }>`
+const StyledButton = styled(Button)<{ $color?: string }>`
   border-radius: 4px;
   width: 100%;
-  border: 1px solid white;
-  background: ${({ theme }) => theme.color.gray100};
-  color: white;
-  padding: 10px;
   outline: none;
   font-size: 14px;
-  border: 1px solid #dedede;
+  height: 36px;
+  padding: 0;
 `;

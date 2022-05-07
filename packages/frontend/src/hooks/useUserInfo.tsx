@@ -13,7 +13,7 @@ export const useUserInfo = () => {
   const {
     data: hasSession,
     isLoading: isSessionLoading,
-    refetch,
+    refetch: onSessionRefetch,
   } = useQuery("user/session", getUserSession, {
     refetchInterval: 600000,
   });
@@ -30,6 +30,8 @@ export const useUserInfo = () => {
     {
       onSuccess: (res) => {
         message.success(res.message);
+        onSessionRefetch();
+        onProfileRefetch();
       },
       onError: (error: ErrorDataModel) => {
         message.error(error.message);
@@ -53,7 +55,6 @@ export const useUserInfo = () => {
     userInfo: convertUserInfoModel(userInfo),
     hasSession,
     onOfficeCheck,
-    refetch,
     onLogin,
     isSessionLoading,
     isLoading: isLoginLoading || isCheckLoading || isSessionLoading,
