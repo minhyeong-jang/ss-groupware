@@ -38,9 +38,9 @@ export const DashboardContainer: FC = () => {
       />
       <StyledCardWrap>
         <TodayWorkCard workToday={userInfo.workToday} />
-        <VacationCard restDay={userInfo?.restDay || 0} />
-        <WeeklyWorkCard restDay={userInfo?.restDay || 0} />
-        <BizHistoryCard />
+        <VacationCard restDay={userInfo.restDay || 0} />
+        <BizHistoryCard totalPrice={userInfo.bizcardTotalPrice} />
+        <WeeklyWorkCard restDay={userInfo.restDay || 0} />
       </StyledCardWrap>
       <StyledDeveloper>Made by doriri</StyledDeveloper>
       {isLoading && <Loading />}

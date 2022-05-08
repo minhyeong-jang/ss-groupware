@@ -4,6 +4,7 @@ export interface GetUserInfoResponse {
   restDay: number;
   profile: GerUserInfoProfileSchema;
   workToday: GetUserInfoWorkTodaySchema;
+  bizcardTotalPrice: number;
 }
 export interface GerUserInfoProfileSchema {
   userName: string;

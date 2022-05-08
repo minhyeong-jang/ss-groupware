@@ -45,7 +45,7 @@ export const IndexContainer: FC = () => {
   useEffect(() => {
     // TODO : 세션스토리지나 쿠키로 변경
     const storage = localStorage.getItem("gw_musinsa_ss");
-    
+
     if (storage) {
       const { id, pw, type } = JSON.parse(storage);
       setUserInfo({

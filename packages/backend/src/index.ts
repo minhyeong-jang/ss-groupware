@@ -49,14 +49,19 @@ app.post("/office-check", (req, res) => {
     isOK && postOfficeCheck(res, req, req.body.type);
   });
 });
+app.post("/bizcard", async (req, res) => {
+  await postBizCardList(res, req.body);
+});
+// app.post("/bizcard-list", async (req, res) => {
+//   userSession(res, req).then((isOK) => {
+//     isOK && postBizCardList(res, req, req.body);
+//   });
+// });
 app.post("/checkin", async (req, res) => {
   await postCheckin(res, req.body, "1");
 });
 app.post("/checkout", async (req, res) => {
   await postCheckin(res, req.body, "4");
-});
-app.post("/bizcard", async (req, res) => {
-  await postBizCardList(res, req.body);
 });
 app.post("/bizcard/submit", async (req, res) => {
   await postBizCardSubmit(res, req.body);

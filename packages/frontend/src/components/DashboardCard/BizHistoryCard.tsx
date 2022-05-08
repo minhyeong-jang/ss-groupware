@@ -5,15 +5,19 @@ import styled from "styled-components";
 import { ContentDesc, ContentLabel } from "./ContentStyle";
 import { DashboardCard } from "./DashboardCard";
 
-export const BizHistoryCard: FC = () => {
+interface Props {
+  totalPrice: number;
+}
+export const BizHistoryCard: FC<Props> = ({ totalPrice }) => {
   return (
-    <DashboardCard
-      icon={DashboardCardIcon.BIZCARD}
-      title='법인카드 ( 준비 중 )'
-    >
+    <DashboardCard icon={DashboardCardIcon.BIZCARD} title='법인카드'>
       <ContentLabel>카드 사용 금액</ContentLabel>
-      <ContentDesc>120,000원</ContentDesc>
-      <StyledButton size='small' type='primary'>
+      <ContentDesc>{totalPrice?.toLocaleString()}원</ContentDesc>
+      <StyledButton
+        size='small'
+        type='primary'
+        onClick={() => window.open("https://slack-bot-groupware.vercel.app")}
+      >
         지출내역 작성
       </StyledButton>
     </DashboardCard>
