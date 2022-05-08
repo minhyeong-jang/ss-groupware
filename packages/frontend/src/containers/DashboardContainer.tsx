@@ -1,7 +1,6 @@
 import { Loading } from "components/@shared";
 import {
   BizHistoryCard,
-  DashboardCard,
   TodayWorkCard,
   VacationCard,
   WeeklyWorkCard,
@@ -57,8 +56,7 @@ const StyledDeveloper = styled.div`
   text-align: center;
   margin-top: 16px;
   font-size: 13px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.color.gray60};
+  color: #0d1652;
 `;
 const StyledCardWrap = styled.div`
   display: grid;

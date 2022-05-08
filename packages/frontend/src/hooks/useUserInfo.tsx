@@ -17,13 +17,13 @@ export const useUserInfo = () => {
   } = useQuery("user/session", getUserSession, {
     refetchInterval: 600000,
   });
-  const { data: userInfo, refetch: onProfileRefetch } = useQuery(
-    "user/profile",
-    getUserInfo,
-    {
-      enabled: hasSession || false,
-    }
-  );
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    refetch: onProfileRefetch,
+  } = useQuery("user/profile", getUserInfo, {
+    enabled: hasSession || false,
+  });
 
   const { mutateAsync: onLogin, isLoading: isLoginLoading } = useMutation(
     postUserLogin,
@@ -34,7 +34,7 @@ export const useUserInfo = () => {
         onProfileRefetch();
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error.message);
+        message.error(error.data.message);
       },
     }
   );
@@ -46,7 +46,7 @@ export const useUserInfo = () => {
         message.success(res.message);
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error.message);
+        message.error(error.data.message);
       },
     }
   );
@@ -57,6 +57,7 @@ export const useUserInfo = () => {
     onOfficeCheck,
     onLogin,
     isSessionLoading,
-    isLoading: isLoginLoading || isCheckLoading || isSessionLoading,
+    isLoading:
+      isLoginLoading || isCheckLoading || isSessionLoading || isUserInfoLoading,
   };
 };

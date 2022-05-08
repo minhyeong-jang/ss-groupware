@@ -1,18 +1,25 @@
 module.exports = {
   apps: [
     {
-      script: "yarn start:production",
       name: "FE - SS - MUSINSA",
+      script: "yarn build:production && yarn start:production",
       namespace: "default",
       env: {
+        // 앱의 env를 설정
+        NODE_ENV: "development",
         PORT: 5000,
       },
-      instances: 0,
+      env_production: {
+        NODE_ENV: "production",
+        PORT: 5000,
+      },
+      log_date_format: "YYYY-MM-DD HH:mm Z",
+      out_file: "logs/out.log",
+      instances: 2,
       merge_logs: true,
       vizion: true,
       autorestart: true,
       watch: false,
-      instance_var: "NODE_APP_INSTANCE",
       pmx: true,
       automation: true,
       treekill: true,

@@ -7,7 +7,7 @@ import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 export const LoginContainer: FC = () => {
-  const { isLoading, isSessionLoading, hasSession, onLogin } = useUserInfo();
+  const { isLoading, hasSession, onLogin } = useUserInfo();
   const [userInfo, setUserInfo] = useState<UserInfoSchema>({
     id: "",
     pw: "",
@@ -43,7 +43,7 @@ export const LoginContainer: FC = () => {
     }
   }, []);
 
-  if (hasSession || isSessionLoading) {
+  if (hasSession) {
     return null;
   }
 

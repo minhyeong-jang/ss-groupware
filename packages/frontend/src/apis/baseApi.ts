@@ -8,6 +8,9 @@ export interface ErrorDataModel {
   description: string;
   message: string;
   name: string;
+  data: {
+    message: string;
+  };
 }
 
 export interface ErrorModel<T = ErrorDataModel> {

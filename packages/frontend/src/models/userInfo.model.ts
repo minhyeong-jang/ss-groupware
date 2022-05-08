@@ -16,22 +16,23 @@ export interface UserInfoWorkTodayModel {
   progressPercent: number;
 }
 
+export const initUserInfoModel: UserInfoModel = {
+  restDay: 0,
+  profile: {
+    userName: "",
+    deptName: "",
+  },
+  workToday: {
+    comeAt: "",
+    leaveAt: "",
+    progressPercent: 0,
+  },
+};
 export const convertUserInfoModel = (
   data?: GetUserInfoResponse
 ): UserInfoModel => {
   if (!data) {
-    return {
-      restDay: 0,
-      profile: {
-        userName: "",
-        deptName: "",
-      },
-      workToday: {
-        comeAt: "",
-        leaveAt: "",
-        progressPercent: 0,
-      },
-    };
+    return initUserInfoModel;
   }
   const startTime = moment(data.workToday.comeAt, "YYYYMMDDHHmmss");
   const endTime = moment(data.workToday.comeAt, "YYYYMMDDHHmmss").add(
