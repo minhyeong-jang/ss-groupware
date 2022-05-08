@@ -1,5 +1,4 @@
 import { Button, message } from "antd";
-import { Loading } from "components/@shared";
 import { UserForm } from "components/UserForm";
 import { useUserInfo } from "hooks";
 import { FC, useEffect, useState } from "react";
@@ -7,7 +6,7 @@ import { CompanyType, UserInfoSchema } from "schema";
 import styled from "styled-components";
 
 export const LoginContainer: FC = () => {
-  const { isLoading, hasSession, onLogin } = useUserInfo();
+  const { hasSession, isSessionLoading, onLogin } = useUserInfo();
   const [userInfo, setUserInfo] = useState<UserInfoSchema>({
     id: "",
     pw: "",
@@ -43,7 +42,8 @@ export const LoginContainer: FC = () => {
     }
   }, []);
 
-  if (hasSession) {
+  console.log(hasSession);
+  if (hasSession || isSessionLoading) {
     return null;
   }
 
@@ -63,7 +63,6 @@ export const LoginContainer: FC = () => {
           로그인
         </StyledButton>
       </StyledPopupBody>
-      {isLoading && <Loading />}
     </StyledPopup>
   );
 };
