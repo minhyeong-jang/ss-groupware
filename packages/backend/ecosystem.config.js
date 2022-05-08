@@ -7,7 +7,7 @@ module.exports = {
       autorestart: true, // 앱 크러쉬 등으로 인해 앱이 종료될 때 재시작할지 여부 (default: true)
       watch: false, // 폴더 내의 파일에 변경이 있을때, 앱이 리로딩 여부
       max_memory_restart: "512M",
-      exec_mode: "cluster",
+      exec_mode: "fork",
       env: {
         NODE_ENV: "development",
       },
