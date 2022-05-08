@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "FE - SS - MUSINSA",
-      script: "yarn && yarn run build:production && yarn start:production",
+      script: "yarn start:production",
       max_memory_restart: "256M",
       env: {
         // 앱의 env를 설정
@@ -17,7 +17,7 @@ module.exports = {
       out_file: "logs/out.log",
       instances: 1,
       autorestart: true,
-      watch: true,
+      watch: false, // 폴더 내의 파일에 변경이 있을때, 앱이 리로딩 여부
       // merge_logs: true,
       // vizion: true,
       // pmx: true,
