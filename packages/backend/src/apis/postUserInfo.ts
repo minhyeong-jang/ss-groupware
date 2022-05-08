@@ -65,6 +65,10 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
       0
     );
 
+    const isToday =
+      moment().subtract(7, "h").format("YYYYMMDD") ===
+      workRes.result.resultList?.[0]?.attDate;
+
     res.send({
       restDay: restRes.result[0].restAnnvDayCnt,
       profile: {
@@ -72,8 +76,8 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         deptName: userRes.result.deptName,
       },
       workToday: {
-        comeAt: workRes.result.resultList[0].comeDt,
-        leaveAt: workRes.result.resultList[0].leaveDt,
+        comeAt: isToday ? workRes.result.resultList?.[0].comeDt : "",
+        leaveAt: isToday ? workRes.result.resultList?.[0].leaveDt : "",
       },
       bizcardTotalPrice,
     });

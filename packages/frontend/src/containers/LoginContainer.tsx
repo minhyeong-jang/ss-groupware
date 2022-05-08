@@ -42,7 +42,6 @@ export const LoginContainer: FC = () => {
     }
   }, []);
 
-  console.log(hasSession);
   if (hasSession || isSessionLoading) {
     return null;
   }

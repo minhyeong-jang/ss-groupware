@@ -15,7 +15,7 @@ export const TodayWorkCard: FC<Props> = ({ workToday }) => {
       <StyledContentWrap>
         <div>
           <ContentLabel>출근시간</ContentLabel>
-          <StyledContentDesc>{workToday.comeAt || "준비 중"}</StyledContentDesc>
+          <StyledContentDesc>{workToday.comeAt || "출근 중"}</StyledContentDesc>
         </div>
         <StyledDivider>-</StyledDivider>
         <div>
