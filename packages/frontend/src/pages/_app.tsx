@@ -28,7 +28,7 @@ const App = ({ Component }: AppProps) => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Head>
-        <title>무신사 - 스타일쉐어</title>
+        <title>스타일쉐어 - 그룹웨어</title>
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
