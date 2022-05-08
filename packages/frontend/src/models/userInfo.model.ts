@@ -50,7 +50,7 @@ export const convertUserInfoModel = (
         data.workToday.leaveAt &&
         moment(data.workToday.leaveAt, "YYYYMMDDHHmmss").format("HH:mm"),
       progressPercent: data.workToday.comeAt
-        ? (moment().diff(startTime) / endTime.diff(startTime)) * 100
+        ? Math.round((moment().diff(startTime) / endTime.diff(startTime)) * 100)
         : 0,
     },
   };

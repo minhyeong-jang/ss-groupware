@@ -55,4 +55,8 @@ const StyledProgress = styled(Progress)`
   position: absolute;
   bottom: 32px;
   right: 16px;
+
+  .ant-progress-text {
+    font-size: 13px !important;
+  }
 `;
