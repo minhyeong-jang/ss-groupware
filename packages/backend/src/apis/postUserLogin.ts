@@ -1,5 +1,4 @@
 import { Response } from "express";
-import { ResponseModel } from "../types";
 import { UserInfoModel } from "../types/user";
 import { pageLogin } from "../utils";
 import { launchSetting } from "../utils/puppeteer";

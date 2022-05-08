@@ -1,7 +1,5 @@
-import getConfig from "next/config";
 import { UserInfoSchema } from "schema";
 import { baseApi } from "./baseApi";
-const { publicRuntimeConfig } = getConfig();
 
 export interface PostUserLoginParams extends UserInfoSchema {}
 export interface PostUserLoginResponse {

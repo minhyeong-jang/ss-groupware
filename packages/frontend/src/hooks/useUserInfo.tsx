@@ -34,7 +34,7 @@ export const useUserInfo = () => {
         onProfileRefetch();
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error.data.message);
+        message.error(error?.data?.message || error.message);
       },
     }
   );
@@ -46,7 +46,7 @@ export const useUserInfo = () => {
         message.success(res.message);
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error.data.message);
+        message.error(error?.data?.message || error.message);
       },
     }
   );

@@ -19,7 +19,11 @@ const port = 5001;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "*://*.ss-groupware.com"],
+    origin: [
+      "http://local.ss-groupware.com:3000",
+      "https://www.ss-groupware.com",
+      "https://ss-groupware.com",
+    ],
     credentials: true,
   })
 );
@@ -36,14 +40,14 @@ app.get("/session", (req, res) => {
     isOK && res.send(true);
   });
 });
+app.post("/login", (req, res) => {
+  postUserLogin(res, req.body);
+});
 app.post("/office-check", (req, res) => {
   // console.log(req.headers["x-forwarded-for"] || req.socket.remoteAddress);
   userSession(res, req).then((isOK) => {
     isOK && postOfficeCheck(res, req, req.body.type);
   });
-});
-app.post("/login", (req, res) => {
-  postUserLogin(res, req.body);
 });
 app.post("/checkin", async (req, res) => {
   await postCheckin(res, req.body, "1");
