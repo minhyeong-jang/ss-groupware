@@ -4,7 +4,7 @@ module.exports = {
       name: "FE - SS - MUSINSA",
       script: "yarn start:production",
       max_memory_restart: "512M",
-      exec_mode: "cluster",
+      exec_mode: "fork",
       env: {
         // 앱의 env를 설정
         NODE_ENV: "development",
