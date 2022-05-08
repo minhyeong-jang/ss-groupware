@@ -19,15 +19,6 @@ module.exports = {
       instances: 1,
       autorestart: true,
       watch: false, // 폴더 내의 파일에 변경이 있을때, 앱이 리로딩 여부
-      // merge_logs: true,
-      // vizion: true,
-      // pmx: true,
-      // automation: true,
-      // treekill: true,
-      // username: "react",
-      // windowsHide: true,
-      // kill_retry_time: 100,
-      // write: true,
     },
   ],
 };

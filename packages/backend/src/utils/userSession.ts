@@ -10,6 +10,7 @@ export const userSession = async (res: Response, req: Request) => {
 
     if (!filterCookie.length) {
       res.status(403).json({ message: "로그인이 필요합니다." });
+      return false;
     }
 
     const options = {
@@ -23,9 +24,11 @@ export const userSession = async (res: Response, req: Request) => {
     const response = await request.post(options);
     if (!response?.isAuthenticated) {
       res.status(403).json({ message: "로그인이 필요합니다." });
+      return false;
     }
     return true;
   } catch (e) {
     res.status(403).json({ message: "로그인이 필요합니다." });
+    return false;
   }
 };

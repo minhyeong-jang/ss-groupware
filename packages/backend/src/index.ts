@@ -19,7 +19,7 @@ const port = 5001;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://www.ss-groupware.com"],
+    origin: ["http://localhost:3000", "*://*.ss-groupware.com"],
     credentials: true,
   })
 );
