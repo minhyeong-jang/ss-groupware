@@ -1,4 +1,4 @@
-import { Button, Progress } from "antd";
+import { Progress } from "antd";
 import { DashboardCardIcon, UserInfoWorkTodayModel } from "models";
 import { FC } from "react";
 import styled from "styled-components";
