@@ -37,12 +37,16 @@ export const useUserInfo = () => {
     postUserLogin,
     {
       onSuccess: (res) => {
-        message.success(res.message);
         onSessionRefetch();
         onProfileRefetch();
+        message.success(res.message);
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error?.data?.message || error.message);
+        if (error?.code === 403) {
+          onSessionRefetch();
+        } else {
+          message.error(error?.data?.message || error.message);
+        }
       },
     }
   );
@@ -54,7 +58,11 @@ export const useUserInfo = () => {
         message.success(res.message);
       },
       onError: (error: ErrorDataModel) => {
-        message.error(error?.data?.message || error.message);
+        if (error?.code === 403) {
+          onSessionRefetch();
+        } else {
+          message.error(error?.data?.message || error.message);
+        }
       },
     }
   );

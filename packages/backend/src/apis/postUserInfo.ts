@@ -51,7 +51,7 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
     });
 
     // 법인카드 사용 금액
-    const bizcardList = await request.post({
+    const bizCardList = await request.post({
       ...requestHeaders,
       url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
       formData: {
@@ -60,7 +60,7 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         searchToDate: moment().endOf("month").format("YYYYMMDD"),
       },
     });
-    const bizcardTotalPrice = bizcardList.aaData.reduce(
+    const bizCardTotalPrice = bizCardList.aaData.reduce(
       (curr, next) => curr + next.requestAmount,
       0
     );
@@ -79,7 +79,7 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         comeAt: isToday ? workRes.result.resultList?.[0].comeDt : "",
         leaveAt: isToday ? workRes.result.resultList?.[0].leaveDt : "",
       },
-      bizcardTotalPrice,
+      bizCardTotalPrice,
     });
   } catch (err) {
     console.log(err);

@@ -7,11 +7,13 @@ import {
 } from "components/DashboardCard";
 import { DashboardHeader } from "components/DashboardHeader";
 import { useUserInfo } from "hooks";
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
+import { BizCardContainer } from "./BizCardContainer";
 
 export const DashboardContainer: FC = () => {
   const { isLoading, onOfficeCheck, userInfo } = useUserInfo();
+  const [visibleBizCard, setVisibleBizCard] = useState(false);
 
   const onCheck = async (type: string) => {
     switch (type) {
@@ -39,11 +41,20 @@ export const DashboardContainer: FC = () => {
       <StyledCardWrap>
         <TodayWorkCard workToday={userInfo.workToday} />
         <VacationCard restDay={userInfo.restDay || 0} />
-        <BizHistoryCard totalPrice={userInfo.bizcardTotalPrice} />
+        <BizHistoryCard
+          onVisibleModal={() => setVisibleBizCard(true)}
+          totalPrice={userInfo.bizCardTotalPrice}
+        />
         <WeeklyWorkCard restDay={userInfo.restDay || 0} />
       </StyledCardWrap>
       <StyledDeveloper>Made by doriri</StyledDeveloper>
       {isLoading && <Loading />}
+      {visibleBizCard && (
+        <BizCardContainer
+          onClose={() => setVisibleBizCard(false)}
+          userName={userInfo.profile.userName}
+        />
+      )}
     </StyledContainer>
   );
 };

@@ -5,7 +5,7 @@ export interface UserInfoModel {
   restDay: number;
   profile: UserInfoProfileModel;
   workToday: UserInfoWorkTodayModel;
-  bizcardTotalPrice: number;
+  bizCardTotalPrice: number;
 }
 export interface UserInfoProfileModel {
   userName: string;
@@ -28,7 +28,7 @@ export const initUserInfoModel: UserInfoModel = {
     leaveAt: "",
     progressPercent: 0,
   },
-  bizcardTotalPrice: 0,
+  bizCardTotalPrice: 0,
 };
 export const convertUserInfoModel = (
   data?: GetUserInfoResponse

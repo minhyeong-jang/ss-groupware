@@ -50,13 +50,10 @@ app.post("/office-check", (req, res) => {
   });
 });
 app.post("/bizcard", async (req, res) => {
-  await postBizCardList(res, req.body);
+  userSession(res, req).then((isOK) => {
+    isOK && postBizCardList(res, req, req.body);
+  });
 });
-// app.post("/bizcard-list", async (req, res) => {
-//   userSession(res, req).then((isOK) => {
-//     isOK && postBizCardList(res, req, req.body);
-//   });
-// });
 app.post("/checkin", async (req, res) => {
   await postCheckin(res, req.body, "1");
 });

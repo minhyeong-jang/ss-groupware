@@ -7,17 +7,14 @@ import { DashboardCard } from "./DashboardCard";
 
 interface Props {
   totalPrice: number;
+  onVisibleModal(): void;
 }
-export const BizHistoryCard: FC<Props> = ({ totalPrice }) => {
+export const BizHistoryCard: FC<Props> = ({ totalPrice, onVisibleModal }) => {
   return (
     <DashboardCard icon={DashboardCardIcon.BIZCARD} title='법인카드'>
       <ContentLabel>카드 사용 금액</ContentLabel>
       <ContentDesc>{totalPrice?.toLocaleString()}원</ContentDesc>
-      <StyledButton
-        size='small'
-        type='primary'
-        onClick={() => window.open("https://slack-bot-groupware.vercel.app")}
-      >
+      <StyledButton type='primary' onClick={onVisibleModal}>
         지출내역 작성
       </StyledButton>
     </DashboardCard>

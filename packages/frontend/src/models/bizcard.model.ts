@@ -1,4 +1,4 @@
-import { GetBizCardItemSchema } from "apis";
+import { GetBizCardListResponse } from "apis";
 
 export interface BizCardModel {
   syncId: number;
@@ -16,10 +16,10 @@ export enum BizCardType {
   "DRIVE" = "야근교통비",
 }
 
-export const toBizCardUiModel = (
-  data: GetBizCardItemSchema[]
-): BizCardModel[] => {
-  return data
+export const toBizCardUiModel = ({
+  bizCardList,
+}: GetBizCardListResponse): BizCardModel[] => {
+  return bizCardList
     .map((item) => ({
       syncId: item.syncId,
       name: `[${item.mercName}] - ${item.mccName}`,
