@@ -70,7 +70,7 @@ export const IndexContainer: FC = () => {
           <StyledButton onClick={() => onButtonClick("in")}>출근</StyledButton>
           <StyledButton onClick={() => onButtonClick("out")}>퇴근</StyledButton>
         </StyledButtonWrap>
-        <BizCardContainer userInfo={userInfo} onCheckUserInfo={checkUserInfo} />
+        {/* <BizCardContainer onCheckUserInfo={checkUserInfo} /> */}
       </StyledFormWrap>
       {loading && <Loading />}
     </StyledContainer>
