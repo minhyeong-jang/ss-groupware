@@ -42,8 +42,12 @@ const App = ({ Component }: AppProps) => {
           }
           property='og:image'
         />
-        <meta content='출퇴근 관리' property='description' />
-        <meta content='출퇴근 관리' property='og:description' />
+        <meta content='스타일쉐어 출퇴근 관리' property='description' />
+        <meta content='스타일쉐어 출퇴근 관리' property='og:description' />
+        <meta
+          name='apple-mobile-web-app-status-bar-style'
+          content='black-translucent'
+        ></meta>
         <script
           async
           src='https://www.googletagmanager.com/gtag/js?id=G-BQ3F25MPVG'

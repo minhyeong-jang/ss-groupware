@@ -40,6 +40,11 @@ export const GlobalStyle = createGlobalStyle`
   html, body {
     line-height: 1.2; /* 1 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    height: initial;
+    background-image: linear-gradient(137deg, #0d5afd85 0%, #ff730000 40%),
+      linear-gradient(225deg, #0dfd9c85 0%, #69a1ec00 40%),
+      linear-gradient(45deg, #0be3c985 0%, #ff64ff00 40%),
+      linear-gradient(270deg, #00d3fa, #0be3c9);
   }
 
   /*
@@ -501,5 +506,11 @@ Remove the margin in all browsers.
 
   .ant-message .anticon {
     vertical-align: text-top;
+  }
+  .ant-modal {
+    top: 60px;
+  }
+  .ant-modal-body {
+    padding: 16px;
   }
 `;
