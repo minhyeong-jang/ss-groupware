@@ -23,13 +23,13 @@ export const LoginContainer: FC = () => {
       message.error("패스워드를 입력해주세요.");
       return false;
     }
-    sessionStorage.setItem("gw_musinsa_ss", JSON.stringify(userInfo));
+    localStorage.setItem("gw_musinsa_ss", JSON.stringify(userInfo));
     onLogin(userInfo);
   };
 
   useEffect(() => {
     try {
-      const storage = sessionStorage.getItem("gw_musinsa_ss");
+      const storage = localStorage.getItem("gw_musinsa_ss");
       if (storage) {
         const { id, pw, type } = JSON.parse(storage);
         setUserInfo({
@@ -39,7 +39,7 @@ export const LoginContainer: FC = () => {
         });
       }
     } catch {
-      sessionStorage.removeItem("gw_musinsa_ss");
+      localStorage.removeItem("gw_musinsa_ss");
     }
   }, []);
 

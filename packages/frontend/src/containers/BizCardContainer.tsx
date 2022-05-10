@@ -55,7 +55,7 @@ export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
       id: userName,
     });
 
-    const storage = sessionStorage.getItem("gw_musinsa_ss");
+    const storage = localStorage.getItem("gw_musinsa_ss");
     if (storage) {
       const { id, pw, type } = JSON.parse(storage);
       const res = await onUpdateMemo({
@@ -76,9 +76,12 @@ export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
   };
 
   useEffect(() => {
-    onSearchList();
     message.info("지출결의서 가이드라인이 추가되었습니다.", 8);
   }, []);
+
+  useEffect(() => {
+    onSearchList();
+  }, [selectedMonth]);
 
   return (
     <>
