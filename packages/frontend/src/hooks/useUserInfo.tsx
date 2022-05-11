@@ -16,6 +16,7 @@ export const useUserInfo = () => {
     data: hasSession,
     isLoading: isSessionLoading,
     refetch: onSessionRefetch,
+    isRefetching: isSessionRefetching,
   } = useQuery("user/session", getUserSession, {
     refetchInterval: 600000,
     onError: () => {
@@ -26,6 +27,7 @@ export const useUserInfo = () => {
     data: userInfo,
     isLoading: isUserInfoLoading,
     refetch: onProfileRefetch,
+    isRefetching: isUserInfoRefetching,
   } = useQuery("user/profile", getUserInfo, {
     enabled: hasSession || false,
     onError: () => {
@@ -75,6 +77,11 @@ export const useUserInfo = () => {
     onLogin,
     isSessionLoading,
     isLoading:
-      isLoginLoading || isCheckLoading || isSessionLoading || isUserInfoLoading,
+      isLoginLoading ||
+      isCheckLoading ||
+      isSessionLoading ||
+      isUserInfoLoading ||
+      isSessionRefetching ||
+      isUserInfoRefetching,
   };
 };
