@@ -30,8 +30,12 @@ export const useUserInfo = () => {
     isRefetching: isUserInfoRefetching,
   } = useQuery("user/profile", getUserInfo, {
     enabled: hasSession || false,
-    onError: () => {
-      onSessionRefetch();
+    onError: (error: ErrorDataModel) => {
+      if (error?.code === 403) {
+        onSessionRefetch();
+      } else {
+        message.error(error?.data?.message || error.message);
+      }
     },
   });
 

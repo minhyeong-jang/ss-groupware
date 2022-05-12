@@ -70,7 +70,7 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
       workRes.result.resultList?.[0]?.attDate;
 
     res.send({
-      restDay: restRes.result[0].restAnnvDayCnt,
+      restDay: restRes.result?.[0]?.restAnnvDayCnt || 0,
       profile: {
         userName: userRes.result.empName,
         deptName: userRes.result.deptName,
