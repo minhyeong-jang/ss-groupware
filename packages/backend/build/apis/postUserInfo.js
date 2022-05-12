@@ -14,7 +14,7 @@ const constants_1 = require("../constants");
 const moment = require("moment");
 const request = require("request-promise-native");
 const postUserInfo = (res, { headers }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     try {
         const requestHeaders = {
             method: "POST",
@@ -52,14 +52,14 @@ const postUserInfo = (res, { headers }) => __awaiter(void 0, void 0, void 0, fun
         const isToday = moment().subtract(7, "h").format("YYYYMMDD") ===
             ((_b = (_a = workRes.result.resultList) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.attDate);
         res.send({
-            restDay: restRes.result[0].restAnnvDayCnt,
+            restDay: ((_d = (_c = restRes.result) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.restAnnvDayCnt) || 0,
             profile: {
                 userName: userRes.result.empName,
                 deptName: userRes.result.deptName,
             },
             workToday: {
-                comeAt: isToday ? (_c = workRes.result.resultList) === null || _c === void 0 ? void 0 : _c[0].comeDt : "",
-                leaveAt: isToday ? (_d = workRes.result.resultList) === null || _d === void 0 ? void 0 : _d[0].leaveDt : "",
+                comeAt: isToday ? (_e = workRes.result.resultList) === null || _e === void 0 ? void 0 : _e[0].comeDt : "",
+                leaveAt: isToday ? (_f = workRes.result.resultList) === null || _f === void 0 ? void 0 : _f[0].leaveDt : "",
             },
             bizCardTotalPrice,
         });
