@@ -65,9 +65,11 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
       0
     );
 
-    const isToday =
-      moment().subtract(7, "h").format("YYYYMMDD") ===
-      workRes.result.resultList?.[0]?.attDate;
+    const filterToday = workRes.result.resultList.filter((item) =>
+      moment().isAfter(moment(item.attDate, "YYYYMMDD"))
+    )[0];
+    const isTodayWork =
+      moment().subtract(6, "h").format("YYYYMMDD") === filterToday?.attDate;
 
     res.send({
       restDay: restRes.result?.[0]?.restAnnvDayCnt || 0,
@@ -76,8 +78,8 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         deptName: userRes.result.deptName,
       },
       workToday: {
-        comeAt: isToday ? workRes.result.resultList?.[0].comeDt : "",
-        leaveAt: isToday ? workRes.result.resultList?.[0].leaveDt : "",
+        comeAt: isTodayWork ? filterToday.comeDt : "",
+        leaveAt: isTodayWork ? filterToday.leaveDt : "",
       },
       bizCardTotalPrice,
     });
