@@ -19,13 +19,13 @@ export const DashboardContainer: FC = () => {
     switch (type) {
       case "in":
         window?.gtag("event", "click_check_in", {
-          id: userInfo.profile.userName,
+          id: `${userInfo.profile.deptName}_${userInfo.profile.userName}`,
         });
         await onOfficeCheck({ type: "1" });
         break;
       case "out":
         window?.gtag("event", "click_check_out", {
-          id: userInfo.profile.userName,
+          id: `${userInfo.profile.deptName}_${userInfo.profile.userName}`,
         });
         await onOfficeCheck({ type: "4" });
         break;
