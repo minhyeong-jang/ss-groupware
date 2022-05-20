@@ -4,4 +4,5 @@ export enum DashboardCardIcon {
   BIZCARD = "💳",
   RUN = "🏃",
   VACATION = "🏖",
+  NOTICE = "🌈",
 }

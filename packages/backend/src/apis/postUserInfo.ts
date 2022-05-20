@@ -43,10 +43,10 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         endDate: moment().endOf("month").format("YYYYMMDD"),
         page: 1,
         pageNum: 1,
-        pageSize: 31,
+        pageSize: 40,
         skip: 0,
         startDate: moment().startOf("month").format("YYYYMMDD"),
-        take: 10,
+        take: 40,
       },
     });
 
@@ -65,11 +65,85 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
       0
     );
 
-    const filterToday = workRes.result.resultList.filter((item) =>
+    const filterAfterDate = workRes.result.resultList.filter((item) =>
       moment().isAfter(moment(item.attDate, "YYYYMMDD"))
-    )[0];
+    );
     const isTodayWork =
-      moment().subtract(6, "h").format("YYYYMMDD") === filterToday?.attDate;
+      moment().subtract(6, "h").format("YYYYMMDD") ===
+      filterAfterDate?.[0]?.attDate;
+
+    const workDateCount = filterAfterDate.reduce(
+      (prev, curr) =>
+        prev +
+        (curr.attItemName === "출퇴근" &&
+        curr.attDivName !== "휴일출근" &&
+        curr.week !== "토" &&
+        curr.week !== "일"
+          ? 1
+          : 0),
+      0
+    );
+    const monthlyWorking = workRes.result.resultList.reduce(
+      (prev, curr) => {
+        let leaveDt = null;
+        if (curr.attItemName !== "출퇴근") {
+          return {
+            ...prev,
+            notices: [
+              ...prev.notices,
+              {
+                date: curr.attDate,
+                message: `${curr.attItemName}`,
+              },
+            ],
+          };
+        }
+        if (moment().subtract(6, "h").format("YYYYMMDD") === curr.attDate) {
+          if (curr.comeDt === "") {
+            return prev;
+          } else if (curr.leaveDt === "") {
+            leaveDt = moment();
+          }
+        } else if (curr.comeDt === "" || curr.leaveDt === "") {
+          return {
+            ...prev,
+            notices: [
+              ...prev.notices,
+              {
+                date: curr.attDate,
+                message: `${curr.comeDt === "" ? "출" : ""}${
+                  curr.leaveDt === "" ? "퇴" : ""
+                }근 누락`,
+              },
+            ],
+          };
+        } else {
+          leaveDt = moment(curr.leaveDt, "YYYYMMDDHHmmss");
+        }
+
+        const workHour =
+          moment
+            .duration(leaveDt.diff(moment(curr.comeDt, "YYYYMMDDHHmmss")))
+            .asMinutes() - (curr.attItemName !== "휴일출근" ? 60 : 0);
+
+        return {
+          ...prev,
+          workTime: prev.workTime + workHour,
+        };
+      },
+      {
+        notices: [],
+        workTime: 0,
+      }
+    );
+
+    // console.log(`법정 근로 시간 : ${workDateCount * 8}시간`);
+    // console.log(
+    //   `${Math.floor(monthlyWorking.workTime / 60)}시간 ${Math.round(
+    //     monthlyWorking.workTime % 60
+    //   )}분`
+    // );
+    // console.log(monthlyWorking.notes);
 
     res.send({
       restDay: restRes.result?.[0]?.restAnnvDayCnt || 0,
@@ -78,8 +152,14 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         deptName: userRes.result.deptName,
       },
       workToday: {
-        comeAt: isTodayWork ? filterToday.comeDt : "",
-        leaveAt: isTodayWork ? filterToday.leaveDt : "",
+        comeAt: isTodayWork ? filterAfterDate?.[0]?.comeDt : "",
+        leaveAt: isTodayWork ? filterAfterDate?.[0]?.leaveDt : "",
+      },
+      monthlyWork: {
+        officialHour: workDateCount * 8,
+        myWorkHour: Math.floor(monthlyWorking.workTime / 60),
+        myWorkMinute: Math.round(monthlyWorking.workTime % 60),
+        notices: monthlyWorking.notices,
       },
       bizCardTotalPrice,
     });

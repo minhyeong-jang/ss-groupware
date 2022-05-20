@@ -5,6 +5,15 @@ export interface GetUserInfoResponse {
   profile: GerUserInfoProfileSchema;
   workToday: GetUserInfoWorkTodaySchema;
   bizCardTotalPrice: number;
+  monthlyWork: {
+    officialHour: number;
+    myWorkHour: number;
+    myWorkMinute: number;
+    notices: {
+      date: string;
+      message: string;
+    }[];
+  };
 }
 export interface GerUserInfoProfileSchema {
   userName: string;

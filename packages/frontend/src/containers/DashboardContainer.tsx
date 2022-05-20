@@ -3,8 +3,9 @@ import {
   BizHistoryCard,
   TodayWorkCard,
   VacationCard,
-  WeeklyWorkCard,
+  MonthlyWorkCard,
 } from "components/DashboardCard";
+import { WorkNoticeCard } from "components/DashboardCard/WorkNoticeCard";
 import { DashboardHeader } from "components/DashboardHeader";
 import { useUserInfo } from "hooks";
 import { FC, useState } from "react";
@@ -45,7 +46,8 @@ export const DashboardContainer: FC = () => {
           onVisibleModal={() => setVisibleBizCard(true)}
           totalPrice={userInfo.bizCardTotalPrice}
         />
-        <WeeklyWorkCard restDay={userInfo.restDay || 0} />
+        <MonthlyWorkCard monthlyWork={userInfo.monthlyWork} />
+        <WorkNoticeCard notices={userInfo.notices} />
       </StyledCardWrap>
       <StyledDeveloper>Made by doriri</StyledDeveloper>
       {isLoading && <Loading />}

@@ -6,6 +6,8 @@ export interface UserInfoModel {
   profile: UserInfoProfileModel;
   workToday: UserInfoWorkTodayModel;
   bizCardTotalPrice: number;
+  monthlyWork: UserInfoMonthlyWorkModel;
+  notices: UserInfoMonthlyNoticeModel[];
 }
 export interface UserInfoProfileModel {
   userName: string;
@@ -16,7 +18,15 @@ export interface UserInfoWorkTodayModel {
   leaveAt: string;
   progressPercent: number;
 }
-
+export interface UserInfoMonthlyWorkModel {
+  officialHour: number;
+  workHour: number;
+  workMinute: number;
+}
+export interface UserInfoMonthlyNoticeModel {
+  date: string;
+  message: string;
+}
 export const initUserInfoModel: UserInfoModel = {
   restDay: 0,
   profile: {
@@ -29,6 +39,12 @@ export const initUserInfoModel: UserInfoModel = {
     progressPercent: 0,
   },
   bizCardTotalPrice: 0,
+  monthlyWork: {
+    officialHour: 0,
+    workHour: 0,
+    workMinute: 0,
+  },
+  notices: [],
 };
 export const convertUserInfoModel = (
   data?: GetUserInfoResponse
@@ -44,6 +60,11 @@ export const convertUserInfoModel = (
 
   return {
     ...data,
+    monthlyWork: {
+      officialHour: data.monthlyWork.officialHour,
+      workHour: data.monthlyWork.myWorkHour,
+      workMinute: data.monthlyWork.myWorkMinute,
+    },
     workToday: {
       comeAt: data.workToday.comeAt && startTime.format("HH:mm"),
       leaveAt:
@@ -53,5 +74,9 @@ export const convertUserInfoModel = (
         ? Math.round((moment().diff(startTime) / endTime.diff(startTime)) * 100)
         : 0,
     },
+    notices: data.monthlyWork.notices.map((item) => ({
+      date: moment(item.date, "YYYYMMDDHHmmss").format("DD일"),
+      message: item.message,
+    })),
   };
 };
