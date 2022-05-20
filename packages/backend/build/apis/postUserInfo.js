@@ -77,6 +77,9 @@ const postUserInfo = (res, { headers }) => __awaiter(void 0, void 0, void 0, fun
                 else if (curr.leaveDt === "") {
                     leaveDt = moment();
                 }
+                else {
+                    leaveDt = moment(curr.leaveDt, "YYYYMMDDHHmmss");
+                }
             }
             else if (curr.comeDt === "" || curr.leaveDt === "") {
                 return Object.assign(Object.assign({}, prev), { notices: [
