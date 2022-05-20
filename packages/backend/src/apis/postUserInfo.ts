@@ -103,6 +103,8 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
             return prev;
           } else if (curr.leaveDt === "") {
             leaveDt = moment();
+          } else {
+            leaveDt = moment(curr.leaveDt, "YYYYMMDDHHmmss");
           }
         } else if (curr.comeDt === "" || curr.leaveDt === "") {
           return {
