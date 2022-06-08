@@ -87,7 +87,7 @@ export const IndexContainer: FC = () => {
           <UserForm
             userInfo={userInfo}
             onChange={(key: string, value: string) =>
-              setuserInfo((prevState) => ({ ...prevState, [key]: value }))
+              setUserInfo((prevState) => ({ ...prevState, [key]: value }))
             }
           />
           <StyledButtonWrap>
