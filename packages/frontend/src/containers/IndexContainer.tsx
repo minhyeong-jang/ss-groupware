@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { Button, message, Modal, Result } from "antd";
 import { Loading } from "components/@shared";
 import { Header, UserForm } from "components/UserForm";
 import { useOfficeCheck } from "hooks";
@@ -13,6 +13,7 @@ export const IndexContainer: FC = () => {
     pw: "",
     type: CompanyType.MUSINSA,
   });
+  const [alertVisible, setAlertVisible] = useState(true);
   const { loading, onCheckin, onCheckout } = useOfficeCheck();
 
   const checkUserInfo = () => {
@@ -57,23 +58,50 @@ export const IndexContainer: FC = () => {
   }, []);
 
   return (
-    <StyledContainer>
-      <StyledFormWrap>
-        <Header />
-        <UserForm
-          userInfo={userInfo}
-          onChange={(key: string, value: string) =>
-            setUserInfo((prevState) => ({ ...prevState, [key]: value }))
-          }
+    <>
+      <Modal
+        visible={alertVisible}
+        cancelButtonProps={{ style: { display: "none" } }}
+        destroyOnClose={false}
+        onOk={() => setAlertVisible(false)}
+        onCancel={() => setAlertVisible(false)}
+      >
+        <Result
+          status='info'
+          title='출퇴근 페이지가 변경됩니다.'
+          subTitle='5/15 이후로 해당 페이지는 삭제됩니다.'
+          extra={[
+            <Button
+              type='primary'
+              key='console'
+              onClick={() => window.open("https://www.ss-groupware.com")}
+            >
+              https://www.ss-groupware.com
+            </Button>,
+          ]}
         />
-        <StyledButtonWrap>
-          <StyledButton onClick={() => onButtonClick("in")}>출근</StyledButton>
-          <StyledButton onClick={() => onButtonClick("out")}>퇴근</StyledButton>
-        </StyledButtonWrap>
-        {/* <BizCardContainer onCheckUserInfo={checkUserInfo} /> */}
-      </StyledFormWrap>
-      {loading && <Loading />}
-    </StyledContainer>
+      </Modal>
+      <StyledContainer>
+        <StyledFormWrap>
+          <Header />
+          <UserForm
+            userInfo={userInfo}
+            onChange={(key: string, value: string) =>
+              setuserInfo((prevState) => ({ ...prevState, [key]: value }))
+            }
+          />
+          <StyledButtonWrap>
+            <StyledButton onClick={() => onButtonClick("in")}>
+              출근
+            </StyledButton>
+            <StyledButton onClick={() => onButtonClick("out")}>
+              퇴근
+            </StyledButton>
+          </StyledButtonWrap>
+        </StyledFormWrap>
+        {loading && <Loading />}
+      </StyledContainer>
+    </>
   );
 };
 const StyledContainer = styled.div`
