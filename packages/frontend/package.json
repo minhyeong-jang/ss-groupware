@@ -7,7 +7,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "env-cmd -f configs/development.env next dev",
-    "dev:production": "env-cmd -f configs/production.env next dev -p 3001",
+    "dev:production": "env-cmd -f configs/production.env next dev -p 5000",
     "build:dev": "env-cmd -f configs/development.env next build",
     "build:production": "env-cmd -f configs/production.env next build",
     "start:dev": "env-cmd -f configs/development.env next start",
@@ -28,7 +28,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
-    "react-query": "^3.34.2",
+    "react-query": "^3.38.1",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {

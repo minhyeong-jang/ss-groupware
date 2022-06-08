@@ -1,7 +1,6 @@
 import { GetBizCardListResponse } from "./getBizCardList";
 
 export const getBizCardListData: GetBizCardListResponse = {
-  userName: "장민형",
   bizCardList: [
     {
       syncId: 126239,

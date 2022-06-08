@@ -11,7 +11,6 @@ import { useCallback, useState } from "react";
 import { ErrorModel } from "schema";
 
 export const useBizCard = () => {
-  const [userName, setUserName] = useState("");
   const [bizCardList, setBizCardList] = useState<BizCardModel[]>([]);
   const [status, setStatus] = useState("idle");
 
@@ -20,8 +19,7 @@ export const useBizCard = () => {
       setStatus("loading");
       try {
         const res = await getBizCardList(params);
-        setBizCardList(toBizCardUiModel(res.data.bizCardList));
-        setUserName(res.data.userName);
+        setBizCardList(toBizCardUiModel(res));
         setStatus("success");
       } catch (e) {
         setStatus("error");
@@ -64,7 +62,6 @@ export const useBizCard = () => {
     [bizCardList, setBizCardList]
   );
   return {
-    userName,
     bizCardList,
     status,
     loading: status === "loading",

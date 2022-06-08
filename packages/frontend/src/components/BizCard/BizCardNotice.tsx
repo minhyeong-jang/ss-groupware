@@ -7,16 +7,19 @@ const ManagerPopover: FC = () => (
   <StyledList $isPrefix>
     <StyledInfo>본인이 속한 부서의 담당자를 합의자로 등록해주세요.</StyledInfo>
     <li>
-      프로덕트본부: <b>심미연</b>
+      프로덕트본부: <b>임성은</b>
+    </li>
+    <li>
+      신사업팀: <b>김다운</b>
     </li>
     <li>
       마케팅실: <b>이수빈</b>
     </li>
     <li>
-      운영기획팀: <b>김다운</b>
+      커머스실: <b>이형표</b>
     </li>
     <li>
-      영업팀, 비즈니스팀: <b>이형표</b>
+      BX디자인팀: <b>임상범</b>
     </li>
     <li>
       고객경험팀: <b>황연진</b>
@@ -39,9 +42,7 @@ export const BizCardNotice: FC = () => {
           야근교통비는 <b>출발지, 도착지</b>를 입력해야합니다.
         </li>
       </StyledList>
-      <StyledTitle>
-        <StyledRed>(New)</StyledRed> 지출결의서 가이드라인
-      </StyledTitle>
+      <StyledTitle>지출결의서 가이드라인</StyledTitle>
       <StyledList>
         <li>
           1. 그룹웨어 전자결재 <b>→</b> 지출결의서(법인카드) 클릭
@@ -116,9 +117,6 @@ const StyledList = styled.ul<{ $isPrefix?: boolean }>`
             padding-left: 0;
           `}
   }
-`;
-const StyledRed = styled.span`
-  color: red;
 `;
 const StyledInfo = styled.div`
   color: #1197f0;

@@ -215,7 +215,7 @@ export const BizCardTable: FC<Props> = ({
     <StyledContainer>
       <Table
         size='small'
-        scroll={{ x: "max-content", y: "400px" }}
+        scroll={{ x: "1200px", y: "400px" }}
         columns={columns}
         dataSource={data}
         pagination={false}
@@ -223,7 +223,7 @@ export const BizCardTable: FC<Props> = ({
         rowSelection={{
           ...rowSelection,
         }}
-        rowKey={(_, index) => `${index}`}
+        rowKey={(record) => `${record.syncId}`}
       />
       <StyledFooter>
         총 결제 금액 : <b>{(totalPrice || 0).toLocaleString()}</b>원
