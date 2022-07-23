@@ -13,53 +13,53 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
       json: true,
     };
 
-    // 유저 정보
-    const userRes = await request.post({
-      ...requestHeaders,
-      url: "https://gw.musinsa.com/attend/api/attend/searchPersonnalAttendStat",
-      body: {
-        approveYn: "",
-        attDivCode: "",
-        attItemCode: "",
-        endDate: "20220506",
-        startDate: "20220406",
-      },
-    });
+    const [userRes, restRes, workRes, bizCardList] = await Promise.all([
+      // 유저 정보
+      request.post({
+        ...requestHeaders,
+        url: "https://gw.musinsa.com/attend/api/attend/searchPersonnalAttendStat",
+        body: {
+          approveYn: "",
+          attDivCode: "",
+          attItemCode: "",
+          endDate: "20220506",
+          startDate: "20220406",
+        },
+      }),
+      // 휴가 정보
+      request.post({
+        ...requestHeaders,
+        url: "https://gw.musinsa.com/attend/WebAnnv/SearchPersonAnnvMstList",
+      }),
+      // 근태 정보
+      request.post({
+        ...requestHeaders,
+        url: "https://gw.musinsa.com/attend/api/attend/getSearchPersonAttList",
+        body: {
+          approveYn: "",
+          attDivCode: "",
+          attItemCode: "",
+          endDate: moment().endOf("month").format("YYYYMMDD"),
+          page: 1,
+          pageNum: 1,
+          pageSize: 40,
+          skip: 0,
+          startDate: moment().startOf("month").format("YYYYMMDD"),
+          take: 40,
+        },
+      }),
+      // 법인카드 사용 금액
+      request.post({
+        ...requestHeaders,
+        url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
+        formData: {
+          ...BIZ_CARD_LIST,
+          searchFromDate: moment().startOf("month").format("YYYYMMDD"),
+          searchToDate: moment().endOf("month").format("YYYYMMDD"),
+        },
+      }),
+    ]);
 
-    // 휴가 정보
-    const restRes = await request.post({
-      ...requestHeaders,
-      url: "https://gw.musinsa.com/attend/WebAnnv/SearchPersonAnnvMstList",
-    });
-
-    // 근태 정보
-    const workRes = await request.post({
-      ...requestHeaders,
-      url: "https://gw.musinsa.com/attend/api/attend/getSearchPersonAttList",
-      body: {
-        approveYn: "",
-        attDivCode: "",
-        attItemCode: "",
-        endDate: moment().endOf("month").format("YYYYMMDD"),
-        page: 1,
-        pageNum: 1,
-        pageSize: 40,
-        skip: 0,
-        startDate: moment().startOf("month").format("YYYYMMDD"),
-        take: 40,
-      },
-    });
-
-    // 법인카드 사용 금액
-    const bizCardList = await request.post({
-      ...requestHeaders,
-      url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do",
-      formData: {
-        ...BIZ_CARD_LIST,
-        searchFromDate: moment().startOf("month").format("YYYYMMDD"),
-        searchToDate: moment().endOf("month").format("YYYYMMDD"),
-      },
-    });
     const bizCardTotalPrice = bizCardList.aaData.reduce(
       (curr, next) => curr + next.requestAmount,
       0
@@ -138,14 +138,6 @@ export const postUserInfo = async (res: Response, { headers }: Request) => {
         workTime: 0,
       }
     );
-
-    // console.log(`법정 근로 시간 : ${workDateCount * 8}시간`);
-    // console.log(
-    //   `${Math.floor(monthlyWorking.workTime / 60)}시간 ${Math.round(
-    //     monthlyWorking.workTime % 60
-    //   )}분`
-    // );
-    // console.log(monthlyWorking.notes);
 
     res.send({
       restDay: restRes.result?.[0]?.restAnnvDayCnt || 0,
