@@ -9,7 +9,6 @@ interface Props {
   workToday: UserInfoWorkTodayModel;
 }
 export const TodayWorkCard: FC<Props> = ({ workToday }) => {
-  // TODO: 출퇴근 버튼 연동
   return (
     <DashboardCard icon={DashboardCardIcon.TIME} title='오늘의 출근'>
       <StyledContentWrap>

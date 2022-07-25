@@ -1,6 +1,6 @@
 import { Input, Select, Table } from "antd";
 import { SelectTag, tagColors } from "components/@shared";
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import styled from "styled-components";
 import { BizCardModel, BizCardType } from "models";
 import { format } from "date-fns";
@@ -9,18 +9,29 @@ interface Props {
   data: BizCardModel[];
   loading: boolean;
   selection: React.Key[];
+  onChange(items: BizCardModel[]): void;
   onSelection(key: React.Key[]): void;
-  onTypeChange(type: BizCardType, index: number): void;
-  onNoteChange(note: string, index: number): void;
 }
 export const BizCardTable: FC<Props> = ({
   data,
   loading,
   selection,
   onSelection,
-  onTypeChange,
-  onNoteChange,
+  onChange,
 }) => {
+  const onTypeChange = (type: BizCardType, index: number) => {
+    const items = [...(data || [])];
+    items[index].type = type;
+    items[index].note = "";
+    onChange(items);
+  };
+
+  const onNoteChange = (note: string, index: number) => {
+    const items = [...(data || [])];
+    items[index].note = note;
+    onChange(items);
+  };
+
   const totalPrice = useMemo(() => {
     return data.reduce((curr, next) => curr + next.requestAmount, 0);
   }, [data]);

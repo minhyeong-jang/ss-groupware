@@ -1,73 +1,58 @@
 import { message } from "antd";
 import {
+  ErrorModel,
   getBizCardList,
   GetBizCardListParams,
   postBizCard,
-  PostBizCardParams,
-  postCheckin,
 } from "apis";
-import { BizCardModel, toBizCardUiModel } from "models";
-import { useCallback, useState } from "react";
-import { ErrorModel } from "schema";
+import { toBizCardUiModel } from "models";
+import { useMemo } from "react";
+import { useMutation, useQueryClient } from "react-query";
 
 export const useBizCard = () => {
-  const [bizCardList, setBizCardList] = useState<BizCardModel[]>([]);
-  const [status, setStatus] = useState("idle");
+  const queryClient = useQueryClient();
 
-  const onGetBizCardList = useCallback(
-    async (params: GetBizCardListParams) => {
-      setStatus("loading");
-      try {
-        const res = await getBizCardList(params);
-        setBizCardList(toBizCardUiModel(res));
-        setStatus("success");
-      } catch (e) {
-        setStatus("error");
-        message.error((e as ErrorModel).response?.data?.message);
-      }
-    },
-    [postCheckin]
+  const {
+    data: bizCardList,
+    mutateAsync: onBizcardList,
+    isLoading: isListLoading,
+  } = useMutation(
+    "bizcard/list",
+    (params: GetBizCardListParams) =>
+      getBizCardList(params).then(toBizCardUiModel),
+    {
+      onError: (error: ErrorModel) => {
+        if (error?.status === 403) {
+          queryClient.setQueryData("user/session", false);
+        } else {
+          message.error(error?.data?.message || error.message);
+        }
+      },
+    }
   );
-  const onUpdateMemo = useCallback(
-    async (params: PostBizCardParams) => {
-      setStatus("loading");
-      try {
-        await postBizCard(params);
-        message.success("등록이 완료 되었습니다.");
-        setStatus("success");
-        return true;
-      } catch (e) {
-        message.error((e as ErrorModel).response?.data?.message);
-        setStatus("error");
-        return false;
-      }
-    },
-    [postBizCard]
-  );
-  const onTypeChange = useCallback(
-    (type, index) => {
-      const items = [...bizCardList];
-      items[index].type = type;
-      items[index].note = "";
-      setBizCardList(items);
-    },
-    [bizCardList, setBizCardList]
-  );
-  const onNoteChange = useCallback(
-    (note, index) => {
-      const items = [...bizCardList];
-      items[index].note = note;
-      setBizCardList(items);
-    },
-    [bizCardList, setBizCardList]
+
+  const { mutateAsync: onBizcardSubmit, isLoading: isSubmitLoading } =
+    useMutation(postBizCard, {
+      onSuccess: (res) => {
+        message.success(res.message);
+      },
+      onError: (error: ErrorModel) => {
+        if (error?.status === 403) {
+          queryClient.setQueryData("user/session", false);
+        } else {
+          message.error(error?.data?.message || error.message);
+        }
+      },
+    });
+
+  const isLoading = useMemo(
+    () => isListLoading || isSubmitLoading,
+    [isListLoading, isSubmitLoading]
   );
   return {
-    bizCardList,
-    status,
-    loading: status === "loading",
-    onUpdateMemo,
-    onTypeChange,
-    onNoteChange,
-    onGetBizCardList,
+    bizCardList: bizCardList || [],
+    isLoading,
+    onBizcardSubmit,
+    onGetBizCardList: onBizcardList,
   };
 };

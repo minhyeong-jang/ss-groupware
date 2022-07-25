@@ -7,7 +7,6 @@ const index: FC = () => {
     <StyledPageLayout>
       <LoginContainer />
       <DashboardContainer />
-      {/* <IndexContainer /> */}
     </StyledPageLayout>
   );
 };

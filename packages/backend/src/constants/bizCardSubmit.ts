@@ -69,7 +69,7 @@ export const FOOD_PARAMS = {
     // useYN: "Y",
   },
   note: "",
-  isDeleteProject: false,
+  isDeleteProject: "false",
   projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),
 };
 
@@ -155,6 +155,6 @@ export const DRIVE_PARAMS = {
     vaTypeName: "",
   },
   note: "",
-  isDeleteProject: false,
+  isDeleteProject: "false",
   projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),
 };

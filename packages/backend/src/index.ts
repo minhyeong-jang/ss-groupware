@@ -1,13 +1,12 @@
 import "dotenv/config";
 import * as express from "express";
 import * as cors from "cors";
-import "moment-timezone";
 import * as moment from "moment";
+import "moment-timezone";
 import {
   postUserInfo,
   postBizCardList,
   postBizCardSubmit,
-  postCheckin,
   postUserLogin,
   postOfficeCheck,
 } from "./apis";
@@ -54,14 +53,10 @@ app.post("/bizcard", async (req, res) => {
     isOK && postBizCardList(res, req, req.body);
   });
 });
-app.post("/checkin", async (req, res) => {
-  await postCheckin(res, req.body, "1");
-});
-app.post("/checkout", async (req, res) => {
-  await postCheckin(res, req.body, "4");
-});
 app.post("/bizcard/submit", async (req, res) => {
-  await postBizCardSubmit(res, req.body);
+  userSession(res, req).then((isOK) => {
+    isOK && postBizCardSubmit(res, req, req.body);
+  });
 });
 
 app.listen(port, () => {
