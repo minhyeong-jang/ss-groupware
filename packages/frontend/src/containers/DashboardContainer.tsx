@@ -52,10 +52,7 @@ export const DashboardContainer: FC = () => {
       <StyledDeveloper>Made by doriri</StyledDeveloper>
       {isLoading && <Loading />}
       {visibleBizCard && (
-        <BizCardContainer
-          onClose={() => setVisibleBizCard(false)}
-          userName={userInfo.profile.userName}
-        />
+        <BizCardContainer onClose={() => setVisibleBizCard(false)} />
       )}
     </StyledContainer>
   );

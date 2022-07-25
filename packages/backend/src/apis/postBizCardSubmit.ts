@@ -1,119 +1,98 @@
-import { Response } from "express";
-import { launchSetting } from "../utils/puppeteer";
+import { Response, Request } from "express";
 import { FOOD_PARAMS, DRIVE_PARAMS } from "../constants";
-import { UserInfoModel } from "../types/user";
-import { ResponseModel } from "../types";
-import { pageLogin } from "../utils";
-const puppeteer = require("puppeteer");
+
+const request = require("request-promise-native");
 
 interface PostBizCardSubmitParams {
-  userInfo: UserInfoModel;
-  items: { syncId: string; note: string }[];
+  items: {
+    syncId: string;
+    authSeq: string;
+    note: string;
+    empSeq: string;
+    type: "FOOD" | "DRIVE";
+  }[];
 }
-interface PostBizCardListResponse extends ResponseModel {}
 
 export const postBizCardSubmit = async (
   res: Response,
-  { userInfo, items }: PostBizCardSubmitParams
+  { headers }: Request,
+  { items }: PostBizCardSubmitParams
 ) => {
+  const cookie = headers?.cookie;
   if (!items.length) {
     res.status(400).json({ message: "필수값을 선택해주세요." });
   }
-  const browser = await puppeteer.launch(launchSetting);
 
   try {
-    const page = await browser.newPage();
-    const loginRes = await pageLogin(page, userInfo);
-    if (loginRes.code !== 200) {
-      res.status(loginRes.code).json(loginRes);
-    }
-
-    const pageRes = await page.evaluate(
-      ({ items, FOOD_PARAMS, DRIVE_PARAMS }) => {
-        try {
-          let response: PostBizCardListResponse = {
-            code: 200,
-          };
-
-          const params = { formSeq: "24" };
-          $.ajax({
-            type: "post",
-            url: "https://gw.musinsa.com/exp/ex/expend/master/ExUserInitExpend.do",
-            async: false,
-            data: params,
-            success: (data) => {
-              items.map((item) => {
-                const targetParams =
-                  item.type === "FOOD" ? FOOD_PARAMS : DRIVE_PARAMS;
-                const params = {
-                  ...targetParams,
-                  target: JSON.stringify([
-                    {
-                      key: item.syncId,
-                      syncId: item.syncId,
-                    },
-                  ]),
-                  authInfo: JSON.stringify({
-                    ...targetParams.authInfo,
-                    seq: item.authSeq,
-                  }),
-                  empInfo: JSON.stringify({
-                    ...targetParams.empInfo,
-                    seq: item.empSeq,
-                    bizSeq: data.aaData.empInfo.bizSeq,
-                    compSeq: data.aaData.empInfo.compSeq,
-                    empSeq: data.aaData.empInfo.empSeq,
-                    empName: data.aaData.empInfo.empName,
-                    erpEmpSeq: data.aaData.empInfo.erpEmpSeq,
-                    erpCompSeq: data.aaData.empInfo.erpCompSeq,
-                    groupSeq: data.aaData.empInfo.groupSeq,
-                    createSeq: data.aaData.empInfo.empSeq,
-                    modifySeq: data.aaData.empInfo.empSeq,
-                    searchStr: data.aaData.empInfo.erpEmpSeq,
-                  }),
-                  note: item.note,
-                };
-                $.ajax({
-                  dataType: "json",
-                  type: "post",
-                  url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardInfoMapUpdate.do",
-                  async: false,
-                  data: params,
-                  success: function (data) {
-                    if (data?.aaData?.code === "SUCCESS") {
-                      response = {
-                        code: 200,
-                        message: "SUCCESS",
-                      };
-                    } else {
-                      response = {
-                        code: 400,
-                        message:
-                          "에러가 발생하였습니다. 개발자에게 문의해주세요.",
-                      };
-                    }
-                  },
-                });
-              });
-            },
-          });
-          return response;
-        } catch (error) {
-          return {
-            code: error.code,
-            message: error.message,
-          };
-        }
-      },
-      { items, FOOD_PARAMS, DRIVE_PARAMS }
+    const exUserInitExpend = await request.post({
+      method: "POST",
+      headers: { cookie },
+      json: true,
+      url: "https://gw.musinsa.com/exp/ex/expend/master/ExUserInitExpend.do",
+      formData: { formSeq: "24" },
+    });
+    const result = await Promise.all(
+      items.map(async (item) => {
+        return await new Promise(async (resolve) => {
+          try {
+            const targetParams =
+              item.type === "FOOD" ? FOOD_PARAMS : DRIVE_PARAMS;
+            const formData = {
+              ...targetParams,
+              target: JSON.stringify([
+                {
+                  key: item.syncId,
+                  syncId: item.syncId,
+                },
+              ]),
+              authInfo: JSON.stringify({
+                ...targetParams.authInfo,
+                seq: item.authSeq,
+              }),
+              empInfo: JSON.stringify({
+                ...targetParams.empInfo,
+                seq: item.empSeq,
+                bizSeq: exUserInitExpend.aaData.empInfo.bizSeq,
+                compSeq: exUserInitExpend.aaData.empInfo.compSeq,
+                empSeq: exUserInitExpend.aaData.empInfo.empSeq,
+                empName: exUserInitExpend.aaData.empInfo.empName,
+                erpEmpSeq: exUserInitExpend.aaData.empInfo.erpEmpSeq,
+                erpCompSeq: exUserInitExpend.aaData.empInfo.erpCompSeq,
+                groupSeq: exUserInitExpend.aaData.empInfo.groupSeq,
+                createSeq: exUserInitExpend.aaData.empInfo.empSeq,
+                modifySeq: exUserInitExpend.aaData.empInfo.empSeq,
+                searchStr: exUserInitExpend.aaData.empInfo.erpEmpSeq,
+              }),
+              note: item.note,
+            };
+            const data = await request.post({
+              headers: { cookie },
+              json: true,
+              url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardInfoMapUpdate.do",
+              formData: formData,
+            });
+            if (data?.aaData?.code === "SUCCESS") {
+              return resolve(true);
+            } else {
+              return resolve(false);
+            }
+          } catch (e) {
+            console.log(e);
+            return resolve(false);
+          }
+        });
+      })
     );
-    await page.waitFor(2000);
-    pageRes.code === 200
-      ? res.send(pageRes)
-      : res.status(pageRes.code).json(pageRes);
+    const isFailed = result.filter((isSuccess) => !isSuccess).length;
+    if (isFailed) {
+      res.send({
+        message: `총 ${result.length}개 중 ${isFailed}개가 실패했습니다.`,
+        code: 400,
+      });
+    } else {
+      res.send({ message: "정상적으로 반영되었습니다.", code: 200 });
+    }
   } catch (err) {
     res.status(400).json({ message: "서버 오류가 발생하였습니다.", err });
-  } finally {
-    await browser.close();
   }
 };

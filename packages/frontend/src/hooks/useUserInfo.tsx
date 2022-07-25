@@ -4,7 +4,7 @@ import {
   getUserSession,
   postUserLogin,
   postOfficeCheck,
-  ErrorDataModel,
+  ErrorModel,
 } from "apis";
 import { convertUserInfoModel } from "models/userInfo.model";
 import { useQueryClient, useMutation, useQuery } from "react-query";
@@ -18,7 +18,6 @@ export const useUserInfo = () => {
     refetch: onSessionRefetch,
     isRefetching: isSessionRefetching,
   } = useQuery("user/session", getUserSession, {
-    refetchInterval: 600000,
     onError: () => {
       queryClient.setQueryData("user/session", false);
     },
@@ -30,8 +29,10 @@ export const useUserInfo = () => {
     isRefetching: isUserInfoRefetching,
   } = useQuery("user/profile", getUserInfo, {
     enabled: hasSession || false,
-    onError: (error: ErrorDataModel) => {
-      if (error?.code === 403) {
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true,
+    onError: (error: ErrorModel) => {
+      if (error?.status === 403) {
         onSessionRefetch();
       } else {
         message.error(error?.data?.message || error.message);
@@ -47,8 +48,8 @@ export const useUserInfo = () => {
         onProfileRefetch();
         message.success(res.message);
       },
-      onError: (error: ErrorDataModel) => {
-        if (error?.code === 403) {
+      onError: (error: ErrorModel) => {
+        if (error?.status === 403) {
           onSessionRefetch();
         } else {
           message.error(error?.data?.message || error.message);
@@ -63,8 +64,8 @@ export const useUserInfo = () => {
         onProfileRefetch();
         message.success(res.message);
       },
-      onError: (error: ErrorDataModel) => {
-        if (error?.code === 403) {
+      onError: (error: ErrorModel) => {
+        if (error?.status === 403) {
           onSessionRefetch();
         } else {
           message.error(error?.data?.message || error.message);

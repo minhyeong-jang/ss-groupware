@@ -7,13 +7,11 @@ export const postOfficeCheck = async (
   loginType: "1" | "4"
 ) => {
   try {
-    const cookieHeader = headers?.cookie;
+    const cookie = headers?.cookie;
     const result = await request.post({
       url: "https://gw.musinsa.com/gw/insertComeLeaveEventApi.do",
       method: "POST",
-      headers: {
-        cookie: cookieHeader,
-      },
+      headers: { cookie },
       formData: {
         gbnCode: loginType,
       },

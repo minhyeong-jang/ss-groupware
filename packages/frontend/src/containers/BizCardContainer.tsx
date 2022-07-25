@@ -5,30 +5,26 @@ import {
   BizCardSearchDate,
   BizCardTable,
 } from "components/BizCard";
-import { useBizCard } from "hooks";
-import { BizCardType } from "models";
+import { useBizCard, useUserInfo } from "hooks";
+import { BizCardModel, BizCardType } from "models";
 import React, { FC, useEffect, useState } from "react";
 import moment from "moment";
-import { CompanyType } from "schema";
 
 interface Props {
-  userName: string;
   onClose(): void;
 }
-export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
-  const {
-    bizCardList,
-    loading,
-    onTypeChange,
-    onUpdateMemo,
-    onGetBizCardList,
-    onNoteChange,
-  } = useBizCard();
+export const BizCardContainer: FC<Props> = ({ onClose }) => {
+  const { userInfo } = useUserInfo();
+  const { bizCardList, isLoading, onBizcardSubmit, onGetBizCardList } =
+    useBizCard();
+  const [dataSource, setDataSource] = useState<BizCardModel[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(moment().subtract(5, "d"));
   const [selection, setSelection] = useState<React.Key[]>([]);
 
   const onSearchList = () => {
-    window?.gtag("event", "view_bizcard_list", { id: userName });
+    window?.gtag("event", "view_bizcard_list", {
+      id: `${userInfo.profile.deptName}_${userInfo.profile.userName}`,
+    });
     onGetBizCardList({
       startDate: selectedMonth.startOf("month").format("YYYYMMDD"),
       endDate: selectedMonth.endOf("month").format("YYYYMMDD"),
@@ -40,9 +36,7 @@ export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
       return;
     }
     const items = selection.map((key) => {
-      const findItem = bizCardList.filter(
-        (item) => `${item.syncId}` === key
-      )[0];
+      const findItem = dataSource.filter((item) => `${item.syncId}` === key)[0];
       return {
         note: findItem.note,
         syncId: `${findItem.syncId}`,
@@ -52,36 +46,22 @@ export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
       };
     });
     window?.gtag("event", "click_bizcard_submit", {
-      id: userName,
+      id: `${userInfo.profile.deptName}_${userInfo.profile.userName}`,
     });
 
-    const storage = localStorage.getItem("gw_musinsa_ss");
-    if (storage) {
-      const { id, pw, type } = JSON.parse(storage);
-      const res = await onUpdateMemo({
-        userInfo: {
-          id: id || "",
-          pw: pw || "",
-          type: type || CompanyType.MUSINSA,
-        },
-        items,
-      });
-
-      if (res) {
-        setSelection([]);
-      }
-    } else {
-      message.error("계정 정보를 찾을 수 없습니다.");
+    const res = await onBizcardSubmit({ items });
+    if (res) {
+      setSelection([]);
     }
   };
 
   useEffect(() => {
-    message.info("지출결의서 가이드라인이 추가되었습니다.", 8);
-  }, []);
-
-  useEffect(() => {
     onSearchList();
   }, [selectedMonth]);
+
+  useEffect(() => {
+    !isLoading && setDataSource(bizCardList);
+  }, [isLoading, setDataSource]);
 
   return (
     <>
@@ -96,16 +76,15 @@ export const BizCardContainer: FC<Props> = ({ userName, onClose }) => {
       >
         <BizCardSearchDate value={selectedMonth} onChange={setSelectedMonth} />
         <BizCardTable
-          loading={loading}
-          data={bizCardList}
+          loading={isLoading}
+          data={dataSource}
           selection={selection}
+          onChange={setDataSource}
           onSelection={setSelection}
-          onTypeChange={onTypeChange}
-          onNoteChange={onNoteChange}
         />
         <BizCardNotice />
       </Modal>
-      {loading && <Loading />}
+      {isLoading && <Loading />}
     </>
   );
 };

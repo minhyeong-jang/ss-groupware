@@ -42,6 +42,19 @@ export const LoginContainer: FC = () => {
       localStorage.removeItem("gw_musinsa_ss");
     }
   }, []);
+  useEffect(() => {
+    if (!hasSession && !isSessionLoading) {
+      const storage = localStorage.getItem("gw_musinsa_ss");
+      if (storage) {
+        const { id, pw, type } = JSON.parse(storage);
+        onLogin({
+          id: id || "",
+          pw: pw || "",
+          type: type || CompanyType.MUSINSA,
+        });
+      }
+    }
+  }, [hasSession, isSessionLoading]);
 
   if (hasSession || isSessionLoading) {
     return null;
