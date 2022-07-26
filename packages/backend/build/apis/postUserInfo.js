@@ -23,31 +23,33 @@ const postUserInfo = (res, { headers }) => __awaiter(void 0, void 0, void 0, fun
             },
             json: true,
         };
-        // 유저 정보
-        const userRes = yield request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/api/attend/searchPersonnalAttendStat", body: {
-                approveYn: "",
-                attDivCode: "",
-                attItemCode: "",
-                endDate: "20220506",
-                startDate: "20220406",
-            } }));
-        // 휴가 정보
-        const restRes = yield request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/WebAnnv/SearchPersonAnnvMstList" }));
-        // 근태 정보
-        const workRes = yield request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/api/attend/getSearchPersonAttList", body: {
-                approveYn: "",
-                attDivCode: "",
-                attItemCode: "",
-                endDate: moment().endOf("month").format("YYYYMMDD"),
-                page: 1,
-                pageNum: 1,
-                pageSize: 40,
-                skip: 0,
-                startDate: moment().startOf("month").format("YYYYMMDD"),
-                take: 40,
-            } }));
-        // 법인카드 사용 금액
-        const bizCardList = yield request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do", formData: Object.assign(Object.assign({}, constants_1.BIZ_CARD_LIST), { searchFromDate: moment().startOf("month").format("YYYYMMDD"), searchToDate: moment().endOf("month").format("YYYYMMDD") }) }));
+        const [userRes, restRes, workRes, bizCardList] = yield Promise.all([
+            // 유저 정보
+            request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/api/attend/searchPersonnalAttendStat", body: {
+                    approveYn: "",
+                    attDivCode: "",
+                    attItemCode: "",
+                    endDate: "20220506",
+                    startDate: "20220406",
+                } })),
+            // 휴가 정보
+            request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/WebAnnv/SearchPersonAnnvMstList" })),
+            // 근태 정보
+            request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/attend/api/attend/getSearchPersonAttList", body: {
+                    approveYn: "",
+                    attDivCode: "",
+                    attItemCode: "",
+                    endDate: moment().endOf("month").format("YYYYMMDD"),
+                    page: 1,
+                    pageNum: 1,
+                    pageSize: 40,
+                    skip: 0,
+                    startDate: moment().startOf("month").format("YYYYMMDD"),
+                    take: 40,
+                } })),
+            // 법인카드 사용 금액
+            request.post(Object.assign(Object.assign({}, requestHeaders), { url: "https://gw.musinsa.com/exp/expend/ex/user/card/ExCardListInfoSelect.do", formData: Object.assign(Object.assign({}, constants_1.BIZ_CARD_LIST), { searchFromDate: moment().startOf("month").format("YYYYMMDD"), searchToDate: moment().endOf("month").format("YYYYMMDD") }) })),
+        ]);
         const bizCardTotalPrice = bizCardList.aaData.reduce((curr, next) => curr + next.requestAmount, 0);
         const filterAfterDate = workRes.result.resultList.filter((item) => moment().isAfter(moment(item.attDate, "YYYYMMDD")));
         const isTodayWork = moment().subtract(6, "h").format("YYYYMMDD") ===
@@ -101,13 +103,6 @@ const postUserInfo = (res, { headers }) => __awaiter(void 0, void 0, void 0, fun
             notices: [],
             workTime: 0,
         });
-        // console.log(`법정 근로 시간 : ${workDateCount * 8}시간`);
-        // console.log(
-        //   `${Math.floor(monthlyWorking.workTime / 60)}시간 ${Math.round(
-        //     monthlyWorking.workTime % 60
-        //   )}분`
-        // );
-        // console.log(monthlyWorking.notes);
         res.send({
             restDay: ((_c = (_b = restRes.result) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.restAnnvDayCnt) || 0,
             profile: {

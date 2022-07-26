@@ -13,13 +13,11 @@ exports.postOfficeCheck = void 0;
 const request = require("request-promise-native");
 const postOfficeCheck = (res, { headers }, loginType) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const cookieHeader = headers === null || headers === void 0 ? void 0 : headers.cookie;
+        const cookie = headers === null || headers === void 0 ? void 0 : headers.cookie;
         const result = yield request.post({
             url: "https://gw.musinsa.com/gw/insertComeLeaveEventApi.do",
             method: "POST",
-            headers: {
-                cookie: cookieHeader,
-            },
+            headers: { cookie },
             formData: {
                 gbnCode: loginType,
             },

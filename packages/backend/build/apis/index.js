@@ -12,7 +12,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./postBizCardList"), exports);
 __exportStar(require("./postBizCardSubmit"), exports);
-__exportStar(require("./postCheckin"), exports);
 __exportStar(require("./postOfficeCheck"), exports);
 __exportStar(require("./postUserInfo"), exports);
 __exportStar(require("./postUserLogin"), exports);

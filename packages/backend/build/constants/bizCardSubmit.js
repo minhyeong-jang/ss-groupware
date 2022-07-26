@@ -72,7 +72,7 @@ exports.FOOD_PARAMS = {
         // useYN: "Y",
     },
     note: "",
-    isDeleteProject: false,
+    isDeleteProject: "false",
     projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),
 };
 exports.DRIVE_PARAMS = {
@@ -157,6 +157,6 @@ exports.DRIVE_PARAMS = {
         vaTypeName: "",
     },
     note: "",
-    isDeleteProject: false,
+    isDeleteProject: "false",
     projectInfo: JSON.stringify({ projectCode: "", projectName: "", seq: 0 }),
 };

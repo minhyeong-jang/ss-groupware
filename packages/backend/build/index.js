@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
-require("moment-timezone");
 const moment = require("moment");
+require("moment-timezone");
 const apis_1 = require("./apis");
 const utils_1 = require("./utils");
 moment.tz.setDefault("Asia/Seoul");
@@ -53,14 +53,10 @@ app.post("/bizcard", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         isOK && (0, apis_1.postBizCardList)(res, req, req.body);
     });
 }));
-app.post("/checkin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, apis_1.postCheckin)(res, req.body, "1");
-}));
-app.post("/checkout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, apis_1.postCheckin)(res, req.body, "4");
-}));
 app.post("/bizcard/submit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, apis_1.postBizCardSubmit)(res, req.body);
+    (0, utils_1.userSession)(res, req).then((isOK) => {
+        isOK && (0, apis_1.postBizCardSubmit)(res, req, req.body);
+    });
 }));
 app.listen(port, () => {
     console.log("Express is listening on port", port);
