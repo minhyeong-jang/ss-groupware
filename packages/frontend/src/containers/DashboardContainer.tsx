@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { BizCardContainer } from "./BizCardContainer";
 
 export const DashboardContainer: FC = () => {
-  const { isLoading, onOfficeCheck, userInfo } = useUserInfo();
+  const { isLoading, onOfficeCheck, userInfo, onLogout } = useUserInfo();
   const [visibleBizCard, setVisibleBizCard] = useState(false);
 
   const onCheck = async (type: string) => {
@@ -38,6 +38,7 @@ export const DashboardContainer: FC = () => {
         workToday={userInfo.workToday}
         profile={userInfo.profile}
         onCheck={onCheck}
+        onLogout={onLogout}
       />
       <StyledCardWrap>
         <TodayWorkCard workToday={userInfo.workToday} />

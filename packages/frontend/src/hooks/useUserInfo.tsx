@@ -5,6 +5,7 @@ import {
   postUserLogin,
   postOfficeCheck,
   ErrorModel,
+  postUserLogout,
 } from "apis";
 import { convertUserInfoModel } from "models/userInfo.model";
 import { useQueryClient, useMutation, useQuery } from "react-query";
@@ -33,7 +34,7 @@ export const useUserInfo = () => {
     refetchOnWindowFocus: true,
     onError: (error: ErrorModel) => {
       if (error?.status === 403) {
-        onSessionRefetch();
+        queryClient.setQueryData("user/session", false);
       } else {
         message.error(error?.data?.message || error.message);
       }
@@ -50,7 +51,24 @@ export const useUserInfo = () => {
       },
       onError: (error: ErrorModel) => {
         if (error?.status === 403) {
-          onSessionRefetch();
+          queryClient.setQueryData("user/session", false);
+        } else {
+          message.error(error?.data?.message || error.message);
+        }
+      },
+    }
+  );
+  const { mutateAsync: onLogout, isLoading: isLogoutLoading } = useMutation(
+    postUserLogout,
+    {
+      onSuccess: (res) => {
+        localStorage.removeItem("gw_musinsa_ss");
+        queryClient.setQueryData("user/session", false);
+        message.success(res.message);
+      },
+      onError: (error: ErrorModel) => {
+        if (error?.status === 403) {
+          queryClient.setQueryData("user/session", false);
         } else {
           message.error(error?.data?.message || error.message);
         }
@@ -66,7 +84,7 @@ export const useUserInfo = () => {
       },
       onError: (error: ErrorModel) => {
         if (error?.status === 403) {
-          onSessionRefetch();
+          queryClient.setQueryData("user/session", false);
         } else {
           message.error(error?.data?.message || error.message);
         }
@@ -80,6 +98,7 @@ export const useUserInfo = () => {
     onProfileRefetch,
     onOfficeCheck,
     onLogin,
+    onLogout,
     isSessionLoading,
     isLoading:
       isLoginLoading ||
@@ -87,6 +106,7 @@ export const useUserInfo = () => {
       isSessionLoading ||
       isUserInfoLoading ||
       isSessionRefetching ||
-      isUserInfoRefetching,
+      isUserInfoRefetching ||
+      isLogoutLoading,
   };
 };
