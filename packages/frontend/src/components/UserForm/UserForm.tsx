@@ -32,6 +32,7 @@ export const UserForm: FC<Props> = ({ userInfo, onChange }) => {
       <StyledInputWrap>
         <StyledLabel>아이디</StyledLabel>
         <StyledInput
+          placeholder='그룹웨어 아이디를 입력해주세요.'
           value={userInfo.id}
           onChange={(e) => onChange("id", e.target.value)}
         />
@@ -39,6 +40,7 @@ export const UserForm: FC<Props> = ({ userInfo, onChange }) => {
       <StyledInputWrap>
         <StyledLabel>비밀번호</StyledLabel>
         <StyledInput
+          placeholder='그룹웨어 패스워드를 입력해주세요.'
           type='password'
           value={userInfo.pw}
           onChange={(e) => onChange("pw", e.target.value)}

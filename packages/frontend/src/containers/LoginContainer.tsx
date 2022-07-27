@@ -1,5 +1,6 @@
 import { Button, Form, message } from "antd";
 import { Loading } from "components/@shared";
+import { ContentNotice } from "components/DashboardCard";
 import { UserForm } from "components/UserForm";
 import { useUserInfo } from "hooks";
 import { FC, useEffect, useState } from "react";
@@ -74,6 +75,10 @@ export const LoginContainer: FC = () => {
             로그인
           </StyledButton>
         </Form>
+        <ContentNotice>
+          - 아이디 및 패스워드는 해당 기기에만 저장됩니다.
+          <br />- 유저 정보는 그룹웨어에서 불러오며, 별도로 저장하지 않습니다.
+        </ContentNotice>
       </StyledPopupBody>
       {isLoading && <Loading />}
     </StyledPopup>

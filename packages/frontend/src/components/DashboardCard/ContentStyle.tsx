@@ -16,7 +16,8 @@ export const ContentNotice = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.color.point};
   margin-top: 16px;
-  line-height: 1.4;
+  line-height: 1.6;
+  word-break: keep-all;
 `;
 
 export const ContentBadge = styled.div``;
