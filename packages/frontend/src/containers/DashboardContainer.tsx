@@ -50,7 +50,7 @@ export const DashboardContainer: FC = () => {
         <MonthlyWorkCard monthlyWork={userInfo.monthlyWork} />
         <WorkNoticeCard notices={userInfo.notices} />
       </StyledCardWrap>
-      <StyledDeveloper>Made by doriri</StyledDeveloper>
+      <StyledDeveloper>Made by Styleshare.react</StyledDeveloper>
       {isLoading && <Loading />}
       {visibleBizCard && (
         <BizCardContainer onClose={() => setVisibleBizCard(false)} />
