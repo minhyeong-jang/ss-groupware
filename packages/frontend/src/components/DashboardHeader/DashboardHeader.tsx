@@ -8,10 +8,17 @@ interface Props {
   profile: UserInfoProfileModel;
   workToday: UserInfoWorkTodayModel;
   onCheck(type: string): void;
+  onLogout(): void;
 }
-export const DashboardHeader: FC<Props> = ({ profile, workToday, onCheck }) => {
+export const DashboardHeader: FC<Props> = ({
+  profile,
+  workToday,
+  onCheck,
+  onLogout,
+}) => {
   return (
     <StyledContainer>
+      <StyledLogout onClick={onLogout}>로그아웃</StyledLogout>
       <StyledDate>{moment().format("M월 D일 dddd")}</StyledDate>
       <StyledName>
         <b>
@@ -49,6 +56,12 @@ const StyledContainer = styled.div`
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 16px;
+`;
+const StyledLogout = styled.button`
+  font-size: 12px;
+  color: ${({ theme }) => theme.color.gray60};
+  font-weight: bold;
+  float: right;
 `;
 const StyledDate = styled.div`
   font-size: 12px;

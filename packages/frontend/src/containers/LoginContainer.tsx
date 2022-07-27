@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, Form, message } from "antd";
 import { Loading } from "components/@shared";
 import { UserForm } from "components/UserForm";
 import { useUserInfo } from "hooks";
@@ -29,30 +29,22 @@ export const LoginContainer: FC = () => {
 
   useEffect(() => {
     try {
-      const storage = localStorage.getItem("gw_musinsa_ss");
-      if (storage) {
-        const { id, pw, type } = JSON.parse(storage);
-        setUserInfo({
-          id: id || "",
-          pw: pw || "",
-          type: type || CompanyType.MUSINSA,
-        });
+      if (!hasSession && !isSessionLoading) {
+        const storage = localStorage.getItem("gw_musinsa_ss");
+        if (storage) {
+          const {
+            id = "",
+            pw = "",
+            type = CompanyType.MUSINSA,
+          } = JSON.parse(storage);
+          setUserInfo({ id, pw, type });
+          onLogin({ id, pw, type });
+        } else {
+          setUserInfo({ id: "", pw: "", type: CompanyType.MUSINSA });
+        }
       }
     } catch {
       localStorage.removeItem("gw_musinsa_ss");
-    }
-  }, []);
-  useEffect(() => {
-    if (!hasSession && !isSessionLoading) {
-      const storage = localStorage.getItem("gw_musinsa_ss");
-      if (storage) {
-        const { id, pw, type } = JSON.parse(storage);
-        onLogin({
-          id: id || "",
-          pw: pw || "",
-          type: type || CompanyType.MUSINSA,
-        });
-      }
     }
   }, [hasSession, isSessionLoading]);
 
@@ -66,15 +58,22 @@ export const LoginContainer: FC = () => {
         <StyledTitle>
           <StyledIcon>😢</StyledIcon> 로그인 후 이용 가능해요
         </StyledTitle>
-        <UserForm
-          userInfo={userInfo}
-          onChange={(key: string, value: string) =>
-            setUserInfo((prevState) => ({ ...prevState, [key]: value }))
-          }
-        />
-        <StyledButton type='primary' onClick={() => checkUserInfo()}>
-          로그인
-        </StyledButton>
+        <Form>
+          <UserForm
+            userInfo={userInfo}
+            onChange={(key: string, value: string) =>
+              setUserInfo((prevState) => ({ ...prevState, [key]: value }))
+            }
+          />
+          <StyledButton
+            type='primary'
+            onClick={checkUserInfo}
+            onSubmit={checkUserInfo}
+            htmlType='submit'
+          >
+            로그인
+          </StyledButton>
+        </Form>
       </StyledPopupBody>
       {isLoading && <Loading />}
     </StyledPopup>

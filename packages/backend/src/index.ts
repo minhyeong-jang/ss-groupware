@@ -42,6 +42,11 @@ app.get("/session", (req, res) => {
 app.post("/login", (req, res) => {
   postUserLogin(res, req.body);
 });
+app.post("/logout", (req, res) => {
+  res.clearCookie("GWSESSIONID");
+  res.clearCookie("JSESSIONID");
+  res.send({ message: "로그아웃 되었습니다.", code: 200 });
+});
 app.post("/office-check", (req, res) => {
   // console.log(req.headers["x-forwarded-for"] || req.socket.remoteAddress);
   userSession(res, req).then((isOK) => {
