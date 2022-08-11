@@ -19,6 +19,15 @@ export const useUserInfo = () => {
     refetch: onSessionRefetch,
     isRefetching: isSessionRefetching,
   } = useQuery("user/session", getUserSession, {
+    onSuccess: () => {
+      const storage = localStorage.getItem("gw_musinsa_ss");
+      if (storage) {
+        const { id } = JSON.parse(storage);
+        window?.gtag("config", "G-BQ3F25MPVG", {
+          user_id: id,
+        });
+      }
+    },
     onError: () => {
       queryClient.setQueryData("user/session", false);
     },
