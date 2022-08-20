@@ -33,6 +33,7 @@ const App = ({ Component }: AppProps) => {
           name='viewport'
           content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
         />
+        <meta name="robots" content="noindex,nofollow" />
         <meta content='https://www.ss-groupware.com' property='og:url' />
         <meta content='website' property='og:type' />
         <meta content='스타일쉐어 그룹웨어' property='og:title' />

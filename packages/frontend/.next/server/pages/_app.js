@@ -153,6 +153,9 @@ var App = function App(_ref) {
         name: "viewport",
         content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
       }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
+        name: "robots",
+        content: "noindex,nofollow"
+      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
         content: "https://www.ss-groupware.com",
         property: "og:url"
       }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
