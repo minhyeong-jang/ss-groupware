@@ -8,7 +8,7 @@ export const GoodByeContainer: FC = () => {
         <StyledTitle>
           <StyledIcon>👋</StyledIcon> 서비스가 종료되었습니다.
         </StyledTitle>
-        <StyledDesc>지금까지 이용해주셔서 감사합니다.</StyledDesc>
+        <StyledDesc>지금까지 이용해 주셔서 감사합니다.</StyledDesc>
       </StyledPopupBody>
     </StyledPopup>
   );
