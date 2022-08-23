@@ -20,8 +20,10 @@ export const GoodByeContainer: FC<Props> = ({ onClick, onSubmit }) => {
       <StyledPopup>
         <StyledPopupBody>
           <StyledTitle>
-            <StyledIcon onClick={onClick}>👋</StyledIcon> 서비스가
-            종료되었습니다.
+            <StyledIcon>
+              <span onClick={onClick}>👋</span>
+            </StyledIcon>
+            서비스가 종료되었습니다.
           </StyledTitle>
           <StyledDesc>지금까지 이용해 주셔서 감사합니다.</StyledDesc>
         </StyledPopupBody>
