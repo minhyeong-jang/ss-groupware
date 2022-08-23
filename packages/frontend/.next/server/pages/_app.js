@@ -148,31 +148,13 @@ var App = function App(_ref) {
     theme: theme,
     children: [/*#__PURE__*/jsx_runtime_.jsx(GlobalStyle, {}), /*#__PURE__*/(0,jsx_runtime_.jsxs)((head_default()), {
       children: [/*#__PURE__*/jsx_runtime_.jsx("title", {
-        children: "\uC2A4\uD0C0\uC77C\uC250\uC5B4 - \uADF8\uB8F9\uC6E8\uC5B4"
+        children: "Service closing"
       }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
         name: "viewport",
         content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
       }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
         name: "robots",
         content: "noindex,nofollow"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "https://www.ss-groupware.com",
-        property: "og:url"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "website",
-        property: "og:type"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "\uC2A4\uD0C0\uC77C\uC250\uC5B4 \uADF8\uB8F9\uC6E8\uC5B4",
-        property: "og:title"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "https://doriri-shared.s3.ap-northeast-2.amazonaws.com/ss-groupware-preview.png",
-        property: "og:image"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "\uC2A4\uD0C0\uC77C\uC250\uC5B4 \uCD9C\uD1F4\uADFC \uAD00\uB9AC",
-        property: "description"
-      }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
-        content: "\uC2A4\uD0C0\uC77C\uC250\uC5B4 \uCD9C\uD1F4\uADFC \uAD00\uB9AC",
-        property: "og:description"
       }), /*#__PURE__*/jsx_runtime_.jsx("meta", {
         name: "apple-mobile-web-app-status-bar-style",
         content: "black-translucent"

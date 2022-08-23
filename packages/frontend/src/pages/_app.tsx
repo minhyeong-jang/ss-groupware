@@ -28,13 +28,13 @@ const App = ({ Component }: AppProps) => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Head>
-        <title>스타일쉐어 - 그룹웨어</title>
+        <title>Service closing</title>
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
         />
-        <meta name="robots" content="noindex,nofollow" />
-        <meta content='https://www.ss-groupware.com' property='og:url' />
+        <meta name='robots' content='noindex,nofollow' />
+        {/* <meta content='https://www.ss-groupware.com' property='og:url' />
         <meta content='website' property='og:type' />
         <meta content='스타일쉐어 그룹웨어' property='og:title' />
         <meta
@@ -44,7 +44,7 @@ const App = ({ Component }: AppProps) => {
           property='og:image'
         />
         <meta content='스타일쉐어 출퇴근 관리' property='description' />
-        <meta content='스타일쉐어 출퇴근 관리' property='og:description' />
+        <meta content='스타일쉐어 출퇴근 관리' property='og:description' /> */}
         <meta
           name='apple-mobile-web-app-status-bar-style'
           content='black-translucent'
