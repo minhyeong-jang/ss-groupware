@@ -1,12 +1,21 @@
-import { DashboardContainer, LoginContainer } from "containers";
-import { FC } from "react";
+import {
+  DashboardContainer,
+  GoodByeContainer,
+  LoginContainer,
+} from "containers";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
 
 const index: FC = () => {
+  useEffect(() => {
+    localStorage.removeItem("gw_musinsa_ss");
+  }, []);
+
   return (
     <StyledPageLayout>
-      <LoginContainer />
+      {/* <LoginContainer /> */}
       <DashboardContainer />
+      <GoodByeContainer />
     </StyledPageLayout>
   );
 };
