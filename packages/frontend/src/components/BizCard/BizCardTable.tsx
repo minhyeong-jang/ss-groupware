@@ -106,7 +106,7 @@ export const BizCardTable: FC<Props> = ({
                         record.note.match(
                           /→\s([ㄱ-ㅎㅏ-ㅣ가-힣0-9]*)\)/
                         )?.[1] || ""
-                      }) (${format(record.time, "yyyy.MM.dd HH:ii")})`,
+                      }) (${format(record.time, "yyyy.MM.dd HH:mm")})`,
                       index
                     )
                   }
@@ -123,7 +123,7 @@ export const BizCardTable: FC<Props> = ({
                         )?.[1] || ""
                       } → ${e.target.value.replace(/[\(\)]/g, "")}) (${format(
                         record.time,
-                        "yyyy.MM.dd HH:ii"
+                        "yyyy.MM.dd HH:mm"
                       )})`,
                       index
                     )
