@@ -11,6 +11,15 @@ const index: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    const storage = localStorage.getItem("gw_musinsa_ss");
+    if (storage) {
+      const { id = "" } = JSON.parse(storage);
+      if (["react", "ranlee", "areum", "imsearch"].includes(id)) {
+        setIsOpen(true);
+      }
+    }
+  }, []);
+  useEffect(() => {
     const event = setTimeout(() => {
       if (count > 4) {
         setIsOpen(true);
@@ -34,7 +43,11 @@ const index: FC = () => {
       ) : (
         <GoodByeContainer
           onClick={() => {
-            count < 4 && setCount(count + 1);
+            if (window.innerWidth >= 768) {
+              setCount(count + 1);
+            } else {
+              count < 4 && setCount(count + 1);
+            }
           }}
           onSubmit={() => {
             count === 4 && setCount(count + 1);
