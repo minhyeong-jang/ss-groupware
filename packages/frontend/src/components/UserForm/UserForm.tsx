@@ -16,11 +16,11 @@ export const UserForm: FC<Props> = ({ userInfo, onChange }) => {
           size='large'
           options={[
             {
-              label: "무신사",
+              label: "A",
               value: CompanyType.MUSINSA,
             },
             {
-              label: "무신사랩",
+              label: "B",
               value: CompanyType.MUSINSALAB,
             },
           ]}
