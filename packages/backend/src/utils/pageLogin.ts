@@ -58,13 +58,6 @@ export const pageLogin = async (page, userInfo: UserInfoModel) => {
                 data: { seq: "musinsa|2986|3125" },
                 async: false,
                 success: (data) => {
-                  if (data.indexOf("(주)무신사 랩") === -1) {
-                    response = {
-                      code: 400,
-                      message: "무신사랩 전환 중 오류가 발생했습니다.",
-                    };
-                    return;
-                  }
                   response = {
                     code: 200,
                     message: "로그인 되었습니다.",
@@ -73,7 +66,7 @@ export const pageLogin = async (page, userInfo: UserInfoModel) => {
                 error: () => {
                   response = {
                     code: 400,
-                    message: "무신사랩 전환 중 오류가 발생했습니다.",
+                    message: "전환 중 오류가 발생했습니다.",
                   };
                 },
               });

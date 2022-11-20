@@ -7,22 +7,16 @@ const ManagerPopover: FC = () => (
   <StyledList $isPrefix>
     <StyledInfo>본인이 속한 부서의 담당자를 합의자로 등록해주세요.</StyledInfo>
     <li>
-      프로덕트본부: <b>임성은</b>
+      프로덕트본부: <b>OOO</b>
     </li>
     <li>
-      신사업팀: <b>김다운</b>
+      신사업팀: <b>OOO</b>
     </li>
     <li>
-      마케팅실: <b>이수빈</b>
+      마케팅실: <b>OOO</b>
     </li>
     <li>
-      커머스실: <b>이형표</b>
-    </li>
-    <li>
-      BX디자인팀: <b>임상범</b>
-    </li>
-    <li>
-      고객경험팀: <b>황연진</b>
+      커머스실: <b>OOO</b>
     </li>
   </StyledList>
 );
@@ -66,7 +60,7 @@ export const BizCardNotice: FC = () => {
               </u>
             </b>
           </Popover>
-          &nbsp;<b>{" / "}</b>&nbsp;수신참조 : 무신사-재무관리실
+          &nbsp;<b>{" / "}</b>&nbsp;수신참조 : XXX-재무관리실
         </li>
         <li>
           6. 제목 : <b>2022년 N월 법인카드 사용_홍길동 (일반경비)</b>

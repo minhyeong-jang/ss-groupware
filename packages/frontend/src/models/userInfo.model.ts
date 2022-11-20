@@ -28,23 +28,26 @@ export interface UserInfoMonthlyNoticeModel {
   message: string;
 }
 export const initUserInfoModel: UserInfoModel = {
-  restDay: 0,
+  restDay: 10.25,
   profile: {
-    userName: "",
-    deptName: "",
+    deptName: "프론트엔드팀",
+    userName: "장민형",
   },
   workToday: {
-    comeAt: "",
+    comeAt: "10:13",
     leaveAt: "",
-    progressPercent: 0,
+    progressPercent: 63,
   },
-  bizCardTotalPrice: 0,
+  bizCardTotalPrice: 75900,
   monthlyWork: {
-    officialHour: 0,
-    workHour: 0,
-    workMinute: 0,
+    officialHour: 119,
+    workHour: 17,
+    workMinute: 20,
   },
-  notices: [],
+  notices: [
+    { date: "17일", message: "휴가" },
+    { date: "16일", message: "출퇴근 누락" },
+  ],
 };
 export const convertUserInfoModel = (
   data?: GetUserInfoResponse

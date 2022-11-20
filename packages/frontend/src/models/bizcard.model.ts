@@ -16,6 +16,32 @@ export enum BizCardType {
   "DRIVE" = "야근교통비",
 }
 
+export const initBizCardModel = {
+  bizCardList: [
+    {
+      syncId: 1,
+      authSeq: "0",
+      empSeq: "0",
+      mercName: "토스페이_일반",
+      mccName: "PG쇼핑몰",
+      authDate: "20221111",
+      authTime: "022301",
+      requestAmount: 36500,
+      note: "",
+    },
+    {
+      syncId: 2,
+      authSeq: "0",
+      empSeq: "0",
+      mercName: "토스페이_일반",
+      mccName: "PG쇼핑몰",
+      authDate: "20221109",
+      authTime: "011324",
+      requestAmount: 39400,
+      note: "",
+    },
+  ],
+};
 export const toBizCardUiModel = ({
   bizCardList,
 }: GetBizCardListResponse): BizCardModel[] => {

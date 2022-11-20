@@ -1,3 +1,9 @@
+import { Modal } from "antd";
+import {
+  BizCardNotice,
+  BizCardSearchDate,
+  BizCardTable,
+} from "components/BizCard";
 import {
   BizHistoryCard,
   MonthlyWorkCard,
@@ -6,28 +12,26 @@ import {
 } from "components/DashboardCard";
 import { WorkNoticeCard } from "components/DashboardCard/WorkNoticeCard";
 import { DashboardHeader } from "components/DashboardHeader";
-import { initUserInfoModel } from "models";
-import { FC } from "react";
+import { initBizCardModel, initUserInfoModel, toBizCardUiModel } from "models";
+import moment from "moment";
+import { FC, useState } from "react";
 import styled from "styled-components";
 
-interface Props {
-  onClick(): void;
-  onSubmit(): void;
-}
-export const GoodByeContainer: FC<Props> = ({ onClick, onSubmit }) => {
+export const GoodByeContainer: FC = () => {
+  const [visible, setVisible] = useState(false);
   return (
     <>
       <StyledPopup>
         <StyledPopupBody>
           <StyledTitle>
             <StyledIcon>
-              <span onClick={onClick}>👋</span>
+              <span onClick={() => {}}>👋</span>
             </StyledIcon>
             서비스가 종료되었습니다.
           </StyledTitle>
           <StyledDesc>지금까지 이용해 주셔서 감사합니다.</StyledDesc>
         </StyledPopupBody>
-        <StyledButton onClick={onSubmit} />
+        <StyledButton onClick={() => {}} />
       </StyledPopup>
       <StyledContainer>
         <DashboardHeader
@@ -40,18 +44,40 @@ export const GoodByeContainer: FC<Props> = ({ onClick, onSubmit }) => {
           <TodayWorkCard workToday={initUserInfoModel.workToday} />
           <VacationCard restDay={initUserInfoModel.restDay || 0} />
           <BizHistoryCard
-            onVisibleModal={() => {}}
+            onVisibleModal={() => setVisible(true)}
             totalPrice={initUserInfoModel.bizCardTotalPrice}
           />
           <MonthlyWorkCard monthlyWork={initUserInfoModel.monthlyWork} />
           <WorkNoticeCard notices={initUserInfoModel.notices} />
         </StyledCardWrap>
         <StyledDeveloper>Made by Styleshare.react</StyledDeveloper>
+        {visible && (
+          <Modal
+            width={1280}
+            title='지출내역 작성(점심식대, 야근식대, 야근교통비)'
+            visible={true}
+            okText='적용'
+            cancelText='닫기'
+            onOk={() => () => setVisible(false)}
+            onCancel={() => () => setVisible(false)}
+          >
+            <BizCardSearchDate value={moment()} onChange={() => {}} />
+            <BizCardTable
+              loading={false}
+              data={toBizCardUiModel(initBizCardModel)}
+              selection={[]}
+              onChange={() => {}}
+              onSelection={() => {}}
+            />
+            <BizCardNotice />
+          </Modal>
+        )}
       </StyledContainer>
     </>
   );
 };
 const StyledPopup = styled.div`
+  display: none;
   position: fixed;
   top: 0;
   left: 0;

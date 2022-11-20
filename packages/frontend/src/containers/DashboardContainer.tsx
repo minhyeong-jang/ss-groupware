@@ -8,7 +8,6 @@ import {
 import { WorkNoticeCard } from "components/DashboardCard/WorkNoticeCard";
 import { DashboardHeader } from "components/DashboardHeader";
 import { useUserInfo } from "hooks";
-import { initUserInfoModel } from "models";
 import { FC, useState } from "react";
 import styled from "styled-components";
 import { BizCardContainer } from "./BizCardContainer";
