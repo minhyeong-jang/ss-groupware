@@ -17,7 +17,7 @@ module.exports = {
   },
   publicRuntimeConfig: {
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
-    API_URL: process.env.API_URL,
+    API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
   experimental: {
     scrollRestoration: true,
